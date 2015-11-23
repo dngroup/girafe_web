@@ -1,0 +1,105 @@
+<h3><i class="fa fa-angle-right"></i>My Pictures</h3>
+<hr>
+<div >
+
+    <div class="row mt" ng-controller="MyPicturesController as pictures" >
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc" ng-repeat="content in pictures.list">
+            <div class="project-wrapper">
+                <div class="project">
+                    <div class="photo-wrapper" ng-class="pictures.pictureInProgress(content)">
+                        <div class="photo">
+                            <!--<a class="fancybox fancybox.iframe" href="dash.html?url={{content.link}}/dash/low_dash.mpd">-->
+                            <a class="fancybox fancybox.iframe" ng-href="{{pictures.generateLink(content)}}">
+<!--                            <img class="img-responsive" ng-src="{{content.link}}/folder.jpg" alt="">-->
+                                <img class="img-responsive" ng-src="{{content.link}}/small.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="overlay"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-right">
+                <button class="btn btn-primary btn-xs fa fa-pencil" ng-click="pictures.showDetails(content)"></button>
+                <button class="btn btn-danger btn-xs fa fa-trash-o" ng-click="pictures.removePicture(content)"></button>
+            </div>
+
+            <script type="text/ng-template" id="PicturesModalContent.html">
+                <div class="modal-header">
+                    <h3 class="modal-title">This content can been watched by : </h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row mt">
+                        <div class="col-md-12">
+                            <div class="white-panel">
+                                <div class="panel-heading">
+                                    <div class="pull-left"><h5><i class="fa fa-tasks"></i> Roles List</h5></div>
+                                    <br>
+                                </div>
+                                <div class="custom-check goleft mt">
+                                    <table id="todo" class="table table-hover custom-check">
+                                        <tbody>
+                                        <tr>
+                                            <td ng-repeat="role in roles">
+                                                <span class="check"><input class="checked" type="checkbox" ng-model="role.value"></span>
+                                                {{role.name}}
+                                            </td>
+                                        </tr>
+                                        
+                                        <tr>
+											<td ng-repeat="rolesUser in rolesUsers"><span class="check"><input
+													class="checked" type="checkbox" ng-model="rolesUser.value"></span>
+												{{rolesUser.firstname}} {{rolesUser.surname}}</td>
+										</tr>
+                                        </tbody>
+                                    </table>
+                                </div><!-- /table-responsive -->
+                            </div><!--/ White-panel -->
+                        </div><!-- --/col-md-12 ---->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="ok()">OK</button>
+                    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                </div>
+            </script>
+
+        </div>
+        <!-- col-lg-4 -->
+</div> <!-- end ng-controller -->
+
+<!--script for this page-->
+
+<script type="text/javascript">
+    // This script manages the display for the fancybox (i.e. the display when we click on the images) */
+    //Try to adapt dimensions with display
+    var height = null;
+    var width=  null;
+    if ( $(window).width() < 854) {
+        width = '90%';
+        height = $(window).width()*0.9/(16/9)+50;
+        height = height.toString() + 'px';
+    }
+    else {
+        width = '854px';
+        height = '510px'
+    }
+
+    $(document).ready(function () {
+        //    fancybox
+        console.log("init fancybox");
+        $(".fancybox").fancybox({
+            autoSize:     false,
+            width:        width,
+            height:       height,
+            scrolling:    false,
+            openEffect  : 'none',
+            closeEffect : 'none',
+            nextEffect  : 'none',
+            prevEffect  : 'none',
+            padding     : 0,
+            margin      : [0, 0, 0, 0] // Increase left/right margin
+        });
+    });
+
+</script>
+</div>

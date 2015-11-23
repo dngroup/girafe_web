@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: mddash
+  datasource:
+    url: jdbc:mysql://localhost:3306/mddash
+    username: mddash
+    password: mddash
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  jersey:
+      type: servlet
+security:
+  basic:
+    enabled: false
+  user:
+    name: demo
+    password: 123
+server:
+    port: 9000
+    
+#logging: 
+#  level:
+#    org.springframework.web:DEBUG
+#    com.jbq.db.mddash:DEBUG

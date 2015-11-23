@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Baseline HLS Player</title>
+    <meta name="description" content="" />
+    <script>
+        function getUrlVars() {
+            var vars = {};
+            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                vars[key] = value;
+            });
+            return vars;
+        }
+
+        function startVideo() {
+            var vars = getUrlVars(),
+                url = vars.url,
+                video;
+
+            video = document.querySelector(".hls-video-player video");
+            video.src = url;
+            video.load();
+            video.play();
+        }
+    </script>
+
+<body onload="startVideo()">
+<div class="hls-video-player">
+    <video controls="true"></video>
+</div>
+</body>
+<style>
+    body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .dash-video-player {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    video {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+</style>
+</html>

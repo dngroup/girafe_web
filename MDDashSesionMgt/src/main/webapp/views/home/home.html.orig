@@ -1,0 +1,157 @@
+<div ng-controller="HomeController as rssFeed">
+    <div class="subHeader">
+<<<<<<< HEAD
+    <div class="sortThings">
+      <span class="fa fa-sort-amount-desc"></span>
+      <span class="displayDesc">All media by date</span>
+    </div>
+    <span class="fa fa-search rightAlign"></span>
+    
+<!--
+=======
+
+        <a href="" ng-click="rssFeed.openShort()">short</a>
+>>>>>>> origin/dev-frontend-tmp
+        <label>Search: <input class="form-control" ng-model="searchText"></label>
+
+        <a href="" ng-click="rssFeed.updateForced()">update</a>
+        <a href="" ng-click="rssFeed.predicate=''">unsorted</a>
+
+        <a href="" ng-click="rssFeed.order('title')">title</a>
+<span class="sortorder" ng-show="rssFeed.predicate === 'title'"
+      ng-class="{reverse:reverse}"></span>
+
+        <a href="" ng-click="rssFeed.order('author.name')">author name</a>
+<span class="sortorder" ng-show="rssFeed.predicate === 'author.name'"
+      ng-class="{reverse:reverse}"></span>
+
+        <a href="" ng-click="rssFeed.order('published')">published</a>
+<span class="sortorder" ng-show="rssFeed.predicate === 'published'"
+      ng-class="{reverse:reverse}"></span>
+      -->
+    </div>
+    <div class="row">
+
+
+        <div class="col-lg-12">
+
+            <div class="row">
+                <div id="homepage-text" class="col-md-12 col-xs-12">
+                    <!-- <h1 class="centered">Welcome in MediaHome</h1>
+                     <hr/>
+
+                     <p>With MediaHome you can :
+                     <ul>
+                         <li>Keep rights on video you share..</li>
+                         <li>Keep your privacy a secret.</li>
+                         <li>Control exactly with whom you want to share.</li>
+                         <li>Share videos as much and as long as you want.</li>
+                     </ul>
+                     </p>-->
+
+                    <!--ng-repeat="feed in rssFeed.feed">-->
+                    <!--   <h2><a href="{{rssFeed.feed.link._href}}" target="_blank">{{rssFeed.feed.title}}</a></h2>-->
+
+
+                    <div class="itemsList">
+                        <div ng-repeat="item in rssFeed.feed.entry | filter:searchText | orderBy:rssFeed.predicate:rssFeed.reverse"
+                             class="{{item.category._term[0]}} {{rssFeed.getStatus(item)}} wallItem content col-lg-4 col-md-6 col-sm-6 col-xs-12"
+                             ng-class="{'classImg': item.category._term[0] == 'image' , 'classApp': item.category._term[0] == 'application', 'classVid': item.category._term[0] == 'video', 'classSnd': item.category._term[0] == 'audio' } ">
+                            <div class="wallItemBkg">
+                                <!-- this image below is there to keep the vertical aspect ratio constant -->
+                                <img src="assets/img/ratio8x5.png" class="img-responsive ratioKeeper">
+                            </div>
+                            <div class="wallItemImg" ng-click="changeView(item.id)"
+                                 style="background-image:url({{rssFeed.getPreviewLink(item)}});  "></div>
+                            <div class="wallItemTxt">
+
+                                <!--{{$index}} - {{item.title}} - {{rssFeed.feed.entry[$index - 1]}} -->
+                                <!--<h3>
+                                    <span ng-show="rssFeed.dateShow(item,rssFeed.feed.entry[$index - 1])"> {{item.published| date:'fullDate'}}</span>
+                                </h3>-->
+
+
+                                <div class="socialButtons"><span class="itemShare fa fa-share-alt"></span><span
+                                        class="itemLike fa fa-heart"></span><span
+                                        class="itemComment fa fa-comment"></span>
+                                </div>
+                                <div class="legends">
+                                    <i class="fa"
+                                       ng-class="{'fa-photo': item.category._term[0] == 'image' , 'fa-cloud-download': item.category._term[0] == 'application', 'fa-video-camera': item.category._term[0] == 'video', 'fa-music': item.category._term[0] == 'audio' } "></i>
+                                <span class="itemTitle"><a href="{{item.link.get(0)}}" target="_blank">
+                                    {{item.title}} </a></span>
+                                    <span> by {{item.author.name}}</span>
+                                    <!-- (<span>{{item.published | date:'HH:mm dd-MM-yyyy'}}</span>)-->
+                                </div>
+
+                                <!--</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <a href="" ng-click="rssFeed.print()"> print</a>-->
+            </div>
+
+        </div>
+        <!-- /col-lg-9 END SECTION MIDDLE -->
+
+
+        <script type="text/ng-template" id="ShortModalContent.html">
+            <div class="modal-header">
+                <h3 class="modal-title">This content can been watched by :</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row mt">
+                    <div class="col-md-12">
+                        <div class="white-panel">
+                            <div class="panel-heading">
+                                <div class="pull-left">
+                                    <h5>
+                                        <i class="fa fa-tasks"></i> Roles List
+                                    </h5>
+                                </div>
+                                <br>
+                            </div>
+                            <div class="custom-check goleft mt">
+                                <table id="todo" class="table table-hover custom-check">
+                                    <tbody>
+                                    <tr>
+                                        <td ng-repeat="role in roles"><span class="check"><input
+                                                class="checked" type="checkbox" ng-model="role.value"></span>
+                                            {{role.name}}
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td ng-repeat="rolesUser in rolesUsers"><span class="check"><input
+                                                class="checked" type="checkbox" ng-model="rolesUser.value"></span>
+                                            {{rolesUser.firstname}} {{rolesUser.surname}}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /table-responsive -->
+                        </div>
+                        <!--/ White-panel -->
+                    </div>
+                    <!-- --/col-md-12 ---->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="ok()">OK</button>
+                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            </div>
+        </script>
+
+
+    </div>
+</div>
+
+<!--</div>-->
+<! --/row -->
+
+
+<!--script for this page-->
+
+<script src="assets/js/xml2json.min.js"></script>

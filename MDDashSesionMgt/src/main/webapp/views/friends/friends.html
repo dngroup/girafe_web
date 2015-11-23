@@ -1,0 +1,162 @@
+<div class="" ng-show="FriendsCtrl.isSet(0)"
+	ng-controller="FriendsListController as friends">
+	<!-- the Show Friend button used to be here -- Anas
+<input class="form-control" placeholder=" Friend ID " ng-model="friend.userID" type="text">
+<button ng-click="addRelation(friend.userID)" class="btn btn-primary btn-block" ng-class="isFriendAddingSuccess()"> Add Friend</button>
+-->
+	<div id="FriendsList" class="row">
+		<div class="col-md-4 mb" ng-repeat="friend in friends.list">
+			<!-- WHITE PANEL - TOP USER -->
+			<div class="white-panel pn">
+				<div class="white-header">
+					<h5>{{friend.firstname}} {{friend.surname}}</h5>
+				</div>
+				<div class="top_right_delete">
+					<button class="btn btn-success btn-xs fa fa-file-video-o"
+						ng-click="DisplayFriendProfile(friend)"></button>
+					<button class="btn btn-primary btn-xs fa fa-pencil"
+						ng-click="friends.showRoles(friend)"></button>
+					<button class="btn btn-danger btn-xs fa fa-trash-o"
+						ng-click="friends.removeRelation(friend)"></button>
+				</div>
+				<p>
+					<img src="assets/img/ui-zac.jpg" class="img-circle" width="80">
+				</p>
+				<p>
+					<b>{{friend.email}}</b>
+				</p>
+				<div class="row">
+					<div class="col-md-6 col-xs-6">
+						<p class="small mt">Member of</p>
+						<p class="small">
+							<span ng-repeat="roleName in friends.generateRoleList(friend)">
+								{{roleName}}, </span>
+						</p>
+					</div>
+					<div class="col-md-6 col-xs-6">
+						<p class="small mt">Status</p>
+						<i class="fa fa-check template-black"
+							ng-show="friends.isStatus(friend, 3)"></i> <i
+							class="fa fa-times template-black"
+							ng-show="friends.isStatus(friend,1)"></i> <a
+							class="btn btn-xs btn-primary"
+							ng-show="friends.isStatus(friend, 2)"
+							ng-click="friends.AprouveRelation(friend)">Yes</a>
+					</div>
+				</div>
+
+				<!-- Modal Content -->
+				<script type="text/ng-template" id="myModalContent.html">
+                    <div class="modal-header">
+                        <h3 class="modal-title">This user belongs to : </h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mt">
+                            <div class="col-md-12">
+                                <div class="white-panel">
+                                    <div class="panel-heading">
+                                        <div style="color:black" class="pull-left"><h5><i class="fa fa-tasks"></i> Roles List</h5></div>
+                                        <br>
+                                    </div>
+                                    <div class="custom-check goleft mt">
+                                        <table id="todo" class="table table-hover custom-check">
+                                            <tbody>
+                                            <tr>
+                                                <td style="color:black" ng-repeat="role in listRoles">
+                                                    <span class="check"><input class="checked" type="checkbox" ng-model="role.value"></span>
+                                                    {{role.name}}
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div><!-- /table-responsive -->
+                                </div><!--/ White-panel -->
+                            </div><!-- --/col-md-12 ---->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" ng-click="ok()">OK</button>
+                        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                    </div>
+                </script>
+			</div>
+		</div>
+		<!-- End ng-repeat -->
+	</div>
+</div>
+
+<div class="" ng-show="FriendsCtrl.isSet(1)">
+
+	<button class="btn btn-primary btn-lg fa fa-arrow-circle-left"
+		ng-click="HideFriendProfile()"></button>
+
+	<div class="row">
+		<div class="col-md-12 col-xs-12">
+			<h3 class="centered">{{FriendProfileController.friend.firstname}}
+				{{FriendProfileController.friend.surname}}</h3>
+		</div>
+
+	</div>
+	<div class="row mt">
+		<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc"
+			ng-repeat="content in FriendProfileController.videos">
+			<div class="project-wrapper">
+				<div class="project">
+					<div class="photo-wrapper"
+						ng-class="FriendProfileController.videoInProgress(content)">
+						<div class="photo">
+							<a class="fancybox fancybox.iframe"
+								ng-href="{{FriendProfileController.generateLink(content)}}">
+								
+								<img class="img-responsive" ng-show="FriendsCtrl.isPrintable(content)"
+								ng-src="{{FriendProfileController.generatePreviewLink(content)}}"
+								alt="">
+								<img class="img-responsive" ng-show="!FriendsCtrl.isPrintable(content)"
+								src="assets/img/file.png"
+								alt="">
+								
+								
+								 <!--                                     {{content.link}}/folder.jpg -->
+							</a>
+						</div>
+						<div class="overlay"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--script for this page-->
+
+<script type="text/javascript">
+	// This script manages the display for the fancybox (i.e. the display when we click on the images) */
+	//Try to adapt dimensions with display
+	var height = null;
+	var width = null;
+	if ($(window).width() < 854) {
+		width = '90%';
+		height = $(window).width() * 0.9 / (16 / 9) + 50;
+		height = height.toString() + 'px';
+	} else {
+		width = '854px';
+		height = '510px'
+	}
+
+	$(document).ready(function() {
+		//    fancybox
+		console.log("init fancybox");
+		$(".fancybox").fancybox({
+			autoSize : false,
+			width : width,
+			height : height,
+			scrolling : false,
+			openEffect : 'none',
+			closeEffect : 'none',
+			nextEffect : 'none',
+			prevEffect : 'none',
+			padding : 0,
+			margin : [ 0, 0, 0, 0 ]
+		// Increase left/right margin
+		});
+	});
+</script>

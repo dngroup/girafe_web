@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Medi@Home Connection Form</title>
+<!-- test2 -->
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <!--external css-->
+    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+
+    <!-- Custom styles for this template -->
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/style-responsive.css" rel="stylesheet">
+
+
+    <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular.min.js"></script>
+    <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular-mocks.js"></script>
+    <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular-cookies.js"></script>
+
+    <script src="connection.js"></script>
+    <script src="app.js"></script>
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+</head>
+
+<body ng-app="ConnectionForm">
+<div id="login-page" ng-controller="mainController">
+    <div class="container">
+
+        <form class="form-login" name="ConnectionForm" validate>
+
+            <!-- ConnectionForm Form -->
+
+            <form role="form" action="#" method="POST">
+                <h2 class="form-login-heading">connection</h2>
+                <fieldset>
+                    <div class="login-wrap">
+
+
+                        <!--   Name -->
+                        <input class="form-control" placeholder="Email"
+                               ng-model="person.userID" type="text" autofocus required>
+                        <br>
+
+                        <!--  Password -->
+                        <input class="form-control" placeholder="Password"
+                               ng-model="person.password" type="password"> <br>
+                        <input
+                                class="form-control" placeholder="rememberMe"
+                                ng-model="person.rememberMe" type="checkbox"> Remember <br>
+
+
+                        <div class="form-group">
+                            <button ng-click="submitData(person)" class="btn btn-block"
+                                    ng-class="CredentialsCheck()">
+                                <i class="fa fa-lock"></i> Log In
+                            </button>
+                        </div>
+
+                        <hr>
+                        <div class="registration">
+                            You don't have an account !!<br/> <a href="register.html"
+                                                                 onClick=""> Register Here</a>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+
+        </form>
+    </div>
+</div>
+
+
+<!-- js placed at the end of the document so the pages load faster -->
+<script src="assets/js/jquery.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+
+<!--BACKSTRETCH-->
+<!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
+<script type="text/javascript"
+        src="assets/js/jquery.backstretch.min.js"></script>
+<script>
+    $.backstretch("assets/img/login-bg.jpg", {
+        speed: 500
+    });
+</script>
+
+
+</body>
+
+
+</html>
