@@ -16,8 +16,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <modules>
-    <module>mddash</module>
+    <module>mddash-sesionmgt</module>
     <module>mddash-model</module>
+    <module>mddash-dockermgt</module>
   </modules>
   <dependencyManagement>
 		<dependencies>
@@ -34,7 +35,6 @@
     <plugins>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.5.2</version>
         <configuration>
           <skipAssembly>false</skipAssembly>
         </configuration>
@@ -42,7 +42,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9</version>
         <executions>
           <execution>
             <id>attach-javadocs</id>
@@ -149,5 +148,6 @@
   <scm>
     <connection>scm:git:ssh://git@github.com/dngroup/mddash.git</connection>
     <tag>HEAD</tag>
+    <developerConnection>dbourasseau</developerConnection>
   </scm>
 </project>
