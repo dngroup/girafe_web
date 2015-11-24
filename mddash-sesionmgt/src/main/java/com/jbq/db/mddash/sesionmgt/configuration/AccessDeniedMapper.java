@@ -1,11 +1,10 @@
 package com.jbq.db.mddash.sesionmgt.configuration;
 
-import java.nio.file.AccessDeniedException;
-
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.springframework.security.access.AccessDeniedException;
 
 
 /**
