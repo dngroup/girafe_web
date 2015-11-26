@@ -1,8 +1,0 @@
-{
-    "items": [
-        { "url" : "http://server2.homeb.tv:8080/MDCDN/mdcdn.mpd","name" : "MD-DASH from 3 Server", "browsers": "cdsbi" },
-
-        { "url" : "http://server1.homeb.tv:8080/CDN/cdn.mpd","name" : "DASH from 1 Server", "browsers": "cdsbi" }
-
-    ]
-}

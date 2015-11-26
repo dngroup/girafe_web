@@ -1,3 +1,6 @@
 [submodule "mddash-sesionmgt/src/main/webapp/NaCLDescriptionAggregator"]
 	path = mddash-sesionmgt/src/main/webapp/NaCLDescriptionAggregator
 	url = git@github.com:Jobq/NaCLDescriptionAggregator.git
+[submodule "mddash-sessionmgt/src/main/resources/static/NaCLDescriptionAggregator"]
+	path = mddash-sessionmgt/src/main/resources/static/NaCLDescriptionAggregator
+	url = git@github.com:Jobq/NaCLDescriptionAggregator.git

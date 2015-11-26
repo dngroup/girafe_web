@@ -1,26 +1,24 @@
 spring:
   application:
-    name: mddash
-  datasource:
-    url: jdbc:mysql://localhost:3306/mddash
-    username: mddash
-    password: mddash
-    driver-class-name: com.mysql.jdbc.Driver
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: create-drop
+    name: mddash-dockermgt
   jersey:
       type: servlet
 security:
   basic:
     enabled: false
-  user:
-    name: demo
-    password: 123
 server:
-    port: 9000
-    
+    port: 9001
+
+#docker:
+#  io:
+#    url: https://localhost:2376
+#    version: "1.16"
+#    username: dockeruser
+#    password: ilovedocker
+#    email: dockeruser@github.com
+#    serverAddress: https://index.docker.io/v1/
+#    dockerCertPath: /home/user/.docker
+#    
 #logging: 
 #  level:
 #    org.springframework.web:DEBUG

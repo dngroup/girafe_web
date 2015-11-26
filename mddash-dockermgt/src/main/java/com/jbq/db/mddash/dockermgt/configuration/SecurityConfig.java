@@ -39,7 +39,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http
 			.authorizeRequests()
-				.antMatchers("/").hasIpAddress("172.17.42.1/16")
+				.antMatchers("/**").hasIpAddress("172.17.42.1/16")
+				.antMatchers("/**").hasIpAddress("127.0.0.0/24")
+				//TODO: comment next line
+				.antMatchers("/**").permitAll()
 			.and()
 				.csrf()
 				.disable();

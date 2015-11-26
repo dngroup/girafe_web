@@ -16,7 +16,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <modules>
-    <module>mddash-sesionmgt</module>
+    <module>mddash-sessionmgt</module>
     <module>mddash-model</module>
     <module>mddash-dockermgt</module>
   </modules>
