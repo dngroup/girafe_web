@@ -103,60 +103,73 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.5.2</version>
+			<plugin>
+
+
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
-						<goals>
-							<goal>single</goal>
-						</goals>
+						<id>copy</id>
 						<phase>package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.jbq.db.mddash</groupId>
+									<artifactId>mddash-sessionmgt</artifactId>
+									<version>${project.version}</version>
+
+
+									<type>jar</type>
+									<overWrite>false</overWrite>
+									<outputDirectory>${project.build.directory}/../../docker/session</outputDirectory>
+									<destFileName>session.jar</destFileName>
+
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>${project.build.directory}/wars</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.3.6</version>
 				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>com.jbq.db.mddash.sessionmgt.MddashApplication</mainClass>
-						</manifest>
-					</archive>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
+					<imageName>dbourasseau/sessionmgt</imageName>
+					<dockerDirectory>${project.build.directory}/../../docker/session</dockerDirectory>
+					<!-- <resources> -->
+					<!-- <resource> -->
+					<!-- <targetPath>/</targetPath> -->
+					<!-- <directory>${project.build.directory}</directory> -->
+					<!-- <include>${project.build.finalName}.jar</include> -->
+					<!-- </resource> -->
+					<!-- </resources> -->
 				</configuration>
 			</plugin>
-		<plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.10</version>
-        <executions>
-          <execution>
-            <id>copy</id>
-            <phase>package</phase>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>com.jbq.db.mddash</groupId>
-                  <artifactId>mddash-sessionmgt</artifactId>
-                  <version>${project.version}</version>
-                  
-					 <classifier>jar-with-dependencies</classifier>
-                  <type>jar</type>
-                  <overWrite>false</overWrite>
-                  <outputDirectory>${project.build.directory}/../../docker/session</outputDirectory>
-                  <destFileName>session.jar</destFileName>
-                  
-                </artifactItem>
-              </artifactItems>
-              <outputDirectory>${project.build.directory}/wars</outputDirectory>
-              <overWriteReleases>false</overWriteReleases>
-              <overWriteSnapshots>true</overWriteSnapshots>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin></plugins></build>
+
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.3.6</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
 
 </project>

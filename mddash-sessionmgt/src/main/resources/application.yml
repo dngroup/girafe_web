@@ -3,7 +3,7 @@ spring:
   application:
     name: mddash
   datasource:
-    url: jdbc:mysql://localhost:3306/mddash
+    url: jdbc:mysql://db:3306/mddash
     username: mddash
     password: mddash
     driver-class-name: com.mysql.jdbc.Driver

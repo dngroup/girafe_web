@@ -160,7 +160,7 @@ $scope.png = "app/img/DockArt.png";
     }
 
 });
-return res;};
+return ;};
 
 
     $scope.getVideoTreeMetrics = function () {
