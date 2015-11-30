@@ -48,11 +48,11 @@
 			<scope>test</scope>
 		</dependency>
 
-	<dependency>
-	<groupId>com.github.docker-java</groupId>
-	<artifactId>docker-java</artifactId>
-	<version>2.1.2</version>
-</dependency>
+		<dependency>
+			<groupId>com.github.docker-java</groupId>
+			<artifactId>docker-java</artifactId>
+			<version>2.1.2</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.jbq.db.mddash</groupId>
@@ -82,6 +82,70 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+
+			<plugin>
+
+
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.jbq.db.mddash</groupId>
+									<artifactId>mddash-dockermgt</artifactId>
+									<version>${project.version}</version>
+
+
+									<type>jar</type>
+									<overWrite>false</overWrite>
+									<outputDirectory>${project.build.directory}/../../docker/dockermgt</outputDirectory>
+									<destFileName>dockermgt.jar</destFileName>
+
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>${project.build.directory}/wars</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.3.6</version>
+				<configuration>
+					<imageName>dbourasseau/dockermgt</imageName>
+					<dockerDirectory>${project.build.directory}/../../docker/dockermgt</dockerDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>build_push</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>build</goal>
+							<goal>push</goal>
+						</goals>
+					</execution>
+				</executions>
+
+			</plugin>
+
 		</plugins>
 	</build>
 

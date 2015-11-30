@@ -51,23 +51,12 @@ public class DockerServiceImp implements DockerService {
 	 * @param idDocker
 	 * @param bitrate
 	 */
-	public List<Container> getstatus(String idDocker, Integer bitrate) {
+	public List<Container> getstatus() {
 
 		List<Container> containers = dockerClient.listContainersCmd().exec();
-		// LOGGER.debug("number of container {}", containers.size());
-		// for (Container container : containers) {
-		// if (container.getNames()[0].contains(idDocker)) {
-		// dockerClient.startContainerCmd(container.getId()).exec();
-		// ExecCreateCmdResponse execCreateCmdResponse = dockerClient
-		// .execCreateCmd(container.getId())
-		// .withAttachStdout(true)
-		// .withCmd("tc", "qdisc", "change", "dev", "eth0",
-		// "root", "tbf", "rate", bitrate + "kbit",
-		// "burst", "64kbit", "latency", "1ms").exec();
-		// dockerClient.execStartCmd(execCreateCmdResponse.getId()).exec();
-		// }
-		// }
 		return containers;
 	}
+
+
 
 }
