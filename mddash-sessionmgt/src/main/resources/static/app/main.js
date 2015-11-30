@@ -1,47 +1,46 @@
 'use strict';
 
 angular.module('DashSourcesService', ['ngResource']).
-    factory('Sources', function($resource){
+    factory('Sources', function ($resource) {
         return $resource('app/sources.json', {}, {
-            query: {method:'GET', isArray:false}
+            query: {method: 'GET', isArray: false}
         });
     });
 
 angular.module('DashNotesService', ['ngResource']).
-    factory('Notes', function($resource){
+    factory('Notes', function ($resource) {
         return $resource('app/notes.json', {}, {
-            query: {method:'GET', isArray:false}
+            query: {method: 'GET', isArray: false}
         });
     });
 
 angular.module('DashContributorsService', ['ngResource']).
-    factory('Contributors', function($resource){
+    factory('Contributors', function ($resource) {
         return $resource('app/contributors.json', {}, {
-            query: {method:'GET', isArray:false}
+            query: {method: 'GET', isArray: false}
         });
     });
 
 angular.module('DashPlayerLibrariesService', ['ngResource']).
-    factory('PlayerLibraries', function($resource){
+    factory('PlayerLibraries', function ($resource) {
         return $resource('app/player_libraries.json', {}, {
-            query: {method:'GET', isArray:false}
+            query: {method: 'GET', isArray: false}
         });
     });
 
 angular.module('DashShowcaseLibrariesService', ['ngResource']).
-    factory('ShowcaseLibraries', function($resource){
+    factory('ShowcaseLibraries', function ($resource) {
         return $resource('app/showcase_libraries.json', {}, {
-            query: {method:'GET', isArray:false}
+            query: {method: 'GET', isArray: false}
         });
     });
 
 angular.module('DashInfoService', ['ngResource']).
-    factory('Infos', function($resource){
+    factory('Infos', function ($resource) {
         return $resource('app/infos.json', {}, {
-            query: {method:'GET', isArray:false}
+            query: {method: 'GET', isArray: false}
         });
     });
-
 
 
 var app = angular.module('DashPlayer', [
@@ -51,11 +50,12 @@ var app = angular.module('DashPlayer', [
     'DashPlayerLibrariesService',
     'DashShowcaseLibrariesService',
     'DashInfoService',
-    'angularTreeview'
+    'angularTreeview',
+    'ngRoute'
 
 ]);
 
-app.directive('chart', function() {
+app.directive('chart', function () {
     return {
         restrict: 'E',
         link: function (scope, elem, attrs) {
@@ -74,13 +74,13 @@ app.directive('chart', function() {
                 };
 
             // If the data changes somehow, update it in the chart
-            scope.$watch('bufferData', function(v) {
+            scope.$watch('bufferData', function (v) {
                 if (v === null || v === undefined) {
                     return;
                 }
 
                 if (!chart) {
-                    chart = $.plot(elem, v , options);
+                    chart = $.plot(elem, v, options);
                     elem.show();
                 }
                 else {
@@ -90,7 +90,7 @@ app.directive('chart', function() {
                 }
             });
 
-            scope.$watch('invalidateChartDisplay', function(v) {
+            scope.$watch('invalidateChartDisplay', function (v) {
                 if (v && chart) {
                     var data = scope[attrs.ngModel];
                     chart.setData(data);
@@ -103,7 +103,7 @@ app.directive('chart', function() {
     };
 });
 
-app.controller('DashController', function($scope, Sources, Notes, Contributors, PlayerLibraries, ShowcaseLibraries,Infos) {
+app.controller('DashController', function ($scope, Sources, Notes, Contributors, PlayerLibraries, ShowcaseLibraries, Infos,$http) {
     var player,
         video,
         context,
@@ -147,21 +147,56 @@ app.controller('DashController', function($scope, Sources, Notes, Contributors, 
     $scope.videoMetrics = null;
     $scope.audioMetrics = null;
 
-$scope.infodata = " <ul><li> Three servers with a 1800kbps upload capacity;</li><li>Each server hosts a different GOP-based description;</li><li> One MD-DASH client (your browser-embeded MD-DASH player) trying to retrieve all three descriptions at the same time</li></ul>";
-$scope.png = "app/img/DockArt.png";
+    $scope.serverdocker = [];
 
-        function getInfos() {
-        angular.forEach($scope.infos, function(value, key) {
-  console.log(key + ': ' + value.title);
-    if (value.title==$scope.selectedItem.url){
-        $scope.infodata = value.item;
-        $scope.png = value.img;
-         return ;
+
+    $scope.infodata = " <ul><li> Three servers with a 1800kbps upload capacity;</li><li>Each server hosts a different GOP-based description;</li><li> One MD-DASH client (your browser-embeded MD-DASH player) trying to retrieve all three descriptions at the same time</li></ul>";
+    $scope.png = "app/img/DockArt.png";
+
+    function getInfos() {
+        getserverdocker();
+        angular.forEach($scope.infos, function (value, key) {
+            console.log(key + ': ' + value.title);
+            if (value.title == $scope.selectedItem.url) {
+                $scope.infodata = value.item;
+                $scope.png = value.img;
+            }
+        })
     }
 
-});
-return ;};
+    function getserverdocker(){
+        sendMPD()
 
+    }
+    function sendMPD(){
+
+
+        $http.post("/api/unsecure/mpd/servers/",$scope.selectedItem.url )
+            .success(function (data, status, headers, config)
+            {
+                $scope.serverdocker.name=data.str;
+              
+
+            })
+            .error(function (data, status, headers, config)
+            {
+                console.log("Failed");
+            });
+
+    }
+  $scope.limit = function (dockerid,bitrate) {
+              $http.post("/api/unsecure/docker/" + dockerid + "/" + bitrate )
+            .success(function (data, status, headers, config)
+            {
+                console.log("success");
+              
+
+            })
+            .error(function (data, status, headers, config)
+            {
+                console.log("Failed");
+            });
+    }
 
     $scope.getVideoTreeMetrics = function () {
         var metrics = player.getMetricsFor("video");
@@ -174,12 +209,12 @@ return ;};
     }
 
     // from: https://gist.github.com/siongui/4969449
-    $scope.safeApply = function(fn) {
-      var phase = this.$root.$$phase;
-      if(phase == '$apply' || phase == '$digest')
-        this.$eval(fn);
-      else
-        this.$apply(fn);
+    $scope.safeApply = function (fn) {
+        var phase = this.$root.$$phase;
+        if (phase == '$apply' || phase == '$digest')
+            this.$eval(fn);
+        else
+            this.$apply(fn);
     };
 
     function getCribbedMetricsFor(type) {
@@ -199,7 +234,7 @@ return ;};
             movingDownload = {},
             movingRatio = {},
             droppedFramesValue = 0,
-            fillmoving = function(type, Requests){
+            fillmoving = function (type, Requests) {
                 var requestWindow,
                     downloadTimes,
                     latencyTimes,
@@ -207,34 +242,60 @@ return ;};
 
                 requestWindow = Requests
                     .slice(-20)
-                    .filter(function(req){return req.responsecode >= 200 && req.responsecode < 300 && !!req.mediaduration && req.type === "Media Segment" && req.stream === type;})
+                    .filter(function (req) {
+                        return req.responsecode >= 200 && req.responsecode < 300 && !!req.mediaduration && req.type === "Media Segment" && req.stream === type;
+                    })
                     .slice(-4);
                 if (requestWindow.length > 0) {
 
-                    latencyTimes = requestWindow.map(function (req){ return Math.abs(req.tresponse.getTime() - req.trequest.getTime()) / 1000;});
+                    latencyTimes = requestWindow.map(function (req) {
+                        return Math.abs(req.tresponse.getTime() - req.trequest.getTime()) / 1000;
+                    });
 
                     movingLatency[type] = {
-                        average: latencyTimes.reduce(function(l, r) {return l + r;}) / latencyTimes.length, 
-                        high: latencyTimes.reduce(function(l, r) {return l < r ? r : l;}), 
-                        low: latencyTimes.reduce(function(l, r) {return l < r ? l : r;}), 
+                        average: latencyTimes.reduce(function (l, r) {
+                            return l + r;
+                        }) / latencyTimes.length,
+                        high: latencyTimes.reduce(function (l, r) {
+                            return l < r ? r : l;
+                        }),
+                        low: latencyTimes.reduce(function (l, r) {
+                            return l < r ? l : r;
+                        }),
                         count: latencyTimes.length
                     };
 
-                    downloadTimes = requestWindow.map(function (req){ return Math.abs(req.tfinish.getTime() - req.tresponse.getTime()) / 1000;});
+                    downloadTimes = requestWindow.map(function (req) {
+                        return Math.abs(req.tfinish.getTime() - req.tresponse.getTime()) / 1000;
+                    });
 
                     movingDownload[type] = {
-                        average: downloadTimes.reduce(function(l, r) {return l + r;}) / downloadTimes.length, 
-                        high: downloadTimes.reduce(function(l, r) {return l < r ? r : l;}), 
-                        low: downloadTimes.reduce(function(l, r) {return l < r ? l : r;}), 
+                        average: downloadTimes.reduce(function (l, r) {
+                            return l + r;
+                        }) / downloadTimes.length,
+                        high: downloadTimes.reduce(function (l, r) {
+                            return l < r ? r : l;
+                        }),
+                        low: downloadTimes.reduce(function (l, r) {
+                            return l < r ? l : r;
+                        }),
                         count: downloadTimes.length
                     };
 
-                    durationTimes = requestWindow.map(function (req){ return req.mediaduration;});
+                    durationTimes = requestWindow.map(function (req) {
+                        return req.mediaduration;
+                    });
 
                     movingRatio[type] = {
-                        average: (durationTimes.reduce(function(l, r) {return l + r;}) / downloadTimes.length) / movingDownload[type].average, 
-                        high: durationTimes.reduce(function(l, r) {return l < r ? r : l;}) / movingDownload[type].low, 
-                        low: durationTimes.reduce(function(l, r) {return l < r ? l : r;}) / movingDownload[type].high, 
+                        average: (durationTimes.reduce(function (l, r) {
+                            return l + r;
+                        }) / downloadTimes.length) / movingDownload[type].average,
+                        high: durationTimes.reduce(function (l, r) {
+                            return l < r ? r : l;
+                        }) / movingDownload[type].low,
+                        low: durationTimes.reduce(function (l, r) {
+                            return l < r ? l : r;
+                        }) / movingDownload[type].high,
                         count: durationTimes.length
                     };
                 }
@@ -539,7 +600,7 @@ return ;};
         $scope.showCharts = show;
     }
 
-    $scope.setBufferLevelChart = function(show) {
+    $scope.setBufferLevelChart = function (show) {
         $scope.showBufferLevel = show;
     }
 
@@ -610,7 +671,7 @@ return ;};
 
     function getUrlVars() {
         var vars = {};
-        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
             vars[key] = value;
         });
         return vars;
@@ -646,6 +707,7 @@ return ;};
         $scope.selectedItem = item;
     }
 
+
     $scope.doLoad = function () {
         var protData = null;
         if ($scope.selectedItem.hasOwnProperty("protData")) {
@@ -659,38 +721,35 @@ return ;};
 
     $scope.hasLogo = function (item) {
         return (item.hasOwnProperty("logo")
-                && item.logo !== null
-                && item.logo !== undefined
-                && item.logo !== "");
+        && item.logo !== null
+        && item.logo !== undefined
+        && item.logo !== "");
     }
-
-
-
 
 
     // Get initial stream if it was passed in.
-	var paramUrl = null;
+    var paramUrl = null;
 
     if (vars && vars.hasOwnProperty("url")) {
-    	paramUrl = vars.url;
+        paramUrl = vars.url;
     }
 
     if (vars && vars.hasOwnProperty("mpd")) {
-    	paramUrl = vars.mpd;
+        paramUrl = vars.mpd;
     }
 
     if (paramUrl !== null) {
-    	var startPlayback = true;
-    
-    	$scope.selectedItem = {};
+        var startPlayback = true;
+
+        $scope.selectedItem = {};
         $scope.selectedItem.url = paramUrl;
         getInfos();
         if (vars.hasOwnProperty("autoplay")) {
-        	startPlayback = (vars.autoplay === 'true');
+            startPlayback = (vars.autoplay === 'true');
         }
 
-    	if (startPlayback) {
-	    	$scope.doLoad();
-		}
+        if (startPlayback) {
+            $scope.doLoad();
+        }
     }
 });

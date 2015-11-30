@@ -17,6 +17,7 @@
     <!-- http://angularjs.org/ -->
     <script src="app/lib/angular/angular.min.js"></script>
     <script src="app/lib/angular/angular-resource.min.js"></script>
+    <script src="https://code.angularjs.org/1.2.9/angular-route.min.js"></script>
 
     <!-- http://getbootstrap.com/ -->
     <script src="app/lib/bootstrap/js/bootstrap.min.js"></script>
@@ -312,7 +313,7 @@
         <div class="col-md-3">
         <div class="panel">
           <div class="panel-heading panel-top">
-            <a class="btn btn-primary text-center" href="dashclassic/index.html?url=http://server1.homeb.tv:8080/CDN/cdn.mpd" target="_blank">Compare with Dash Clasic</a>
+            <a class="btn btn-primary text-center" href="dashclassic/index.html?url=http://server1.homeb.tv:8080/CDN/cdn.mpd" target="_blank">Compare with standard<br />  DASH protocol</a>
           </div>
         </div>
         <!--             <div class="panel"> -->
@@ -386,7 +387,28 @@
 
         </div>
     </div>
+    <!----------------------------------------------------------------------------------------------------------------------->
+      <div class="row ">
+      <div class="col-md-3"  >
+        <div id="how" class="anchor" ></div>
+    <div class="panel panel-default" ng-repeat="item in serverdocker.name">
+      <div class="panel-heading panel-top">
+        <h1 class="panel-title" > {{item}}</h1>
+      </div>
+      <div class="panel-body">
+         limit to :
+                
+                <div class="btn-group" data-toggle="buttons-radio">
+					    <button type="button" class="btn btn-success" ng-click="limit(item,2500)">2500kbps</button>
+					    <button type="button" class="btn btn-danger" ng-click="limit(item,800)">800kbps</button>
+					 </div>
+      </div>
+    </div>
+      </div>
+
+          <!----------------------------------------------------------------------------------------------------------------------->
     <div class="row ">
+
   <div class="col-md-6">
     <div id="how" class="anchor" ></div>
     <div class="panel panel-default " >
@@ -446,7 +468,7 @@
         </div>
 
         <div class="col-md-6">
-          <div class="panel panel-default panel-body"><img src="{{png}}" class="img-responsive"/>
+          <div class="panel panel-default panel-body"><img ng-src="{{png}}" class="img-responsive"/>
           </div>
         </div>
     </div>

@@ -30,15 +30,34 @@ public class DockerCTLEndpoints {
 	@GET
 	public String message() {
 		 List<Container> containers = dockerService.getstatus();
-		return "Hello";
+		 String response = "";
+		 for (Container container : containers) {
+			 response= response +" "+  container.getNames()[0];
+		}
+		return response;
 	}
 
 	@POST
 	@Path("{idDocker}/{bitrate}")	
-	public Response message3(@PathParam("idDocker") String idDocker,@PathParam("bitrate") Integer bitrate ) {
+	public Response setBitrate(@PathParam("idDocker") String idDocker,@PathParam("bitrate") Integer bitrate ) {
         dockerService.setBitrate(idDocker,bitrate);
 		return Response.accepted().build();
 	}
+	
+	@GET
+	@Path("{idDocker}/{bitrate}")	
+	public Response setBitrate2(@PathParam("idDocker") String idDocker,@PathParam("bitrate") Integer bitrate ) {
+        dockerService.setBitrate(idDocker,bitrate);
+		return Response.accepted().build();
+	}
+	
+	@GET
+	@Path("default")
+	public Response setDefaultBitrate(){
+		dockerService.setDefaultBitrate();
+		return Response.accepted().build();
+	}
+
 
 
 

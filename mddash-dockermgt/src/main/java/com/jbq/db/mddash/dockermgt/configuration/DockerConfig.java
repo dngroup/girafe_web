@@ -13,7 +13,7 @@ public class DockerConfig{
 	@Bean
 	public DockerClient dockerClient(){
 		return DockerClientBuilder.getInstance(
-				"http://localhost:2375").build();
+				"http://172.17.42.1:2375/").build();
 		
 	}
 
