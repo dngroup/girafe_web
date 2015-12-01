@@ -143,7 +143,7 @@
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>0.3.6</version>
 				<configuration>
-					<imageName>dbourasseau/sessionmgt</imageName>
+					<imageName>dngroup/sessionmgt</imageName>
 					<dockerDirectory>${project.build.directory}/../../docker/session</dockerDirectory>
 				</configuration>
 			</plugin>
