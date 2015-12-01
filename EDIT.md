@@ -15,6 +15,7 @@
  - [Commit-push](#commit-push)
  - [Push docker](#push-docker)
  - [Pull docker](#pull-docker)
+ - [Restart docker](#restart-docker)
 
 
 ##Resume
@@ -115,4 +116,4 @@ docker-compose up -d #-d for deamon mode
  - [Commit-push your modification](#commit-push)
  - [Push your new docker](#push-docker)
  - [Pull the new docker](#pull-docker)
- - [Restart docker](restart-docker)
+ - [Restart docker](#restart-docker)
