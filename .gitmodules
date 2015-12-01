@@ -4,6 +4,3 @@
 [submodule "mddash-sessionmgt/src/main/resources/static/NaCLDescriptionAggregator"]
 	path = mddash-sessionmgt/src/main/resources/static/NaCLDescriptionAggregator
 	url = git@github.com:Jobq/NaCLDescriptionAggregator.git
-[submodule "docker"]
-	path = docker
-	url = git@github.com:dbourasseau/SimpleDemoMDDash.git

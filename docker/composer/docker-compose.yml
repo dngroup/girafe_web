@@ -1,0 +1,76 @@
+dockermgt:
+  image: dngroup/dockermgt
+  ports:
+   - "9001:9001"
+
+sessionmgt:
+  image: dngroup/sessionmgt
+  ports:
+   - "9000:9000"
+  links:
+   - db
+   - dockermgt
+db:
+  image: mysql:5.6
+  environment:
+   - MYSQL_ROOT_PASSWORD=root
+   - MYSQL_DATABASE=mddash
+   - MYSQL_USER=mddash
+   - MYSQL_PASSWORD=mddash
+server1:
+  image: dngroup/serverapache
+  ports:
+   - "9011:80"
+  cap_add:
+   - NET_ADMIN
+  volumes:
+   - ../data:/usr/local/apache2/htdocs/
+server2:
+  image: dngroup/serverapache
+  ports:
+   - "9012:80"
+  cap_add:
+   - NET_ADMIN
+  volumes:
+   - ../data:/usr/local/apache2/htdocs/
+server3:
+  image: dngroup/serverapache
+  ports:
+   - "9013:80"
+  cap_add:
+   - NET_ADMIN
+  volumes:
+   - ../data:/usr/local/apache2/htdocs/
+server4:
+  image: dngroup/serverapache
+  ports:
+   - "9014:80"
+  cap_add:
+   - NET_ADMIN
+  volumes:
+   - ../data:/usr/local/apache2/htdocs/
+server5:
+  image: dngroup/serverapache
+  ports:
+   - "9015:80"
+  cap_add:
+   - NET_ADMIN
+  volumes:
+   - ../data:/usr/local/apache2/htdocs/
+server6:
+  image: dngroup/serverapache
+  ports:
+   - "9016:80"
+  cap_add:
+   - NET_ADMIN
+  volumes:
+   - ../data:/usr/local/apache2/htdocs/
+
+server7:
+  image: dngroup/serverapache
+  ports:
+   - "9017:80"
+  cap_add:
+   - NET_ADMIN
+  volumes:
+   - ../data:/usr/local/apache2/htdocs/
