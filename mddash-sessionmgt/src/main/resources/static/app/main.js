@@ -152,6 +152,7 @@ app.controller('DashController', function ($scope, Sources, Notes, Contributors,
 
     $scope.infodata = " <ul><li> Three servers with a 1800kbps upload capacity;</li><li>Each server hosts a different GOP-based description;</li><li> One MD-DASH client (your browser-embeded MD-DASH player) trying to retrieve all three descriptions at the same time</li></ul>";
     $scope.png = "app/img/DockArt.png";
+    $scope.infoResult= "<p>According to the number of description segments being retrieved for one video period, thedisplayedquality is to change over time.</p><p>If all three descriptions are collected, the best video quality is to be displayed.</p><p>Should some description segments be missing, the displayed quality should constantly change(on a GOP basis) for the duration of the video segment. </p>"
 
     function getInfos() {
         getserverdocker();
@@ -175,7 +176,13 @@ app.controller('DashController', function ($scope, Sources, Notes, Contributors,
             .success(function (data, status, headers, config)
             {
                 $scope.serverdocker.name=data.str;
-              
+
+                angular.forEach($scope.serverdocker.name, function (value, key) {
+                    console.log(key + ': ' + value.title);
+                    $scope.limit(value,1800);
+
+
+                })
 
             })
             .error(function (data, status, headers, config)

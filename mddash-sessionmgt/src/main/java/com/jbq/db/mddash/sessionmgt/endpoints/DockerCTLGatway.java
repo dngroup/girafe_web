@@ -42,6 +42,9 @@ public class DockerCTLGatway {
 	@POST
 	@Path("{idDocker}/{bitrate}")	
 	public Response setBitrate(@PathParam("idDocker") String idDocker,@PathParam("bitrate") Integer bitrate ) {
+		if (bitrate==1800){
+			bitrate=2500;
+		}
         dockerGatwayService.setBitrate(idDocker,bitrate);
 		return Response.accepted().build();
 	}

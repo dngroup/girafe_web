@@ -6,7 +6,9 @@ package com.jbq.db.mddash.sessionmgt.service.imp;
 import java.io.StringReader;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
@@ -35,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Strings;
 import com.jbq.db.mddash.model.ListString;
 import com.jbq.db.mddash.sessionmgt.service.MPDGenerator;
 
@@ -46,7 +49,7 @@ import com.jbq.db.mddash.sessionmgt.service.MPDGenerator;
 public class MPDGeneratorImp implements MPDGenerator {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(MPDGeneratorImp.class);
-	
+
 	@Inject
 	Client client;
 
@@ -191,27 +194,55 @@ public class MPDGeneratorImp implements MPDGenerator {
 		WebTarget target = client.target(uri);
 		LOGGER.debug("Get MPD {}", target.getUri());
 		try {
-			
+
 			Response response = target.request(MediaType.WILDCARD).get();
 			String mpds = response.readEntity(String.class);
-			
-			
+
 			try {
 				JAXBContext jaxbContext = JAXBContext.newInstance(MPD.class);
 				Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
 				StringReader reader = new StringReader(mpds);
 				MPD mpd = (MPD) unmarshaller.unmarshal(reader);
-				
-				
-				
-				List<DescriptionType> desTypes = mpd.getPeriod().get(0).getAdaptationSet().get(0).getRepresentation().get(0).getDescription();
-				for (DescriptionType descriptionType : desTypes) {
-					String media = descriptionType.getSegmentTemplate().getMedia();
-					String aa = URI.create(media).getHost();
-					String[] aaa =aa.split(Pattern.quote("."));
-					servers.getStr().add(aaa[0]);
+
+				List<RepresentationType> representationTypes = mpd.getPeriod()
+						.get(0).getAdaptationSet().get(0).getRepresentation();
+				for (RepresentationType representationType : representationTypes) {
+					List<DescriptionType> desTypes;
+					try {
+						String media = representationType.getSegmentTemplate()
+								.getMedia();
+						String host = URI.create(media).getHost();
+						if (!Strings.isNullOrEmpty(host)) {
+							String[] hostSplit = host.split(Pattern.quote("."));
+							servers.getStr().add(hostSplit[0]);
+						} else {
+							String[] hostmpdSplit = uri.getHost().split(
+									Pattern.quote("."));
+							servers.getStr().add(hostmpdSplit[0]);
+						}
+
+					} catch (NullPointerException e) {
+
+//						e.printStackTrace();
+					}
+					try {
+					desTypes = representationType.getDescription();
+					for (DescriptionType descriptionType : desTypes) {
+					
+							String media2 = descriptionType.getSegmentTemplate()
+									.getMedia();
+							String uri2 = URI.create(media2).getHost();
+							String[] aaa2 = uri2.split(Pattern.quote("."));
+							servers.getStr().add(aaa2[0]);
+						
+					}
+					} catch (NullPointerException e) {
+						
+//						e.printStackTrace();
+					}
 				}
+
 			} catch (JAXBException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -219,6 +250,14 @@ public class MPDGeneratorImp implements MPDGenerator {
 		} catch (WebApplicationException e) {
 			throw e;
 		}
+		Set<String> set = new HashSet<String>();
+
+		set.addAll(servers.getStr());
+		servers.getStr().clear();
+		for (String string : set) {
+			servers.getStr().add(string);
+		}
+
 		return servers;
 	}
 
