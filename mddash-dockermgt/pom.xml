@@ -124,7 +124,7 @@
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>0.3.6</version>
 				<configuration>
-					<imageName>dbourasseau/dockermgt</imageName>
+					<imageName>dngroup/dockermgt</imageName>
 					<dockerDirectory>${project.build.directory}/../../docker/dockermgt</dockerDirectory>
 				</configuration>
 				<executions>

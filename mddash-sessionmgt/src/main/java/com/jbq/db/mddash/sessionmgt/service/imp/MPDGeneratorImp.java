@@ -6,6 +6,7 @@ package com.jbq.db.mddash.sessionmgt.service.imp;
 import java.io.StringReader;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,6 +39,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
 import com.jbq.db.mddash.model.ListString;
 import com.jbq.db.mddash.sessionmgt.service.MPDGenerator;
 
@@ -254,10 +256,12 @@ public class MPDGeneratorImp implements MPDGenerator {
 
 		set.addAll(servers.getStr());
 		servers.getStr().clear();
+		
 		for (String string : set) {
+			
 			servers.getStr().add(string);
 		}
-
+		java.util.Collections.sort(servers.getStr());
 		return servers;
 	}
 
