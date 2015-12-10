@@ -69,7 +69,7 @@ MediaPlayer.dependencies.FragmentLoader = function () {
 
                     self.log((succeeded ? "loaded " : "failed ") + requestVO.mediaType + ":" + requestVO.type + ":" + requestVO.startTime + " (" + req.status + ", " + latency + "ms, " + download + "ms)");
 
-                    httpRequestMetrics.tresponse = requestVO.firstByteDate;
+                    httpRequestMetrics.tresponse = requestVO.requestStartDate;
                     httpRequestMetrics.tfinish = requestVO.requestEndDate;
                     httpRequestMetrics.responsecode = req.status;
                     httpRequestMetrics.responseHeaders = req.getAllResponseHeaders();
@@ -137,7 +137,7 @@ MediaPlayer.dependencies.FragmentLoader = function () {
 
             } else {
                 //TODO case firstsegment
-                // Ping ?
+                this.mdController.setTimeout(Math.round((request.duration - request.duration*10/100)*100)/100 * 1000);
             }
                 xhrs.push(req);
                 request.requestStartDate = new Date();

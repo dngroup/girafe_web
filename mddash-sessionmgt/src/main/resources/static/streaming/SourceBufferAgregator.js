@@ -91,6 +91,7 @@ MediaPlayer.dependencies.SourceBufferAgregator = function () {
                 table,
                 indexSent,
                 obj,
+                numberFalse = 0,
                 test = true;
             for(var i in bufferSaved) {
                 table = bufferSaved[i].filter(filterBufferByLastIndexAndRetry);
@@ -98,13 +99,15 @@ MediaPlayer.dependencies.SourceBufferAgregator = function () {
                 table = table.filter(function(elem,index,array){
                     return obj[elem.id]?0:obj[elem.id]=1;
                 });
-                chunk = table[0]; // TODO : manage case UC1 with a description coming back.
+                chunk = table[0];
                 if (typeof chunk.bytes[0] !== "string") {
 
                 } else {
-                    test = false;
+                    numberFalse += 1;
                 }
             }
+
+            if(numberFalse === descriptionDesNumPerLvl - 1) test=false;
             for(var i in bufferSaved) {
                 table = bufferSaved[i].filter(filterBufferByLastIndexAndRetry);
                 obj = {};
