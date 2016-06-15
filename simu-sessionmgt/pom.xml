@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>simu-sessionmgt</artifactId>
+	<packaging>jar</packaging>
+
+	<name>simu-sessionmgt</name>
+	<description>Demo project for Spring Boot</description>
+	<parent>
+		<groupId>com.jbq.db.mddash</groupId>
+		<artifactId>simu-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jersey</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- <dependency> -->
+		<!-- <groupId>org.glassfish.jersey.media</groupId> -->
+		<!-- <artifactId>jersey-media-json-jettison</artifactId> -->
+		<!-- <version>2.22.1</version> -->
+		<!-- </dependency> -->
+
+		<!-- <dependency> -->
+		<!-- <groupId>org.glassfish.jersey.media</groupId> -->
+		<!-- <artifactId>jersey-media-multipart</artifactId> -->
+		<!-- <version>2.22.1</version> -->
+		<!-- </dependency> -->
+
+		<dependency>
+			<groupId>com.jbq.db.mddash</groupId>
+			<artifactId>simu-model</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<!-- <dependency> -->
+		<!-- <groupId>com.fasterxml.jackson.dataformat</groupId> -->
+		<!-- <artifactId>jackson-dataformat-xml</artifactId> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>com.sun.jersey</groupId> -->
+		<!-- <artifactId>jersey-core</artifactId> -->
+		<!-- </dependency> -->
+
+
+
+
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-parent</artifactId>
+				<version>Angel.SR3</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+
+
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.jbq.db.mddash</groupId>
+									<artifactId>simu-sessionmgt</artifactId>
+									<version>${project.version}</version>
+
+
+									<type>jar</type>
+									<overWrite>false</overWrite>
+									<outputDirectory>${project.build.directory}/../../docker/session</outputDirectory>
+									<destFileName>session.jar</destFileName>
+
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>${project.build.directory}/wars</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.3.6</version>
+				<configuration>
+					<imageName>dngroup/sessionmgt</imageName>
+					<dockerDirectory>${project.build.directory}/../../docker/session</dockerDirectory>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.3.6</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+</project>
