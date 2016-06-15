@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: mddash-dockermgt
+  jersey:
+      type: servlet
+security:
+  basic:
+    enabled: false
+server:
+    port: 9001
+
+#docker:
+#  io:
+#    url: https://localhost:2376
+#    version: "1.16"
+#    username: dockeruser
+#    password: ilovedocker
+#    email: dockeruser@github.com
+#    serverAddress: https://index.docker.io/v1/
+#    dockerCertPath: /home/user/.docker
+#    
+#logging: 
+#  level:
+#    org.springframework.web:DEBUG
+#    com.jbq.db.mddash:DEBUG
