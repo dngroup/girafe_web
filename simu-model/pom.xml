@@ -5,7 +5,7 @@
 	<artifactId>simu-model</artifactId>
 	<packaging>jar</packaging>
 	<parent>
-		<groupId>com.jbq.db.mddash</groupId>
+		<groupId>com.nh.db.ml.simuservice</groupId>
 		<artifactId>simu-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>

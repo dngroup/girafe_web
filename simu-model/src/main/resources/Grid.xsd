@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:com:nh:db:ml:simuservice:model">	
+	<xs:element name="Grid">
+		<xs:complexType>
+			<xs:attribute name="x" type="xs:int"/>
+			<xs:attribute name="y" type="xs:int"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

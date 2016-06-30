@@ -9,7 +9,7 @@
 	<name>simu-sessionmgt</name>
 	<description>Demo project for Spring Boot</description>
 	<parent>
-		<groupId>com.jbq.db.mddash</groupId>
+		<groupId>com.nh.db.ml.simuservice</groupId>
 		<artifactId>simu-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
@@ -20,10 +20,6 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jersey</artifactId>
@@ -66,7 +62,7 @@
 		<!-- </dependency> -->
 
 		<dependency>
-			<groupId>com.jbq.db.mddash</groupId>
+			<groupId>com.nh.db.ml.simuservice</groupId>
 			<artifactId>simu-model</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

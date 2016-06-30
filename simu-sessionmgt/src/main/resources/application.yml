@@ -1,24 +1,12 @@
 
 spring:
   application:
-    name: mddash
-  datasource:
-    url: jdbc:mysql://db:3306/mddash
-    username: mddash
-    password: mddash
-    driver-class-name: com.mysql.jdbc.Driver
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: create-drop
+    name: temudemo
   jersey:
       type: servlet
 security:
   basic:
     enabled: false
-  user:
-    name: demo
-    password: 123
 server:
     port: 9000
     

@@ -9,7 +9,7 @@
 	<name>simu-dockermgt</name>
 	<description>Demo project for Spring Boot</description>
 	<parent>
-		<groupId>com.jbq.db.mddash</groupId>
+		<groupId>com.nh.db.ml.simuservice</groupId>
 		<artifactId>simu-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
@@ -55,7 +55,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.jbq.db.mddash</groupId>
+			<groupId>com.nh.db.ml.simuservice</groupId>
 			<artifactId>simu-model</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
