@@ -12,29 +12,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.nh.db.ml.simuservice.sessionmgt.service.DockerGatwayService;
-import com.nh.db.ml.simuservice.sessionmgt.service.MPDGenerator;
-
-
 
 @Component
-@Path("unsecure/docker")
+@Path("docker")
 public class DockerCTLGatway {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(DockerCTLGatway.class);
-	@Inject
-	MPDGenerator mpdGenerator;
 	
 	@Inject
 	DockerGatwayService dockerGatwayService;
 	
-
-	
 	@POST
 	@Path("{idDocker}/{bitrate}")	
 	public Response setBitrate(@PathParam("idDocker") String idDocker,@PathParam("bitrate") Integer bitrate ) {
-		if (bitrate==1800){
-			bitrate=2500;
-		}
         dockerGatwayService.setBitrate(idDocker,bitrate);
 		return Response.accepted().build();
 	}

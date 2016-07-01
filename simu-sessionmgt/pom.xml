@@ -20,6 +20,16 @@
 	</properties>
 
 	<dependencies>
+	<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>1.4.191</version>
+				<scope>runtime</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jersey</artifactId>
@@ -75,7 +85,11 @@
 		<!-- <groupId>com.sun.jersey</groupId> -->
 		<!-- <artifactId>jersey-core</artifactId> -->
 		<!-- </dependency> -->
-
+		<dependency>
+			<groupId>com.lexicalscope.jewelcli</groupId>
+			<artifactId>jewelcli</artifactId>
+			<version>0.8.9</version>
+		</dependency>
 
 
 
@@ -99,7 +113,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
+			 <plugin>
 
 
 				<groupId>org.apache.maven.plugins</groupId>
@@ -114,7 +128,7 @@
 						<configuration>
 							<artifactItems>
 								<artifactItem>
-									<groupId>com.jbq.db.mddash</groupId>
+									<groupId>com.nh.db.ml.simuservice</groupId>
 									<artifactId>simu-sessionmgt</artifactId>
 									<version>${project.version}</version>
 
@@ -132,7 +146,7 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> 
 
 			<plugin>
 				<groupId>com.spotify</groupId>

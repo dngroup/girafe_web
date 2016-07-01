@@ -1,11 +1,15 @@
 package com.nh.db.ml.simuservice.dockermgt;
 
 import java.util.Arrays;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+
+import com.nh.db.ml.simuservice.dockergmgt.cli.CliConfArgs;
+
 
 
 @SpringBootApplication
@@ -23,6 +27,8 @@ public class MddashApplication{
 
 
 	public static void main(String[] args) {
+		
+		CliConfArgs.getParametersFromArgs(args);
 		
 		ApplicationContext ctx = SpringApplication.run(MddashApplication.class,
 				args);

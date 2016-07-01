@@ -3,6 +3,8 @@ package com.nh.db.ml.simuservice.dockermgt.service;
 import java.util.List;
 
 import com.github.dockerjava.api.model.Container;
+import com.nh.db.ml.simuservice.model.Grid;
+import com.nh.db.ml.simuservice.model.SlaInfo;
 
 public interface DockerService {
 
@@ -35,5 +37,9 @@ public interface DockerService {
 	 * @param bitrate
 	 */
 	public abstract List<Container> getstatus();
+
+	public abstract void createSvgFromGrid(Grid grid);
+
+	public abstract void createSvgFromSla(SlaInfo slaInfo);
 
 }

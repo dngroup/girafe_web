@@ -83,10 +83,10 @@ var da = Snap.load("./input/res2empty.svg", function (f) {
 ///////////////////////////////////////////////
 // Svg loaded when a grid is submitted
 ///////////////////////////////////////////////
-function ctrlTopo(form1) {
+function ctrlTopo() {
     s.zpd('destroy')
     s.clear();
-    var da = Snap.load("./input/res2empty.svg", function (f) {
+    var da = Snap.load("http://localhost:9000/api/simu/svg/" + sessionInfo.sessionId, function (f) {
         var childNode = f.selectAll("g");
 
         for (var i = 0; i < childNode.length; i++) {
@@ -101,6 +101,7 @@ function ctrlTopo(form1) {
             }
         }
         $("#SLAwindow").show();
+        $("#userswindow").show();
 
         g = f.select("g");
         s.append(g);
@@ -112,7 +113,7 @@ function ctrlTopo(form1) {
 ///////////////////////////////////////////////
 // Svg and action when the SLA is sent
 ///////////////////////////////////////////////
-function ctrlSLA(form1) {
+function ctrlSLA(svg) {
     s.zpd('destroy')
     s.clear();
     var da = Snap.load("./input/res2.svg", function (f) {

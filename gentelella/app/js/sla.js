@@ -1,4 +1,5 @@
 var urlSLA="http://localhost:9000/api/simu/sla",
+    urlUsers="http://localhost:9000/api/simu/users",
     slaDelay=10,
     vcdnRatio=10,
     bandwidthTotal=10,
@@ -25,11 +26,12 @@ $("#sla_delay").ionRangeSlider({
         slaDelay = data.from;
     }
 });
-$("#ucd_ratio").ionRangeSlider({
+$("#vcdn_ratio").ionRangeSlider({
     type: "single",
     min: 0,
-    max: 100,
-    from: 10,
+    max: 1,
+    from: 0.30,
+    step: 0.01,
     keyboard: true,
     onFinish: function (data) {
         vcdnRatio = data.from;
@@ -38,8 +40,9 @@ $("#ucd_ratio").ionRangeSlider({
 $("#bandwidth").ionRangeSlider({
     type: "single",
     min: 0,
-    max: 100,
-    from: 10,
+    max: 1000000000,
+    from: 10000000,
+    step: 10000,
     keyboard: true,
     onFinish: function (data) {
         bandwidthTotal = data.from;
@@ -115,7 +118,8 @@ function submitSLA(){
     data.sladelay = slaDelay;
     data.vcdnratio = vcdnRatio
     data.bandwidth = bandwidthTotal;
-    data.nbuser = nbUser;
+    data.sessionId = sessionInfo.sessionId;
+    //data.nbuser = nbUser;
 
     function onProgress(e) {
 
@@ -134,6 +138,34 @@ function submitSLA(){
     req.onload = onLoad;
     req.onerror = onError;
     req.open('POST', urlSLA, true);
+    req.setRequestHeader("Content-Type", "application/json");
+    req.send(JSON.stringify(data));
+}
+
+function submitUsers(){
+    var req = new XMLHttpRequest(),
+        data = {};
+
+    data.sessionId = sessionInfo.sessionId;
+    data.nbusers = nbUser;
+
+    function onProgress(e) {
+
+    }
+
+    function onError(e) {
+
+    }
+
+    function onLoad(e) {
+        if(req.status >= 200 && req.status <= 299) {
+
+        }
+    }
+    req.onprogress = onProgress;
+    req.onload = onLoad;
+    req.onerror = onError;
+    req.open('POST', urlUsers, true);
     req.setRequestHeader("Content-Type", "application/json");
     req.send(JSON.stringify(data));
 }

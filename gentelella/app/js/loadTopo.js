@@ -1,6 +1,7 @@
 var urlGetListTopo = "",
     urlSendSelectedTopo = "",
-    urlSendGrid = "";
+    urlSendGrid = "http://localhost:9000/api/simu/grid",
+    sessionInfo = "";
 
 ////////////////////////////////////////
 // Get the list of topo from the server
@@ -95,12 +96,14 @@ function sendGrid() {
 
     function onLoad(e) {
         if(req.status >= 200 && req.status <= 299) {
-
+            sessionInfo = JSON.parse(req.responseText);
+            ctrlTopo();
         }
     }
     req.onprogress = onProgress;
     req.onload = onLoad;
     req.onerror = onError;
     req.open('POST', urlSendGrid, true);
-    req.send(grid);
+    req.setRequestHeader("Content-Type", "application/json");
+    req.send(JSON.stringify(grid));
 }

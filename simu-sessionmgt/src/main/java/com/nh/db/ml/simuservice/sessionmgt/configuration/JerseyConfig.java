@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import com.nh.db.ml.simuservice.sessionmgt.endpoints.DockerCTLGatway;
-import com.nh.db.ml.simuservice.sessionmgt.endpoints.MPDEndpoints;
 import com.nh.db.ml.simuservice.sessionmgt.endpoints.SimuEndpoints;
 
 //import com.jbq.db.mddash.endpoints.UserController;
@@ -32,7 +31,6 @@ public class JerseyConfig extends ResourceConfig {
 	}
 
 	private void registerEndpoints() {
-		register(MPDEndpoints.class);
 		register(DockerCTLGatway.class);
 		register(SimuEndpoints.class);
 		register(WadlResource.class);

@@ -9,9 +9,10 @@
 					maxOccurs="unbounded" minOccurs="0"/>
 			</xs:sequence>
 			<xs:attribute name="sladelay" type="xs:int"/>
-			<xs:attribute name="vcdnratio" type="xs:int"/>
-			<xs:attribute name="bandwidth" type="xs:int"/>
-			<xs:attribute name="nbuser" type="xs:int"/>
+			<xs:attribute name="vcdnratio" type="xs:double"/>
+			<xs:attribute name="bandwidth" type="xs:long"/>
+			<xs:attribute name="grid" type="xs:string"/>
+			<xs:attribute name="sessionId" type="xs:string"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
