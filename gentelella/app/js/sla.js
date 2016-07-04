@@ -118,8 +118,7 @@ function submitSLA(){
     data.sladelay = slaDelay;
     data.vcdnratio = vcdnRatio
     data.bandwidth = bandwidthTotal;
-    data.sessionId = sessionInfo.sessionId;
-    //data.nbuser = nbUser;
+    data.sessionId = sessionInfo.sessionId
 
     function onProgress(e) {
 
@@ -131,7 +130,8 @@ function submitSLA(){
 
     function onLoad(e) {
         if(req.status >= 200 && req.status <= 299) {
-
+            ctrlSLA();
+            
         }
     }
     req.onprogress = onProgress;

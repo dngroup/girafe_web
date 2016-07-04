@@ -1,6 +1,9 @@
 package com.nh.db.ml.simuservice.sessionmgt.endpoints;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -58,7 +61,15 @@ public class SimuEndpoints {
 	@Produces(MediaType.APPLICATION_SVG_XML)
 	@Path("svg/{sessionid}")
 	public Response getSvg(@PathParam("sessionid") String sessionId) {
-		File file = new File(CliConfSingleton.folder + "res.svg");
+		File file = new File(CliConfSingleton.folder + sessionId + "/" + "res.svg");
 		return Response.ok(file, MediaType.APPLICATION_SVG_XML).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	@Path("data/{sessionid}")
+	public Response getCsv(@PathParam("sessionid") String sessionId) {
+		byte[] byteArray = simuService.getCsv(sessionId);
+		return Response.ok(byteArray, MediaType.APPLICATION_OCTET_STREAM).build();
 	}
 }

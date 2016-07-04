@@ -1,7 +1,10 @@
 package com.nh.db.ml.simuservice.sessionmgt.service.imp;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -90,6 +93,14 @@ public class SimuServiceImp implements SimuService {
 		File file = new File(CliConfSingleton.folder + svgInfo.getSessionId() + "/res.svg");
 		
 		return file;
+	}
+
+	@Override
+	public byte[] getCsv(String sessionId) {
+		String test = "UNIX,Valeur0101-0102,Valeur0101-0103,Valeur0102-0103,Valeur0201-0203\n" + Long.toString(new Date().getTime()-1000) + ",1,2,3,10\n" + new Date().getTime() + ",4,5,6,9";
+		byte[] b = test.getBytes(StandardCharsets.UTF_8);
+		
+		return b;
 	}
 
 }

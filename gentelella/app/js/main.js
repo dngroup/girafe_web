@@ -5,6 +5,8 @@ var clientColor = "#00ff00";
 var cdnColor = "#ff0000";
 var neutralColor = "#000000";
 var bothColor ="#0000ff";
+var urlSVG = "http://localhost:9000/api/simu/svg/";
+var urlVideo = "./input/cdn.mpd";
 
 var filterBlur = s.filter(Snap.filter.blur(4));
 
@@ -86,7 +88,7 @@ var da = Snap.load("./input/res2empty.svg", function (f) {
 function ctrlTopo() {
     s.zpd('destroy')
     s.clear();
-    var da = Snap.load("http://localhost:9000/api/simu/svg/" + sessionInfo.sessionId, function (f) {
+    var da = Snap.load(urlSVG + sessionInfo.sessionId, function (f) {
         var childNode = f.selectAll("g");
 
         for (var i = 0; i < childNode.length; i++) {
@@ -113,10 +115,10 @@ function ctrlTopo() {
 ///////////////////////////////////////////////
 // Svg and action when the SLA is sent
 ///////////////////////////////////////////////
-function ctrlSLA(svg) {
+function ctrlSLA() {
     s.zpd('destroy')
     s.clear();
-    var da = Snap.load("./input/res2.svg", function (f) {
+    var da = Snap.load(urlSVG + sessionInfo.sessionId, function (f) {
         var childNode = f.selectAll("g");
 
         for (var i = 0; i < childNode.length; i++) {
@@ -136,5 +138,7 @@ function ctrlSLA(svg) {
         s.zpd({zoom: true, drag: false});
         $("#videoWindow").show();
         $("#graphWindow").show();
+        svgAppended();
+        player.attachSource(urlVideo);
     });
 }

@@ -1,5 +1,7 @@
 package com.nh.db.ml.simuservice.sessionmgt.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 import com.nh.db.ml.simuservice.model.Grid;
@@ -31,5 +33,14 @@ public interface SimuService {
 	public abstract void addUserForSession(NbUsers nbUsers);
 
 	public abstract File getSvg(SessionAndSvg svgInfo);
+
+	/**
+	 * get datas for the graph 
+	 * 
+	 * @param sessionId
+	 * @return
+	 */
+	public abstract byte[] getCsv(String sessionId);
+
 
 }

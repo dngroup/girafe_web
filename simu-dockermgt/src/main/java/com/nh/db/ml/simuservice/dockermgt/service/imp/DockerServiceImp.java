@@ -129,11 +129,21 @@ public class DockerServiceImp implements DockerService {
 		.withBinds(new Bind(CliConfSingleton.folder + grid.getSessionId(), volume))
 		.withCmd("python",  "-m",  "offline.tools.plotting", "--svg", "--net")
 		.exec();
+		CreateContainerResponse container3 = dockerClient.createContainerCmd("dngroup/simuservice")
+				.withBinds(new Bind(CliConfSingleton.folder + grid.getSessionId(), volume))
+				.withCmd("chmod", "737", "/opt/simuservice/offline/results/res.svg")
+				.exec();
+		
 		
 		dockerClient.startContainerCmd(container.getId()).exec();
 		dockerClient.waitContainerCmd(container.getId()).exec();
 		dockerClient.startContainerCmd(container2.getId()).exec();
 		dockerClient.waitContainerCmd(container2.getId()).exec();
+		dockerClient.startContainerCmd(container3.getId()).exec();
+		dockerClient.waitContainerCmd(container3.getId()).exec();
+		dockerClient.removeContainerCmd(container.getId()).exec();
+		dockerClient.removeContainerCmd(container2.getId()).exec();
+		dockerClient.removeContainerCmd(container3.getId()).exec();
 	}
 
 	@Override
@@ -164,10 +174,19 @@ public class DockerServiceImp implements DockerService {
 		.withBinds(new Bind(CliConfSingleton.folder + slaInfo.getSessionId(), volume))
 		.withCmd("python",  "-m",  "offline.tools.plotting", "--svg")
 		.exec();
+		CreateContainerResponse container3 = dockerClient.createContainerCmd("dngroup/simuservice")
+				.withBinds(new Bind(CliConfSingleton.folder + slaInfo.getSessionId(), volume))
+				.withCmd("chmod", "737", "/opt/simuservice/offline/results/res.svg")
+				.exec();
 		
 		dockerClient.startContainerCmd(container.getId()).exec();
 		dockerClient.waitContainerCmd(container.getId()).exec();
 		dockerClient.startContainerCmd(container2.getId()).exec();
 		dockerClient.waitContainerCmd(container2.getId()).exec();
+		dockerClient.startContainerCmd(container3.getId()).exec();
+		dockerClient.waitContainerCmd(container3.getId()).exec();
+		dockerClient.removeContainerCmd(container.getId()).exec();
+		dockerClient.removeContainerCmd(container2.getId()).exec();
+		dockerClient.removeContainerCmd(container3.getId()).exec();
 	}
 }
