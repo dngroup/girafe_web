@@ -51,52 +51,9 @@ var config = {
     type: 'line',
     data: {
         labels: [],
-        datasets: [/*{
-            label: "Valeur0101-0102",
-            backgroundColor: "rgba(38, 185, 154, 0.31)",
-            borderColor: "rgba(38, 185, 154, 0.7)",
-            pointBorderColor: "rgba(38, 185, 154, 0.7)",
-            pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
-            pointHoverBackgroundColor: "#fff",
-            pointHoverBorderColor: "rgba(220,220,220,1)",
-            pointBorderWidth: 1,
-            data: [{
-                x: newDateString(0),
-                y: 0
-            }]
-        }, {
-            label: "Valeur0101-0103",
-            backgroundColor: "rgba(3, 88, 106, 0.3)",
-            borderColor: "rgba(3, 88, 106, 0.70)",
-            pointBorderColor: "rgba(3, 88, 106, 0.70)",
-            pointBackgroundColor: "rgba(3, 88, 106, 0.70)",
-            pointHoverBackgroundColor: "#fff",
-            pointHoverBorderColor: "rgba(151,187,205,1)",
-            pointBorderWidth: 1,
-            data: [{
-                x: newDateString(0),
-                y: 0
-            }]
-        }, {
-            label: "Valeur0102-0103",
-            backgroundColor: "rgba(100, 88, 106, 0.3)",
-            borderColor: "rgba(100, 88, 106, 0.70)",
-            pointBorderColor: "rgba(100, 88, 106, 0.70)",
-            pointBackgroundColor: "rgba(100, 88, 106, 0.70)",
-            pointHoverBackgroundColor: "#fff",
-            pointHoverBorderColor: "rgba(100,187,205,1)",
-            pointBorderWidth: 1,
-            data: [{
-                x: newDateString(0),
-                y: 0
-            }]
-        }*/],
+        datasets: [],
         options: {
             responsive: true,
-            title:{
-                display:true,
-                text:"Chart.js Time Scale"
-            },
             scales: {
                 xAxes: [{
                     type: "time",
@@ -109,14 +66,8 @@ var config = {
                         display: true,
                         labelString: 'Date'
                     }
-                }, ],
-                yAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'value'
-                    }
                 }]
-            },
+            }
         }
     }
 };
