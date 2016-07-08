@@ -10,4 +10,7 @@ public interface CliConfig {
 	@Option(shortName="f", longName = "folder", defaultToNull=true)
 	String getFolder();
 
+	@Option(shortName="v", longName = "videofolder", defaultToNull=true)
+	String getVideoFolder();
+
 }

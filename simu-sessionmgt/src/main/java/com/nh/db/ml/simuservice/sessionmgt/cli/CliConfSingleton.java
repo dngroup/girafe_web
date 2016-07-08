@@ -8,7 +8,7 @@ public class CliConfSingleton {
 		if(simudocker==null)
 			simudocker = "localhost:9001";
 		if(folder==null)
-			folder = "/home/mlacaud/datatemu/";
+			folder = "/home/dbourasseau/datatemu/";
 	}	
 	
 }

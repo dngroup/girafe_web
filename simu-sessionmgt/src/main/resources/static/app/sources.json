@@ -1,8 +1,0 @@
-{
-    "items": [
-        { "url" : "http://server5.homeb.tv:8080/MDFRAME/mdframe.mpd","name" : "Frame-based MD-DASH - 3 servers", "browsers": "cdsbi" },
-        { "url" : "http://server2.homeb.tv:8080/MDGOP/mdgop.mpd","name" : "GOP-based MD-DASH - 3 servers", "browsers": "cdsbi" },
-        { "url" : "http://server1.homeb.tv:8080/CDN/cdn.mpd","name" : "DASH from 1 Server", "browsers": "cdsbi" }
-
-    ]
-}

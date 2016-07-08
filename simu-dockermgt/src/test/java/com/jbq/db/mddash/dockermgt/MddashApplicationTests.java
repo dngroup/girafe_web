@@ -11,10 +11,10 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.nh.db.ml.simuservice.dockermgt.MddashApplication;
+import com.nh.db.ml.simuservice.dockermgt.SimuApplication;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = MddashApplication.class)
+@SpringApplicationConfiguration(classes = SimuApplication.class)
 @WebAppConfiguration
 public class MddashApplicationTests {
 

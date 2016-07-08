@@ -1,14 +1,14 @@
-var urlSLA="http://localhost:9000/api/simu/sla",
-    urlUsers="http://localhost:9000/api/simu/users",
-    slaDelay=10,
-    vcdnRatio=10,
-    bandwidthTotal=10,
-    nbUser=10,
+var urlSLA = "http://localhost:9000/api/simu/sla",
+    urlUsers = "http://localhost:9000/api/simu/users",
+    slaDelay = 10,
+    vcdnRatio = 0.35,
+    bandwidthTotal = 800000000,
+    nbUser = 10,
     clients = [],
     cdns = [],
     listToModify = "clients";
 
-function setListToModify(value){
+function setListToModify(value) {
     listToModify = value;
 }
 
@@ -20,7 +20,7 @@ $("#sla_delay").ionRangeSlider({
     type: "single",
     min: 0,
     max: 100,
-    from: 10,
+    from: slaDelay,
     keyboard: true,
     onFinish: function (data) {
         slaDelay = data.from;
@@ -30,7 +30,7 @@ $("#vcdn_ratio").ionRangeSlider({
     type: "single",
     min: 0,
     max: 1,
-    from: 0.30,
+    from: vcdnRatio,
     step: 0.01,
     keyboard: true,
     onFinish: function (data) {
@@ -41,7 +41,7 @@ $("#bandwidth").ionRangeSlider({
     type: "single",
     min: 0,
     max: 1000000000,
-    from: 10000000,
+    from: bandwidthTotal,
     step: 10000,
     keyboard: true,
     onFinish: function (data) {
@@ -52,7 +52,7 @@ $("#nbUser").ionRangeSlider({
     type: "single",
     min: 0,
     max: 100,
-    from: 10,
+    from: nbUser,
     keyboard: true,
     onFinish: function (data) {
         nbUser = data.from;
@@ -64,43 +64,43 @@ $("#nbUser").ionRangeSlider({
 /////////////////////////////////////////////////
 function updateClient() {
     var output = "";
-    for(i=0;i<clients.length;i++){
-        output += clients[i] + " ";
+    for (i = 0; i < clients.length; i++) {
+        output += '<span class="badge bg-green">' + clients[i] + "</span> ";
     }
     document.getElementById('react-content-client').innerHTML = output;
 }
 
 function updateCDN() {
     var output = "";
-    for(i=0;i<cdns.length;i++){
-        output += cdns[i] + " ";
+    for (i = 0; i < cdns.length; i++) {
+        output += '<span class="badge bg-red">' + cdns[i] + "</span> ";
     }
     document.getElementById('react-content-cdn').innerHTML = output;
 }
 
-function addClient(number){
-    if(clients.indexOf(number) === -1) {
+function addClient(number) {
+    if (clients.indexOf(number) === -1) {
         clients.push(number);
     }
     updateClient();
 }
 
-function addCDN(number){
-    if(cdns.indexOf(number) === -1) {
+function addCDN(number) {
+    if (cdns.indexOf(number) === -1) {
         cdns.push(number);
     }
     updateCDN()
 }
 
-function delClient(number){
-    if(clients.indexOf(number) !== -1 ) {
+function delClient(number) {
+    if (clients.indexOf(number) !== -1) {
         clients.splice(clients.indexOf(number), 1);
     }
     updateClient();
 }
 
-function delCDN(number){
-    if(cdns.indexOf(number) !== -1) {
+function delCDN(number) {
+    if (cdns.indexOf(number) !== -1) {
         cdns.splice(cdns.indexOf(number), 1);
     }
     updateCDN()
@@ -109,7 +109,7 @@ function delCDN(number){
 ///////////////////////////////////////////////////
 // Submit
 ///////////////////////////////////////////////////
-function submitSLA(){
+function submitSLA() {
     var req = new XMLHttpRequest(),
         data = {};
 
@@ -119,7 +119,8 @@ function submitSLA(){
     data.vcdnratio = vcdnRatio
     data.bandwidth = bandwidthTotal;
     data.sessionId = sessionInfo.sessionId
-
+    data.vCDN = document.getElementById("vCDN").value;
+    data.VMG = document.getElementById("VMG").value;
     function onProgress(e) {
 
     }
@@ -129,11 +130,12 @@ function submitSLA(){
     }
 
     function onLoad(e) {
-        if(req.status >= 200 && req.status <= 299) {
+        if (req.status >= 200 && req.status <= 299) {
             ctrlSLA();
-            
+
         }
     }
+
     req.onprogress = onProgress;
     req.onload = onLoad;
     req.onerror = onError;
@@ -142,7 +144,7 @@ function submitSLA(){
     req.send(JSON.stringify(data));
 }
 
-function submitUsers(){
+function submitUsers() {
     var req = new XMLHttpRequest(),
         data = {};
 
@@ -158,10 +160,11 @@ function submitUsers(){
     }
 
     function onLoad(e) {
-        if(req.status >= 200 && req.status <= 299) {
+        if (req.status >= 200 && req.status <= 299) {
 
         }
     }
+
     req.onprogress = onProgress;
     req.onload = onLoad;
     req.onerror = onError;

@@ -1,6 +1,6 @@
 var urlGetListTopo = "",
     urlSendSelectedTopo = "",
-    urlSendGrid = "http://localhost:9000/api/simu/grid",
+    urlSendGrid = "/api/simu/grid",
     sessionInfo = "";
 
 ////////////////////////////////////////
@@ -27,6 +27,7 @@ function getList(url) {
                 //Create and append select list
                 var selectList = document.createElement("select");
                 selectList.id = "selectTopo";
+                selectList.classList="form-control"
                 myDiv.appendChild(selectList);
 
                 //Create and append the options

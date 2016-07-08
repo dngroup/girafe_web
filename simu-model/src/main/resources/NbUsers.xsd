@@ -2,8 +2,9 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:com:nh:db:ml:simuservice:model">	
 	<xs:element name="NbUsers">
 		<xs:complexType>
-			<xs:attribute name="sessionId" type="xs:string"/>
-			<xs:attribute name="nbusers" type="xs:int"/>
+			<xs:attribute name="sessionId" type="xs:string" />
+			<xs:attribute name="nbusers" type="xs:int" />
+			<xs:attribute name="dockerId" type="xs:int" />
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

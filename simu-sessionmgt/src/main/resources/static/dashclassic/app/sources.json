@@ -1,6 +1,0 @@
-{
-    "items": [
-        { "url" : "http://server1.homeb.tv:8080/CDN/cdn.mpd","name" : "Single Resolution Multi-Rate 1", "browsers": "cdsbi" }
-
-    ]
-}

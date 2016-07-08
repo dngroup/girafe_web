@@ -10,6 +10,8 @@ public class CliConfArgs {
 
 			CliConfSingleton.docker_daemon = cliconf.getDockerDaemonAddr();
 			CliConfSingleton.folder = cliconf.getFolder();
+			CliConfSingleton.videoFolder = cliconf.getVideoFolder();
+
 			CliConfSingleton.defaultValue();
 	}
 	

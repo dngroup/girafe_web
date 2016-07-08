@@ -42,4 +42,19 @@ public interface DockerService {
 
 	public abstract void createSvgFromSla(SlaInfo slaInfo);
 
+
+	/**
+	 * Create a streamer video with a tc
+	 * @param bitrate
+	 * @return
+	 */
+	public String createVideoServer(Integer bitrate);
+	
+	/**
+	 * Create a streamer video
+	 * @param bitrate
+	 * @return
+	 */
+	public String createVideoServer();
+
 }

@@ -49,141 +49,208 @@
 
             <div class="clearfix"></div>
             <div class="row">
-            <div class="col-md-8 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>Topo viewer </h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">Settings 1</a>
-                                    </li>
-                                    <li><a href="#">Settings 2</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        <svg id="svg" height="800" width="100%">
-                            <!--<g transform="scale(1)">-->
-                            <!--<image x="0" y="0" height="100%" width="100%"  xlink:href="./input/res2.svg"/>-->
-                            <!--</g>-->
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>Form load Topo </h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">Settings 1</a>
-                                    </li>
-                                    <li><a href="#">Settings 2</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        <br>
-                        <form id="topo" name="topo" data-parsley-validate=""
-                              class="form-horizontal form-label-left" novalidate>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">List of existing topo: </label>
-                                <div id="divSelectTopo"></div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Grid: </label>
-                                <select id="grid1">
-                                    <option value="2">2</option>
-                                    <option value="3" selected="selected">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                </select> x <select id="grid2">
-                                    <option value="2">2</option>
-                                    <option value="3" selected="selected">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                </select>
-                            </div>
-
-
-                            <div class="ln_solid"></div>
-                            <div class="form-group">
-                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                    <button type="button" class="btn btn-success" onClick="ctrlTopo(topo)">Submit topo</button>
-                                    <button type="button" class="btn btn-success" onClick="sendGrid()">Submit grid
-                                    </button>
-                                </div>
-                            </div>
-
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!--<div class="clearfix"></div>-->
-            <div class="col-md-4 col-sm-12 col-xs-12" id="SLAwindow" style="display: none;">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>SLA</h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">Settings 1</a>
-                                    </li>
-                                    <li><a href="#">Settings 2</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        <form>
-                            <input type="radio" name="listToModify" value="clients" onClick="setListToModify('clients')" checked> Clients
-                            <input type="radio" name="listToModify" value="cdns" onClick="setListToModify('cdns')"> CDNs
-                        </form>
-                        <div class="row">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Clients: </label>
-                            <div id="react-content-client"></div>
+                <div class="col-md-8 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Topo viewer </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                       aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Settings 1</a>
+                                        </li>
+                                        <li><a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
                         </div>
-                        <div class="row">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">CDNs: </label>
-                            <div id="react-content-cdn"></div>
+                        <div class="x_content">
+                            <svg id="svg" height="800" width="100%">
+                                <!--<g transform="scale(1)">-->
+                                <!--<image x="0" y="0" height="100%" width="100%"  xlink:href="./input/res2.svg"/>-->
+                                <!--</g>-->
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Form load Topo </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                       aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Settings 1</a>
+                                        </li>
+                                        <li><a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <br>
+                            <form id="topo" name="topo" data-parsley-validate=""
+                                  class="form-horizontal form-label-left" novalidate>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">List of existing
+                                        topo: </label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12" id="divSelectTopo"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Grid: </label>
+                                    <!--<div class="col-md-9 col-sm-9 col-xs-12">-->
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <select class="form-control " id="grid1">
+                                            <option value="2">2</option>
+                                            <option value="3" selected="selected">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                        </select>
+                                    </div>
+                                    <label class="control-label col-xs-1 text-center">X</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <select class="form-control" id="grid2">
+                                            <option value="2">2</option>
+                                            <option value="3" selected="selected">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                        </select>
+                                    </div>
+                                    <!--</div>-->
+                                </div>
+
+
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                        <button type="button" class="btn btn-success" onClick="ctrlTopo(topo)">Submit
+                                            topo
+                                        </button>
+                                        <button type="button" class="btn btn-success" onClick="sendGrid()">Submit grid
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="clearfix"></div>-->
+                <div class="col-md-4 col-sm-12 col-xs-12" id="SLAwindow"> <!--style="display: none;" -->
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>SLA</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                       aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Settings 1</a>
+                                        </li>
+                                        <li><a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
                         </div>
                         <form id="SLA" name="SLA" data-parsley-validate="" class="form-horizontal form-label-left"
                               novalidate="">
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Put
+                                </label>
+                                <div class=" col-md-9 col-sm-9 col-xs-12">
+
+                                    <div class="btn-group">
+                                        <button class=" btn btn-success" type="button" name="listToModify"
+                                                value="clients"
+                                                onClick="setListToModify('clients')" checked>
+
+                                            <i class="fa fa-users"></i>Clients
+                                        </button>
+                                        <button class=" btn btn-danger" type="button" name="listToModify"
+                                                value="cdns" onClick="setListToModify('cdns')">
+
+                                            <i class="fa fa-save"></i>
+                                            CDNs
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="row">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Clients: </label>
+                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                    <div id="react-content-client"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">CDNs: </label>
+                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                    <div id="react-content-cdn"></div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Number of VMG: </label>
+                                <!--<div class="col-md-9 col-sm-9 col-xs-12">-->
+                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                    <select class="form-control " id="VMG">
+                                        <option value="1" selected="selected">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3" >3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Number of vCDN: </label>
+                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                    <select class="form-control" id="vCDN">
+                                        <option value="1" selected="selected">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                    </select>
+                                </div>
+                                <!--</div>-->
+                            </div>
+
 
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Bandwidth </label>
@@ -223,134 +290,135 @@
 
                 </div>
             </div>
-            </div>
+        </div>
 
-            <div class="col-md-9 col-sm-12 col-xs-12" id="userswindow" style="display: none;">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>Users</h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">Settings 1</a>
-                                    </li>
-                                    <li><a href="#">Settings 2</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        <form id="user" data-parsley-validate="" class="form-horizontal form-label-left"
-                              novalidate="">
+        <div class="col-md-9 col-sm-12 col-xs-12" id="userswindow" style="display: none;">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Users</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Settings 1</a>
+                                </li>
+                                <li><a href="#">Settings 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <form id="user" data-parsley-validate="" class="form-horizontal form-label-left"
+                          novalidate="">
 
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Number of User</label>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Number of User</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input type="text" id="nbUser" name="nbUser" value=""/>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <button type="button" class="btn btn-primary" onClick="submitUsers()"><i class="fa fa-repeat"></i>
-                                        </button>
-                                    </div>
+                                    <input type="text" id="nbUser" name="nbUser" value=""/>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <button type="button" class="btn btn-primary" onClick="submitUsers()"><i
+                                            class="fa fa-repeat"></i>
+                                    </button>
                                 </div>
                             </div>
-
-                        </form>
-
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="clearfix"></div>
-            <div class="col-md-6 col-sm-6 col-xs-6" id="videoWindow" style="display: none;">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>Video viewer
-                        </h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">Settings 1</a>
-                                    </li>
-                                    <li><a href="#">Settings 2</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        <body>
-                        <div>
-                            <video id="videoPlayer" preload="none" autoplay="false" controls></video>
                         </div>
-                        </body>
-                    </div>
+
+                    </form>
+
                 </div>
+
             </div>
-
-
-            <div class="col-md-6 col-sm-6 col-xs-6" id="graphWindow" style="display: none;">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>Graph viewer </h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">Settings 1</a>
-                                    </li>
-                                    <li><a href="#">Settings 2</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-
-                    <div class="x_content">
-                        <iframe class="chartjs-hidden-iframe"
-                                style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;">
-                        </iframe>
-                        <canvas id="lineChart" style="width: 737px; height: 368px;" width="737" height="368">
-                        </canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
         </div>
-    </div>
-    <!-- /page content -->
 
-    <!-- footer content -->
-    <footer>
-        <div class="pull-right">
-            <a href="https://giraf.com">G.I.R.A.F.</a>
+        <div class="clearfix"></div>
+        <div class="col-md-6 col-sm-6 col-xs-6" id="videoWindow" style="display: none;">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Video viewer
+                    </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Settings 1</a>
+                                </li>
+                                <li><a href="#">Settings 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <body>
+                    <div>
+                        <video id="videoPlayer" preload="none" autoplay="false" controls></video>
+                    </div>
+                    </body>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6 col-sm-6 col-xs-6" id="graphWindow" style="display: none;">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Graph viewer </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Settings 1</a>
+                                </li>
+                                <li><a href="#">Settings 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                    <iframe class="chartjs-hidden-iframe"
+                            style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;">
+                    </iframe>
+                    <canvas id="lineChart" style="width: 737px; height: 368px;" width="737" height="368">
+                    </canvas>
+                </div>
+            </div>
         </div>
         <div class="clearfix"></div>
-    </footer>
-    <!-- /footer content -->
+    </div>
+</div>
+<!-- /page content -->
+
+<!-- footer content -->
+<footer>
+    <div class="pull-right">
+        <a href="https://giraf.com">G.I.R.A.F.</a>
+    </div>
+    <div class="clearfix"></div>
+</footer>
+<!-- /footer content -->
 </div>
 
 <!-- jQuery -->
@@ -389,7 +457,6 @@
 
 <script src="./app/js/data.js"></script>
 <script src="./app/js/loadTopo.js"></script>
-
 
 
 </body>

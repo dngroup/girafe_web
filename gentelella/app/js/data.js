@@ -1,4 +1,4 @@
-var urlData = "http://localhost:9000/api/simu/data/";
+var urlData = "/api/simu/data/";
 var startDate;
 Chart.defaults.global.legend = {
     enabled: false
