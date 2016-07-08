@@ -156,6 +156,13 @@ public class DockerServiceImp implements DockerService {
 		list.add("offline.tools.dstep");
 		list.add("--grid");
 		list.add(slaInfo.getGrid());
+
+		list.add("--vhg");
+		list.add((slaInfo.getVmg()));
+
+		list.add("--vcdn");
+		list.add((slaInfo.getVcdn()));
+		
 		list.add("--sla_delay");
 		list.add(Integer.toString(slaInfo.getSladelay()));
 		list.add("--sourcebw");

@@ -119,8 +119,8 @@ function submitSLA() {
     data.vcdnratio = vcdnRatio
     data.bandwidth = bandwidthTotal;
     data.sessionId = sessionInfo.sessionId
-    data.vCDN = document.getElementById("vCDN").value;
-    data.VMG = document.getElementById("VMG").value;
+    data.vcdn = document.getElementById("vcdn").value;
+    data.vmg = document.getElementById("vmg").value;
     function onProgress(e) {
 
     }

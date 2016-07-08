@@ -4,15 +4,17 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="clients" type="xs:string"
-					maxOccurs="unbounded" minOccurs="0"/>
+					maxOccurs="unbounded" minOccurs="0" />
 				<xs:element name="cdns" type="xs:string"
-					maxOccurs="unbounded" minOccurs="0"/>
+					maxOccurs="unbounded" minOccurs="0" />
 			</xs:sequence>
-			<xs:attribute name="sladelay" type="xs:int"/>
-			<xs:attribute name="vcdnratio" type="xs:double"/>
-			<xs:attribute name="bandwidth" type="xs:long"/>
-			<xs:attribute name="grid" type="xs:string"/>
-			<xs:attribute name="sessionId" type="xs:string"/>
+			<xs:attribute name="sladelay" type="xs:int" />
+			<xs:attribute name="vcdnratio" type="xs:double" />
+			<xs:attribute name="bandwidth" type="xs:long" />
+			<xs:attribute name="grid" type="xs:string" />
+			<xs:attribute name="sessionId" type="xs:string" />
+			<xs:attribute name="vmg" type="xs:string"></xs:attribute>
+			<xs:attribute name="vcdn" type="xs:string"></xs:attribute>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
