@@ -1,11 +1,13 @@
 dockermgt:
-  image: dngroup/simu-dockermgt
+  build: ../dockermgt
+#  image: dngroup/simu-dockermgt
   ports:
    - "9001:9001"
   volumes:
    - /tmp/datatemu/:/tmp/datatemu/
 sessionmgt:
-  image: dngroup/simu-sessionmgt
+  build: ../session
+#  image: dngroup/simu-sessionmgt
   ports:
    - "9000:9000"
   links:
@@ -20,7 +22,7 @@ server:
    - NET_ADMIN
   volumes:
    - ../input:/usr/local/apache2/htdocs/
-server:
+apache:
   image: dngroup/simu-serverapache
   ports:
    - "9003:80"

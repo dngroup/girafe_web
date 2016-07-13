@@ -36,6 +36,7 @@ public class DockerCTLEndpoints {
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("docker/grid")
 	public Response createGridSvg(Grid grid) {
+		LOGGER.debug(grid.getSessionId());
         dockerService.createSvgFromGrid(grid);
 		return Response.accepted().build();
 	}

@@ -17,6 +17,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,7 +34,8 @@ import com.nh.db.ml.simuservice.sessionmgt.service.SimuService;
 
 @Service
 public class SimuServiceImp implements SimuService {
-
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(SimuServiceImp.class);
 	@Inject
 	SessionSimuRepository sessionSimuRepository;
 
@@ -53,7 +56,9 @@ public class SimuServiceImp implements SimuService {
 		}
 		sessionSimuRepository.save(session);
 		WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/docker/grid");
+		LOGGER.debug(target.getUri().toString());
 		Response response = target.request().post(Entity.entity(grid, MediaType.APPLICATION_XML));
+
 		return sessionAndSvg;
 	}
 

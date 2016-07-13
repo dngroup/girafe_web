@@ -4,4 +4,4 @@ FROM java:8
 MAINTAINER David Bourasseau <dbourasseau@viotech.net>
 EXPOSE 9000
 ADD session.jar session.jar
-CMD java -jar session.jar -f /root/datatemu -d sessionmgt:9001
+CMD java -jar session.jar -f /tmp/datatemu/ -d dockermgt:9001
