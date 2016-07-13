@@ -1,20 +1,23 @@
 <?xml version="1.0"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:com:nh:db:ml:simuservice:model">	
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="urn:com:nh:db:ml:simuservice:model">
 	<xs:element name="SlaInfo">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="clients" type="xs:string"
-					maxOccurs="unbounded" minOccurs="0" />
-				<xs:element name="cdns" type="xs:string"
-					maxOccurs="unbounded" minOccurs="0" />
+				<xs:element name="clients" type="xs:string" maxOccurs="unbounded"
+					minOccurs="0" />
+				<xs:element name="cdns" type="xs:string" maxOccurs="unbounded"
+					minOccurs="0" />
+				<xs:element name="sladelay" type="xs:int" />
+				<xs:element name="vcdnratio" type="xs:double" />
+				<xs:element name="bandwidth" type="xs:long" />
+				<xs:element name="grid" type="xs:string" />
+				<xs:element name="sessionId" type="xs:string" />
+				<xs:element name="vmg" type="xs:string"></xs:element>
+				<xs:element name="vcdn" type="xs:string"></xs:element>
+				<xs:element name="costs" type="xs:double"></xs:element>
 			</xs:sequence>
-			<xs:attribute name="sladelay" type="xs:int" />
-			<xs:attribute name="vcdnratio" type="xs:double" />
-			<xs:attribute name="bandwidth" type="xs:long" />
-			<xs:attribute name="grid" type="xs:string" />
-			<xs:attribute name="sessionId" type="xs:string" />
-			<xs:attribute name="vmg" type="xs:string"></xs:attribute>
-			<xs:attribute name="vcdn" type="xs:string"></xs:attribute>
+
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

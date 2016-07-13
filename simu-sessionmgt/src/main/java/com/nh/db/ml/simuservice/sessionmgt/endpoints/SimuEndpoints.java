@@ -14,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.ws.WebServiceException;
 
 import org.springframework.stereotype.Component;
 
@@ -23,16 +24,17 @@ import com.nh.db.ml.simuservice.model.SessionAndSvg;
 import com.nh.db.ml.simuservice.model.SlaInfo;
 import com.nh.db.ml.simuservice.sessionmgt.cli.CliConfSingleton;
 import com.nh.db.ml.simuservice.sessionmgt.service.SimuService;
+import com.nh.db.ml.simuservice.sessionmgt.service.imp.SimulationFailedException;
 
 @Component
 @Path("simu")
 public class SimuEndpoints {
 	@Inject
 	SimuService simuService;
-	
+
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("grid")
 	public Response postGrid(Grid grid) {
 		SessionAndSvg sessionAndSvg = simuService.createTopoFromGrid(grid);
@@ -40,23 +42,48 @@ public class SimuEndpoints {
 	}
 
 	@POST
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("topo")
+	public Response postFromFile() {
+		SessionAndSvg sessionAndSvg = simuService.createTopoDefault();
+		return Response.accepted(sessionAndSvg).build();
+	}
+
+	@POST
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("sla")
-	public Response postSla(SlaInfo slaInfo) {
-		simuService.computeTopoFromSla(slaInfo);
-		return Response.noContent().build();
+	public SlaInfo postSla(SlaInfo slaInfo) {
+		
+		try {
+			return simuService.computeTopoFromSla(slaInfo);
+		} catch (SimulationFailedException e) {
+			throw new WebServiceException("simulation failed to complete");
+		}
 	}
 	
 	@POST
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON})
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Path("LCsla")
+	public SlaInfo postLowCostSla(SlaInfo slaInfo) {
+		
+		try {
+			return simuService.computeLowCostSla(slaInfo);
+		} catch (SimulationFailedException e) {
+			throw new WebServiceException("simulation failed to complete");
+		}
+	}
+
+	@POST
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("users")
 	public Response postUsers(NbUsers nbUsers) {
 		simuService.addUserForSession(nbUsers);
 		return Response.noContent().build();
 	}
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_SVG_XML)
 	@Path("svg/{sessionid}")
@@ -64,7 +91,7 @@ public class SimuEndpoints {
 		File file = new File(CliConfSingleton.folder + sessionId + "/" + "res.svg");
 		return Response.ok(file, MediaType.APPLICATION_SVG_XML).build();
 	}
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@Path("data/{sessionid}")

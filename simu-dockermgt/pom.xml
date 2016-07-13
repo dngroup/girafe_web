@@ -128,7 +128,7 @@
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>0.3.6</version>
 				<configuration>
-					<imageName>dngroup/dockermgt</imageName>
+					<imageName>dngroup/simu-dockermgt</imageName>
 					<dockerDirectory>${project.build.directory}/../../docker/dockermgt</dockerDirectory>
 				</configuration>
 				<executions>

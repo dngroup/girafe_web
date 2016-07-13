@@ -1,13 +1,12 @@
 package com.nh.db.ml.simuservice.sessionmgt.service;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 import com.nh.db.ml.simuservice.model.Grid;
 import com.nh.db.ml.simuservice.model.NbUsers;
 import com.nh.db.ml.simuservice.model.SessionAndSvg;
 import com.nh.db.ml.simuservice.model.SlaInfo;
+import com.nh.db.ml.simuservice.sessionmgt.service.imp.SimulationFailedException;
 
 public interface SimuService {
 	
@@ -19,11 +18,28 @@ public interface SimuService {
 	public abstract SessionAndSvg createTopoFromGrid(Grid grid);
 	
 	/**
+	 * Create the topology svg on which the user can select the SLA informations
+	 * 
+	 * @param grid
+	 */
+	public abstract SessionAndSvg createTopoDefault();
+	
+	/**
 	 * Compute the topo for the given SLA
 	 * 
 	 * @param slaInfo
+	 * @return 
+	 * @throws SimulationFailedException 
 	 */
-	public abstract void computeTopoFromSla(SlaInfo slaInfo);
+	public abstract SlaInfo computeTopoFromSla(SlaInfo slaInfo) throws SimulationFailedException;
+
+	/**
+	 * give the best cost for a SLA
+	 * @param slaInfo
+	 * @return
+	 * @throws SimulationFailedException 
+	 */
+	public abstract SlaInfo computeLowCostSla(SlaInfo slaInfo) throws SimulationFailedException;
 
 	/**
 	 * Change the number of users
@@ -41,6 +57,8 @@ public interface SimuService {
 	 * @return
 	 */
 	public abstract byte[] getCsv(String sessionId);
+
+//	public abstract SlaInfo getCostFonction(SlaInfo slaInfo) throws SimulationFailedException;
 
 
 }

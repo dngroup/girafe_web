@@ -20,6 +20,15 @@
     <link href="./vendors/ion.rangeSlider/css/ion.rangeSlider.css" rel="stylesheet">
     <link href="./vendors/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css" rel="stylesheet">
 
+    <!--<link href="./vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">-->
+    <!--<link href="./vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">-->
+
+    <link href="./vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="./vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="./vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="./vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="./vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+
     <!-- Custom Theme Style -->
     <link href="./app/css/custom.css" rel="stylesheet">
 
@@ -46,253 +55,282 @@
 
                 </div>
             </div>
-
+            <!------------------------ Topo viewer ------------------------------------->
             <div class="clearfix"></div>
-            <div class="row">
-                <div class="col-md-8 col-sm-12 col-xs-12">
-                    <div class="x_panel">
-                        <div class="x_title">
-                            <h2>Topo viewer </h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                       aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Settings 1</a>
-                                        </li>
-                                        <li><a href="#">Settings 2</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content">
-                            <svg id="svg" height="800" width="100%">
-                                <!--<g transform="scale(1)">-->
-                                <!--<image x="0" y="0" height="100%" width="100%"  xlink:href="./input/res2.svg"/>-->
-                                <!--</g>-->
-                            </svg>
-                        </div>
+
+            <div class="col-md-8 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Topo viewer </h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Settings 1</a>
+                                    </li>
+                                    <li><a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <svg id="svg" height="800" width="100%">
+                            <!--<g transform="scale(1)">-->
+                            <!--<image x="0" y="0" height="100%" width="100%"  xlink:href="./input/res2.svg"/>-->
+                            <!--</g>-->
+                        </svg>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-12 col-xs-12">
-                    <div class="x_panel">
-                        <div class="x_title">
-                            <h2>Form load Topo </h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                       aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Settings 1</a>
-                                        </li>
-                                        <li><a href="#">Settings 2</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content">
-                            <br>
-                            <form id="topo" name="topo" data-parsley-validate=""
-                                  class="form-horizontal form-label-left" novalidate>
-
-                                <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">List of existing
-                                        topo: </label>
-                                    <div class="col-md-9 col-sm-9 col-xs-12" id="divSelectTopo"></div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Grid: </label>
-                                    <!--<div class="col-md-9 col-sm-9 col-xs-12">-->
-                                    <div class="col-md-4 col-sm-4 col-xs-4">
-                                        <select class="form-control " id="grid1">
-                                            <option value="2">2</option>
-                                            <option value="3" selected="selected">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                        </select>
-                                    </div>
-                                    <label class="control-label col-xs-1 text-center">X</label>
-                                    <div class="col-md-4 col-sm-4 col-xs-4">
-                                        <select class="form-control" id="grid2">
-                                            <option value="2">2</option>
-                                            <option value="3" selected="selected">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                        </select>
-                                    </div>
-                                    <!--</div>-->
-                                </div>
-
-
-                                <div class="ln_solid"></div>
-                                <div class="form-group">
-                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                        <button type="button" class="btn btn-success" onClick="ctrlTopo(topo)">Submit
-                                            topo
-                                        </button>
-                                        <button type="button" class="btn btn-success" onClick="sendGrid()">Submit grid
-                                        </button>
-                                    </div>
-                                </div>
-
-                            </form>
-                        </div>
+            </div>
+            <!------------------------ Load Topo  ------------------------------------->
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Form load Topo </h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Settings 1</a>
+                                    </li>
+                                    <li><a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
                     </div>
-                </div>
-
-                <!--<div class="clearfix"></div>-->
-                <div class="col-md-4 col-sm-12 col-xs-12" id="SLAwindow"> <!--style="display: none;" -->
-                    <div class="x_panel">
-                        <div class="x_title">
-                            <h2>SLA</h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                       aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Settings 1</a>
-                                        </li>
-                                        <li><a href="#">Settings 2</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
-                        <form id="SLA" name="SLA" data-parsley-validate="" class="form-horizontal form-label-left"
-                              novalidate="">
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Put
-                                </label>
-                                <div class=" col-md-9 col-sm-9 col-xs-12">
-
-                                    <div class="btn-group">
-                                        <button class=" btn btn-success" type="button" name="listToModify"
-                                                value="clients"
-                                                onClick="setListToModify('clients')" checked>
-
-                                            <i class="fa fa-users"></i>Clients
-                                        </button>
-                                        <button class=" btn btn-danger" type="button" name="listToModify"
-                                                value="cdns" onClick="setListToModify('cdns')">
-
-                                            <i class="fa fa-save"></i>
-                                            CDNs
-                                        </button>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                            <div class="row">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Clients: </label>
-                                <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <div id="react-content-client"></div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">CDNs: </label>
-                                <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <div id="react-content-cdn"></div>
-                                </div>
-                            </div>
-
+                    <div class="x_content">
+                        <br>
+                        <form id="topo" name="topo" data-parsley-validate=""
+                              class="form-horizontal form-label-left" novalidate>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Number of VMG: </label>
-                                <!--<div class="col-md-9 col-sm-9 col-xs-12">-->
-                                <div class="col-md-9 col-sm-9 col-xs-9">
-                                    <select class="form-control " id="vmg">
-                                        <option value="1" selected="selected">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Number of vCDN: </label>
-                                <div class="col-md-9 col-sm-9 col-xs-9">
-                                    <select class="form-control" id="vcdn">
-                                        <option value="1" selected="selected">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                    </select>
-                                </div>
-                                <!--</div>-->
-                            </div>
-
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Bandwidth </label>
-                                <div class="col-md-9 col-sm-9 col-xs-12">
-
-                                    <input type="text" id="bandwidth" name="bandwidth" value=""/>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Existing topo: </label>
+                                <div class="col-md-6 col-sm-6 col-xs-9" id="divSelectTopo">
 
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">vCDN Ratio (%)
-                                </label>
-                                <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <input type="text" id="vcdn_ratio" name="ucd_ratio" value=""/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">SLA Delay</label>
-                                <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <input type="text" id="sla_delay" name="sla_delay" value=""/>
-                                </div>
-                            </div>
-
-
-                            <div class="ln_solid"></div>
-                            <div class="form-group">
-                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                                    <button type="submit" class="btn btn-danger">Cancel</button>
-                                    <button type="button" class="btn btn-success" onClick="submitSLA()">Submit
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    <button type="button" class="btn btn-success" onClick="sendTopo(topo)">Submit
+                                        topo
                                     </button>
                                 </div>
                             </div>
 
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Grid: </label>
+                                <div class="col-md-2 col-sm-2 col-xs-2">
+                                    <select class="form-control " id="grid1">
+                                        <option value="2">2</option>
+                                        <option value="3" selected="selected">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1 col-sm-1 col-xs-1 ">
+                                    <span class="glyphicon glyphicon-remove" style="font-size: 24px;"></span>
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-2">
+                                    <select class="form-control" id="grid2">
+                                        <option value="2">2</option>
+                                        <option value="3" selected="selected">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1 col-sm-1 col-xs-1 "></div>
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    <button type="button" class="btn btn-success" onClick="sendGrid()">Submit grid
+
+                                    </button>
+                                </div>
+                            </div>
                         </form>
-
                     </div>
-
                 </div>
             </div>
 
+            <!------------------------ SLA ------------------------------------->
+            <div class="col-md-4 col-sm-12 col-xs-12" id="SLAwindow"> <!--style="display: none;" -->
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>SLA</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Settings 1</a>
+                                    </li>
+                                    <li><a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <form id="SLA" name="SLA" data-parsley-validate="" class="form-horizontal form-label-left"
+                          novalidate="">
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Put
+                            </label>
+                            <div class=" col-md-9 col-sm-9 col-xs-12">
 
-            <div class="col-md-9 col-sm-12 col-xs-12" id="userswindow" style="display: none;">
+                                <div class="btn-group">
+                                    <button class=" btn btn-success" type="button" name="listToModify"
+                                            value="clients"
+                                            onClick="setListToModify('clients')" checked>
+
+                                        <i class="fa fa-users"></i>Clients
+                                    </button>
+                                    <button class=" btn btn-danger" type="button" name="listToModify"
+                                            value="cdns" onClick="setListToModify('cdns')">
+
+                                        <i class="fa fa-save"></i>
+                                        CDNs
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Clients: </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <div id="react-content-client"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">CDNs: </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <div id="react-content-cdn"></div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Number of VMG: </label>
+                            <!--<div class="col-md-9 col-sm-9 col-xs-12">-->
+                            <div class="col-md-9 col-sm-9 col-xs-9">
+                                <select class="form-control " id="vmg">
+                                    <option value="1" selected="selected">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Number of vCDN: </label>
+                            <div class="col-md-9 col-sm-9 col-xs-9">
+                                <select class="form-control" id="vcdn">
+                                    <option value="1" selected="selected">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                </select>
+                            </div>
+                            <!--</div>-->
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Bandwidth Per User </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+
+                                <input type="text" id="bandwidthPerUser" name="bandwidthPerUser" value=""/>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Number of Users </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+
+                                <input type="text" id="nbUsersSla" name="nbUsersSla" value=""/>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">vCDN Ratio (%)
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" id="vcdn_ratio" name="ucd_ratio" value=""/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">SLA Delay</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" id="sla_delay" name="sla_delay" value=""/>
+                            </div>
+                        </div>
+
+
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3">
+                                <!--<button type="submit" class="btn btn-danger">Cancel</button>-->
+                                <button id="sumbitsla" type="button" class="btn btn-success" onClick="submitSLA()">Submit
+                                </button>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3">
+                                <!--<button type="submit" class="btn btn-danger">Cancel</button>-->
+                                <button id="sumbitosla" type="button" class="btn btn-info" onClick="optimalSLA()">Optimal solution
+
+                                </button>
+                            </div>
+                        </div>
+
+
+                    </form>
+                    <div class="ln_solid"></div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                        <table class="table table-striped table-bordered" id="myTable" name="myTable">
+                            <!--<thead>-->
+                            <!--<tr>-->
+                            <!--<th>Id</th>-->
+                            <!--<th>NB VMG</th>-->
+                            <!--<th>Nb vCDN</th>-->
+                            <!--<th>Cost</th>-->
+                            <!--</tr>-->
+                            <!--</thead>-->
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-sm-12 col-xs-12" id="userswindow" style="display: none;">
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Users</h2>
@@ -319,7 +357,7 @@
                               novalidate="">
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Number of User</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Concurrent User % SLA</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <input type="text" id="nbUser" name="nbUser" value=""/>
@@ -338,9 +376,9 @@
 
                 </div>
             </div>
-
+            <!----------------------------Video player---------------------------->
             <div class="clearfix"></div>
-            <div class="col-md-6 col-sm-6 col-xs-6" id="videoWindow" style="display: none;">
+            <div class="col-md-4 col-sm-4 col-xs-4" id="videoHDWindow" style="display: none;">
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Video viewer
@@ -366,18 +404,18 @@
                     <div class="x_content">
                         <body>
                         <div>
-                            <video id="videoPlayer" preload="none" autoplay="false" controls></video>
+                            <video id="videoPlayerHD" preload="none" autoplay="false" controls loop></video>
                         </div>
                         </body>
                     </div>
                 </div>
             </div>
 
-
-            <div class="col-md-6 col-sm-6 col-xs-6" id="graphWindow" style="display: none;">
+            <div class="col-md-4 col-sm-4 col-xs-4" id="videoWindow" style="display: none;">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Graph viewer </h2>
+                        <h2>Video viewer
+                        </h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
@@ -396,17 +434,83 @@
                         </ul>
                         <div class="clearfix"></div>
                     </div>
-
                     <div class="x_content">
-                        <iframe class="chartjs-hidden-iframe"
-                                style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;">
-                        </iframe>
-                        <canvas id="lineChart" style="width: 737px; height: 368px;" width="737" height="368">
-                        </canvas>
+                        <body>
+                        <div>
+                            <video id="videoPlayer" preload="none" autoplay="false" controls loop></video>
+                        </div>
+                        </body>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4 col-xs-4" id="videoSDWindow" style="display: none;">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Video viewer
+                        </h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Settings 1</a>
+                                    </li>
+                                    <li><a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <body>
+                        <div>
+                            <video id="videoPlayerSD" preload="none" autoplay="false" controls loop></video>
+                        </div>
+                        </body>
                     </div>
                 </div>
             </div>
             <div class="clearfix"></div>
+
+            <!--<div class="col-md-6 col-sm-6 col-xs-6" id="graphWindow" style="display: none;">-->
+            <!--<div class="x_panel">-->
+            <!--<div class="x_title">-->
+            <!--<h2>Graph viewer </h2>-->
+            <!--<ul class="nav navbar-right panel_toolbox">-->
+            <!--<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>-->
+            <!--</li>-->
+            <!--<li class="dropdown">-->
+            <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"-->
+            <!--aria-expanded="false"><i class="fa fa-wrench"></i></a>-->
+            <!--<ul class="dropdown-menu" role="menu">-->
+            <!--<li><a href="#">Settings 1</a>-->
+            <!--</li>-->
+            <!--<li><a href="#">Settings 2</a>-->
+            <!--</li>-->
+            <!--</ul>-->
+            <!--</li>-->
+            <!--<li><a class="close-link"><i class="fa fa-close"></i></a>-->
+            <!--</li>-->
+            <!--</ul>-->
+            <!--<div class="clearfix"></div>-->
+            <!--</div>-->
+
+            <!--<div class="x_content">-->
+            <!--<iframe class="chartjs-hidden-iframe"-->
+            <!--style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;">-->
+            <!--</iframe>-->
+            <!--<canvas id="lineChart" style="width: 737px; height: 368px;" width="737" height="368">-->
+            <!--</canvas>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="clearfix"></div>-->
         </div>
     </div>
     <!-- /page content -->
@@ -456,6 +560,25 @@
 
 <script src="./app/js/data.js"></script>
 <script src="./app/js/loadTopo.js"></script>
+
+<!--table-->
+<!--<script src="./vendors/datatables.net/js/jquery.dataTables.min.js"></script>-->
+<!--<script src="./vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>-->
+<!--<script src="./vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>-->
+<!--<script src="./vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>-->
+
+<script src="./vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="./vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="./vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="./vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+<script src="./vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="./vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="./vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="./vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+<script src="./vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+<script src="./vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="./vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+<script src="./vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>
 
 
 </body>

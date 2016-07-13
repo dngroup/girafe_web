@@ -1,5 +1,5 @@
-var urlGetListTopo = "",
-    urlSendSelectedTopo = "",
+var urlGetListTopo = "api/simu/list",
+    urlSendSelectedTopo = "/api/simu/topo",
     urlSendGrid = "/api/simu/grid",
     sessionInfo = "";
 
@@ -39,6 +39,20 @@ function getList(url) {
                 }
             }
         }
+        else{
+            var myDiv = document.getElementById("divSelectTopo");
+
+            //Create and append select list
+            var selectList = document.createElement("select");
+            selectList.id = "selectTopo";
+            selectList.classList="form-control"
+            myDiv.appendChild(selectList);
+            var option = document.createElement("option");
+            option.value = "Geant";
+            option.text = "Geant";
+            selectList.appendChild(option);
+
+        }
     }
     req.onprogress = onProgress;
     req.onload = onLoad;
@@ -68,13 +82,15 @@ function sendTopo() {
 
     function onLoad(e) {
         if(req.status >= 200 && req.status <= 299) {
-
+            sessionInfo = JSON.parse(req.responseText);
+            ctrlTopo();
         }
     }
     req.onprogress = onProgress;
     req.onload = onLoad;
     req.onerror = onError;
     req.open('POST', urlSendSelectedTopo, true);
+    // req.setRequestHeader("Content-Type", "application/json");
     req.send(topo);
 }
 

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import com.github.dockerjava.api.model.Container;
 import com.nh.db.ml.simuservice.dockermgt.service.DockerService;
 import com.nh.db.ml.simuservice.model.Grid;
+import com.nh.db.ml.simuservice.model.NbUsers;
 import com.nh.db.ml.simuservice.model.SlaInfo;
 
 @Component
@@ -42,9 +43,38 @@ public class DockerCTLEndpoints {
 	@POST
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Path("docker/default")
+	public Response createDefault(String SessionID) {
+        dockerService.createSvgDefault(SessionID);
+		return Response.accepted().build();
+	}
+	
+	
+	@POST
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("docker/sla")
 	public Response createGridSvg(SlaInfo slaInfo) {
         dockerService.createSvgFromSla(slaInfo);
+		return Response.accepted().build();
+	}
+	
+	@POST
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Path("docker/LCsla")
+	public Response findBestSLA(SlaInfo slaInfo) {
+        dockerService.findBestSLA(slaInfo);
+		return Response.accepted().build();
+	}
+	
+	
+	@POST
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Path("docker/users")
+	public Response setBitrate(NbUsers nbUsers) {
+		dockerService.setBitrate(nbUsers);
 		return Response.accepted().build();
 	}
 	

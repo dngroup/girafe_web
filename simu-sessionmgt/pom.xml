@@ -20,15 +20,15 @@
 	</properties>
 
 	<dependencies>
-	<dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
-				<groupId>com.h2database</groupId>
-				<artifactId>h2</artifactId>
-				<version>1.4.191</version>
-				<scope>runtime</scope>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.191</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -91,8 +91,6 @@
 			<version>0.8.9</version>
 		</dependency>
 
-
-
 	</dependencies>
 
 	<dependencyManagement>
@@ -113,7 +111,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			 <plugin>
+			<plugin>
 
 
 				<groupId>org.apache.maven.plugins</groupId>
@@ -146,14 +144,14 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin> 
+			</plugin>
 
 			<plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>0.3.6</version>
 				<configuration>
-					<imageName>dngroup/sessionmgt</imageName>
+					<imageName>dngroup/simu-sessionmgt</imageName>
 					<dockerDirectory>${project.build.directory}/../../docker/session</dockerDirectory>
 				</configuration>
 			</plugin>

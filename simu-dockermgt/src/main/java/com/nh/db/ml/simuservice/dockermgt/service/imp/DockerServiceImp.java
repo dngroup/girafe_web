@@ -16,13 +16,17 @@ import org.springframework.stereotype.Service;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.command.ExecCreateCmdResponse;
+import com.github.dockerjava.api.command.SearchImagesCmd;
 import com.github.dockerjava.api.model.Bind;
 import com.github.dockerjava.api.model.Capability;
 import com.github.dockerjava.api.model.Container;
+import com.github.dockerjava.api.model.ExposedPort;
+import com.github.dockerjava.api.model.Ports;
 import com.github.dockerjava.api.model.Volume;
 import com.nh.db.ml.simuservice.dockergmgt.cli.CliConfSingleton;
 import com.nh.db.ml.simuservice.dockermgt.service.DockerService;
 import com.nh.db.ml.simuservice.model.Grid;
+import com.nh.db.ml.simuservice.model.NbUsers;
 import com.nh.db.ml.simuservice.model.SlaInfo;
 
 @Service
@@ -50,9 +54,16 @@ public class DockerServiceImp implements DockerService {
 						.execCreateCmd(container.getId()).withAttachStdout(true).withCmd("tc", "qdisc", "change", "dev",
 								"eth0", "root", "tbf", "rate", bitrate + "kbit", "burst", "64kbit", "latency", "1ms")
 						.exec();
-				dockerClient.execStartCmd(execCreateCmdResponse.getId()).exec();
+				InputStream run=dockerClient.execStartCmd(execCreateCmdResponse.getId()).exec();
+				System.out.println(run);
 			}
 		}
+	}
+
+	@Override
+	public void setBitrate(NbUsers nbUsers) {
+		setBitrate("server", 400000/nbUsers.getNbusers());
+		
 	}
 
 	/*
@@ -148,21 +159,44 @@ public class DockerServiceImp implements DockerService {
 	}
 
 	@Override
+	public void createSvgDefault(String sessionID) {
+		Volume volume = new Volume("/opt/simuservice/offline/results/");
+		CreateContainerResponse container = dockerClient.createContainerCmd("dngroup/simuservice")
+				.withBinds(new Bind(CliConfSingleton.folder + sessionID, volume))
+				.withCmd("python", "-m", "offline.tools.dstep", "-t").exec();
+		CreateContainerResponse container2 = dockerClient.createContainerCmd("dngroup/simuservice")
+				.withBinds(new Bind(CliConfSingleton.folder + sessionID, volume))
+				.withCmd("python", "-m", "offline.tools.plotting", "--svg", "--net").exec();
+		CreateContainerResponse container3 = dockerClient.createContainerCmd("dngroup/simuservice")
+				.withBinds(new Bind(CliConfSingleton.folder + sessionID, volume))
+				.withCmd("chmod", "737", "/opt/simuservice/offline/results/res.svg").exec();
+
+		dockerClient.startContainerCmd(container.getId()).exec();
+		dockerClient.waitContainerCmd(container.getId()).exec();
+		dockerClient.startContainerCmd(container2.getId()).exec();
+		dockerClient.waitContainerCmd(container2.getId()).exec();
+		dockerClient.startContainerCmd(container3.getId()).exec();
+		dockerClient.waitContainerCmd(container3.getId()).exec();
+		dockerClient.removeContainerCmd(container.getId()).exec();
+		dockerClient.removeContainerCmd(container2.getId()).exec();
+		dockerClient.removeContainerCmd(container3.getId()).exec();
+	}
+
+	@Override
 	public void createSvgFromSla(SlaInfo slaInfo) {
 		Volume volume = new Volume("/opt/simuservice/offline/results/");
 		List<String> list = new ArrayList<String>();
 		list.add("python");
 		list.add("-m");
 		list.add("offline.tools.dstep");
-		list.add("--grid");
-		list.add(slaInfo.getGrid());
-
+		if (slaInfo.getGrid() != null) {
+			list.add("--grid");
+			list.add(slaInfo.getGrid());
+		}
 		list.add("--vhg");
 		list.add((slaInfo.getVmg()));
-
 		list.add("--vcdn");
 		list.add((slaInfo.getVcdn()));
-		
 		list.add("--sla_delay");
 		list.add(Integer.toString(slaInfo.getSladelay()));
 		list.add("--sourcebw");
@@ -182,16 +216,54 @@ public class DockerServiceImp implements DockerService {
 				.withCmd("python", "-m", "offline.tools.plotting", "--svg").exec();
 		CreateContainerResponse container3 = dockerClient.createContainerCmd("dngroup/simuservice")
 				.withBinds(new Bind(CliConfSingleton.folder + slaInfo.getSessionId(), volume))
-				.withCmd("chmod", "737", "/opt/simuservice/offline/results/res.svg").exec();
+				.withCmd("chmod", "737","-R", "/opt/simuservice/offline/results/").exec();
 
 		dockerClient.startContainerCmd(container.getId()).exec();
 		dockerClient.waitContainerCmd(container.getId()).exec();
+		
 		dockerClient.startContainerCmd(container2.getId()).exec();
 		dockerClient.waitContainerCmd(container2.getId()).exec();
 		dockerClient.startContainerCmd(container3.getId()).exec();
 		dockerClient.waitContainerCmd(container3.getId()).exec();
 		dockerClient.removeContainerCmd(container.getId()).exec();
 		dockerClient.removeContainerCmd(container2.getId()).exec();
+		dockerClient.removeContainerCmd(container3.getId()).exec();
+	}
+
+	@Override
+	public void findBestSLA(SlaInfo slaInfo) {
+		Volume volume = new Volume("/opt/simuservice/offline/results/");
+		List<String> list = new ArrayList<String>();
+		list.add("python");
+		list.add("-m");
+		list.add("offline.tools.ostep");
+		if (slaInfo.getGrid() != null) {
+			list.add("--grid");
+			list.add(slaInfo.getGrid());
+		}
+		list.add("--sla_delay");
+		list.add(Integer.toString(slaInfo.getSladelay()));
+		list.add("--sourcebw");
+		list.add(Long.toString(slaInfo.getBandwidth()));
+		list.add("--vcdnratio");
+		list.add(Double.toString(slaInfo.getVcdnratio()));
+		list.add("--start");
+		list.addAll(slaInfo.getClients());
+		list.add("--cdn");
+		list.addAll(slaInfo.getCdns());
+
+		CreateContainerResponse container = dockerClient.createContainerCmd("dngroup/simuservice")
+				.withBinds(new Bind(CliConfSingleton.folder + slaInfo.getSessionId(), volume))
+				.withCmd(list.toArray(new String[list.size()])).exec();
+		CreateContainerResponse container3 = dockerClient.createContainerCmd("dngroup/simuservice")
+				.withBinds(new Bind(CliConfSingleton.folder + slaInfo.getSessionId(), volume))
+				.withCmd("chmod", "737","-R", "/opt/simuservice/offline/results/").exec();
+
+		dockerClient.startContainerCmd(container.getId()).exec();
+		dockerClient.waitContainerCmd(container.getId()).exec();
+		dockerClient.startContainerCmd(container3.getId()).exec();
+		dockerClient.waitContainerCmd(container3.getId()).exec();
+		dockerClient.removeContainerCmd(container.getId()).exec();
 		dockerClient.removeContainerCmd(container3.getId()).exec();
 	}
 
@@ -204,9 +276,32 @@ public class DockerServiceImp implements DockerService {
 
 	@Override
 	public String createVideoServer() {
+		createRegistery();
+		ExposedPort tcp80 = ExposedPort.tcp(80);
+		Ports portBindings = new Ports();
+		portBindings.bind(tcp80, Ports.Binding(null));
+
 		Volume volume = new Volume("/usr/share/nginx/html");
 		Bind bind = new Bind(CliConfSingleton.videoFolder, volume);
-		CreateContainerResponse container = dockerClient.createContainerCmd("ngnix:1.10").withBinds(bind).exec();
+		CreateContainerResponse container = dockerClient.createContainerCmd("ngnix:1.10").withBinds(bind)
+				.withExposedPorts(tcp80).withPortBindings(portBindings).withPublishAllPorts(true).exec();
+		dockerClient.startContainerCmd(container.getId()).exec();
+
 		return container.getId();
 	}
+
+	public void createRegistery() {
+
+		SearchImagesCmd searchImagesCmd = dockerClient.searchImagesCmd("nginx-proxy");
+		ExposedPort tcp80 = ExposedPort.tcp(80);
+		Ports portBindings = new Ports();
+		portBindings.bind(tcp80, Ports.Binding(80));
+		Volume volume = new Volume("/tmp/docker.sock");
+		Bind bind = new Bind("/var/run/docker.sock", volume);
+		CreateContainerResponse container = dockerClient.createContainerCmd("jwilder/nginx-proxy")
+				.withName("nginx-proxy").withBinds(bind).exec();
+
+		dockerClient.startContainerCmd(container.getId()).exec();
+	}
+
 }

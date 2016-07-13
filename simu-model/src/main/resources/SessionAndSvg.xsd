@@ -1,9 +1,12 @@
 <?xml version="1.0"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:com:nh:db:ml:simuservice:model">	
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="urn:com:nh:db:ml:simuservice:model">
 	<xs:element name="SessionAndSvg">
 		<xs:complexType>
-			<xs:attribute name="sessionId" type="xs:string"/>
-			<xs:attribute name="linkSvg" type="xs:string"/>
+			<xs:sequence>
+				<xs:element name="sessionId" type="xs:string" />
+				<xs:element name="linkSvg" type="xs:string" />
+			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

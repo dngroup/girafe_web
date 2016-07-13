@@ -1,11 +1,15 @@
-var urlSLA = "http://localhost:9000/api/simu/sla",
-    urlUsers = "http://localhost:9000/api/simu/users",
-    slaDelay = 10,
-    vcdnRatio = 0.35,
-    bandwidthTotal = 800000000,
-    nbUser = 10,
+var urlSLA = "/api/simu/sla",
+    urlLCSLA = "/api/simu/LCsla",
+    urlUsers = "/api/simu/users",
+    slaDelay = 50,
+    vcdnRatio = 0.70,
+    nbUsersSla = 5000,
+    bandwidthPerUser = 1.5,
+    nbUser = 50,
     clients = [],
     cdns = [],
+    table,
+    dataSet = [],
     listToModify = "clients";
 
 function setListToModify(value) {
@@ -16,17 +20,17 @@ function getListToModify() {
     return listToModify;
 }
 
-$("#sla_delay").ionRangeSlider({
+sliderSla_delay = $("#sla_delay").ionRangeSlider({
     type: "single",
     min: 0,
-    max: 100,
+    max: 200,
     from: slaDelay,
     keyboard: true,
     onFinish: function (data) {
         slaDelay = data.from;
     }
 });
-$("#vcdn_ratio").ionRangeSlider({
+sliderVcdn_ratio = $("#vcdn_ratio").ionRangeSlider({
     type: "single",
     min: 0,
     max: 1,
@@ -37,26 +41,62 @@ $("#vcdn_ratio").ionRangeSlider({
         vcdnRatio = data.from;
     }
 });
-$("#bandwidth").ionRangeSlider({
+sliderNbUsersSla = $("#nbUsersSla").ionRangeSlider({
     type: "single",
     min: 0,
-    max: 1000000000,
-    from: bandwidthTotal,
-    step: 10000,
+    max: 6000,
+    from: nbUsersSla,
+    step: 100,
     keyboard: true,
     onFinish: function (data) {
-        bandwidthTotal = data.from;
+        nbUsersSla = data.from;
     }
 });
-$("#nbUser").ionRangeSlider({
+sliderBandwidthPerUser = $("#bandwidthPerUser").ionRangeSlider({
     type: "single",
     min: 0,
-    max: 100,
-    from: nbUser,
+    max: 10,
+    from: bandwidthPerUser,
+    disable: true,
+    step: 0.1,
     keyboard: true,
     onFinish: function (data) {
-        nbUser = data.from;
+        bandwidthPerUser = data.from;
     }
+});
+function loadsla(clients) {
+    sliderNbUser = $("#nbUser").ionRangeSlider({
+        type: "single",
+        min: 0,
+        max: clients * 2,
+        from: clients * 0.75,
+        keyboard: true,
+        onChange: function (data) {
+
+        },
+
+        onFinish: function (data) {
+            nbUser = data.from;
+            submitUsers();
+        }
+    });
+}
+
+
+$(document).ready(function () {
+    table = $('#myTable').DataTable({
+        data: dataSet,
+        columns: [
+            {title: "ID"},
+            {title: "Number of VMG"},
+            {title: "Number of vCDN"},
+            {title: "Cost."}
+        ],
+        // "paging":   false,
+        "info": false,
+        "searching": false,
+        "order": [[3, "desc"]]
+    });
 });
 
 /////////////////////////////////////////////////
@@ -106,18 +146,35 @@ function delCDN(number) {
     updateCDN()
 }
 
+function delAllClientCDN(number) {
+    clients = [];
+    cdns = [];
+    updateCDN();
+    updateClient();
+}
+var id = 0;
+function addValueOnTable(vmg, vcdn, cost) {
+    id++;
+    table.row.add([id, vmg, vcdn, cost]).draw(false);
+
+
+}
+
 ///////////////////////////////////////////////////
 // Submit
 ///////////////////////////////////////////////////
+
 function submitSLA() {
     var req = new XMLHttpRequest(),
         data = {};
 
+    a = $('#sumbitsla').text()
+    $('#sumbitsla').html('Submit <i class="fa fa-spin fa-refresh"></i>')
     data.cdns = cdns;
     data.clients = clients;
     data.sladelay = slaDelay;
     data.vcdnratio = vcdnRatio
-    data.bandwidth = bandwidthTotal;
+    data.bandwidth = bandwidthPerUser * nbUsersSla * 1000 * 1000;
     data.sessionId = sessionInfo.sessionId
     data.vcdn = document.getElementById("vcdn").value;
     data.vmg = document.getElementById("vmg").value;
@@ -125,13 +182,22 @@ function submitSLA() {
 
     }
 
+    function onloadstart(e) {
+    };
+
     function onError(e) {
 
     }
 
     function onLoad(e) {
+        $('#sumbitsla').text(a)
         if (req.status >= 200 && req.status <= 299) {
+            //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
+            console.log(req.response);
+            res = JSON.parse(req.response);
+            addValueOnTable(res.vmg, res.vcdn, res.costs);
             ctrlSLA();
+            loadsla(nbUsersSla);
 
         }
     }
@@ -144,12 +210,50 @@ function submitSLA() {
     req.send(JSON.stringify(data));
 }
 
+
+function optimalSLA() {
+    a = $('#sumbitosla').text()
+    $('#sumbitosla').html(a+'<i class="fa fa-spin fa-refresh"></i>')
+    var req = new XMLHttpRequest(),
+        data = {};
+
+    data.cdns = cdns;
+    data.clients = clients;
+    data.sladelay = slaDelay;
+    data.vcdnratio = vcdnRatio;
+    data.bandwidth = bandwidthPerUser * nbUsersSla * 1000 * 1000;
+    data.sessionId = sessionInfo.sessionId;
+    function onProgress(e) {
+
+    }
+
+    function onError(e) {
+
+    }
+
+    function onLoad(e) {
+        $('#sumbitosla').text(a)
+        if (req.status >= 200 && req.status <= 299) {
+            console.log(req.response)
+            res = JSON.parse(req.response);
+            addValueOnTable(res.vmg, res.vcdn, res.costs);
+        }
+    }
+
+    req.onprogress = onProgress;
+    req.onload = onLoad;
+    req.onerror = onError;
+    req.open('POST', urlLCSLA, true);
+    req.setRequestHeader("Content-Type", "application/json");
+    req.send(JSON.stringify(data));
+}
+
 function submitUsers() {
     var req = new XMLHttpRequest(),
         data = {};
 
     data.sessionId = sessionInfo.sessionId;
-    data.nbusers = nbUser;
+    data.nbusers = nbUser / nbUsersSla * 100;
 
     function onProgress(e) {
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.github.dockerjava.api.model.Container;
 import com.nh.db.ml.simuservice.model.Grid;
+import com.nh.db.ml.simuservice.model.NbUsers;
 import com.nh.db.ml.simuservice.model.SlaInfo;
 
 public interface DockerService {
@@ -39,6 +40,9 @@ public interface DockerService {
 	public abstract List<Container> getstatus();
 
 	public abstract void createSvgFromGrid(Grid grid);
+	
+	public abstract void createSvgDefault(String sessionID);
+	
 
 	public abstract void createSvgFromSla(SlaInfo slaInfo);
 
@@ -56,5 +60,9 @@ public interface DockerService {
 	 * @return
 	 */
 	public String createVideoServer();
+
+	public abstract void setBitrate(NbUsers nbUsers);
+
+	public abstract void findBestSLA(SlaInfo slaInfo);
 
 }
