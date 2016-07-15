@@ -1,5 +1,15 @@
 # demo_temu
 
+## Build
+
+launch  from the root package
+
+```
+mvn clean package
+```
+
+
+
 
 ## Deployment
 The demo need docker to be installed on the machine with a version higher than 1.7. The java code need to communicate with the docker daemon using TCP.
