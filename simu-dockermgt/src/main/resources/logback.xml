@@ -12,7 +12,7 @@
 	</appender>
 	<logger name="org.apache.*" level="WARNING" />
 	<logger name="org.apache.http.wire" level="INFO"></logger>
-	<logger name="com.jbq.db.mddash" level="DEBUG" />
+	<logger name="com.nh.db.ml" level="DEBUG" />
 	<!-- INFO -->
 	<logger name="org.springframework" level="INFO" />
 	<logger name="org.hibernate" level="INFO" />

@@ -157,11 +157,25 @@ function ctrlSLA() {
     s.zpd('destroy')
     s.clear();
     var da = Snap.load(urlSVG + sessionInfo.sessionId, function (f) {
+        // d = f.node.childNodes[6].childNodes[1].childNodes.sort(function(a,b){return a.id-b.id});
+        var childNode = f.selectAll("text");
+
+        for (var i = 0; i < childNode.length; i++) {
+            var c = childNode[i];
+            console.log(c.id);
+            if (c.node.textContent.indexOf("VHG")>=0) {
+                c.node.textContent = c.node.textContent.replace("VHG", "VMG");
+
+            }
+        }
+
         var childNode = f.selectAll("g");
 
         for (var i = 0; i < childNode.length; i++) {
             var c = childNode[i];
             console.log(c.id);
+
+
 
             if (c.node.className.baseVal == "node") {
                 console.log(c.node.id);

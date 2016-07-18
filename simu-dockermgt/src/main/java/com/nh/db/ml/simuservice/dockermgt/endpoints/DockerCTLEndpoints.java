@@ -46,7 +46,18 @@ public class DockerCTLEndpoints {
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("docker/default")
 	public Response createDefault(String SessionID) {
+		LOGGER.debug("Request for default {}",SessionID);
         dockerService.createSvgDefault(SessionID);
+		return Response.accepted().build();
+	}
+	
+	@POST
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Path("docker/topo")
+	public Response createTopo(Grid grid) {
+		LOGGER.debug("Request for Topo {}",grid.getTopo());
+        dockerService.createSvgFromTopo(grid);
 		return Response.accepted().build();
 	}
 	

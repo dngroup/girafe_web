@@ -153,10 +153,14 @@ function delAllClientCDN(number) {
     updateClient();
 }
 var id = 0;
+let set = new Set();
 function addValueOnTable(vmg, vcdn, cost) {
     id++;
-    table.row.add([id, vmg, vcdn, cost]).draw(false);
+    if (! set.has(JSON.stringify([vmg, vcdn, cost]))){
+        set.add(JSON.stringify([vmg, vcdn, cost]))
 
+    table.row.add([id, vmg, vcdn, cost]).draw(false);
+    }
 
 }
 
@@ -237,6 +241,8 @@ function optimalSLA() {
             console.log(req.response)
             res = JSON.parse(req.response);
             addValueOnTable(res.vmg, res.vcdn, res.costs);
+            ctrlSLA();
+            loadsla(nbUsersSla);
         }
     }
 
