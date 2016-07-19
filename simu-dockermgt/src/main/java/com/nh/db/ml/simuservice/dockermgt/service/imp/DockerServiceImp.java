@@ -153,9 +153,9 @@ public class DockerServiceImp implements DockerService {
 		dockerClient.waitContainerCmd(container2.getId()).exec();
 		dockerClient.startContainerCmd(container3.getId()).exec();
 		dockerClient.waitContainerCmd(container3.getId()).exec();
-//		dockerClient.removeContainerCmd(container.getId()).exec();
-//		dockerClient.removeContainerCmd(container2.getId()).exec();
-//		dockerClient.removeContainerCmd(container3.getId()).exec();
+		dockerClient.removeContainerCmd(container.getId()).exec();
+		dockerClient.removeContainerCmd(container2.getId()).exec();
+		dockerClient.removeContainerCmd(container3.getId()).exec();
 	}
 
 	@Override
@@ -191,9 +191,9 @@ public class DockerServiceImp implements DockerService {
 		dockerClient.waitContainerCmd(container2.getId()).exec();
 		dockerClient.startContainerCmd(container3.getId()).exec();
 		dockerClient.waitContainerCmd(container3.getId()).exec();
-//		dockerClient.removeContainerCmd(container.getId()).exec();
-//		dockerClient.removeContainerCmd(container2.getId()).exec();
-//		dockerClient.removeContainerCmd(container3.getId()).exec();
+		dockerClient.removeContainerCmd(container.getId()).exec();
+		dockerClient.removeContainerCmd(container2.getId()).exec();
+		dockerClient.removeContainerCmd(container3.getId()).exec();
 	}
 
 	@Override
@@ -215,9 +215,9 @@ public class DockerServiceImp implements DockerService {
 		dockerClient.waitContainerCmd(container2.getId()).exec();
 		dockerClient.startContainerCmd(container3.getId()).exec();
 		dockerClient.waitContainerCmd(container3.getId()).exec();
-//		dockerClient.removeContainerCmd(container.getId()).exec();
-//		dockerClient.removeContainerCmd(container2.getId()).exec();
-//		dockerClient.removeContainerCmd(container3.getId()).exec();
+		dockerClient.removeContainerCmd(container.getId()).exec();
+		dockerClient.removeContainerCmd(container2.getId()).exec();
+		dockerClient.removeContainerCmd(container3.getId()).exec();
 	}
 
 	@Override

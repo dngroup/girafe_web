@@ -153,7 +153,7 @@ function delAllClientCDN(number) {
     updateClient();
 }
 var id = 0;
-let set = new Set();
+var set = new Set();
 function addValueOnTable(vmg, vcdn, cost) {
     id++;
     if (! set.has(JSON.stringify([vmg, vcdn, cost]))){
