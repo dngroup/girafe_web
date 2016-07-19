@@ -4,6 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -43,9 +45,11 @@ public class SimuEndpoints {
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("topo")
-	public Response postFromFile() {
-		SessionAndSvg sessionAndSvg = simuService.createTopoDefault();
+	public Response postFromFile(Grid grid) {
+		SessionAndSvg sessionAndSvg = simuService.createTopo(grid);
+		// SessionAndSvg sessionAndSvg = simuService.createTopoDefault();
 		return Response.accepted(sessionAndSvg).build();
 	}
 
@@ -54,22 +58,23 @@ public class SimuEndpoints {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("sla")
 	public SlaInfo postSla(SlaInfo slaInfo) {
-		
+
 		try {
 			return simuService.computeTopoFromSla(slaInfo);
 		} catch (SimulationFailedException e) {
 			throw new WebServiceException("simulation failed to complete");
 		}
 	}
-	
+
 	@POST
-	@Produces({ MediaType.APPLICATION_JSON})
+	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("LCsla")
 	public SlaInfo postLowCostSla(SlaInfo slaInfo) {
-		
+
 		try {
-			return simuService.computeLowCostSla(slaInfo);
+			SlaInfo slaInfo2 = simuService.computeLowCostSla(slaInfo);
+			return postSla(slaInfo2);
 		} catch (SimulationFailedException e) {
 			throw new WebServiceException("simulation failed to complete");
 		}
@@ -89,7 +94,15 @@ public class SimuEndpoints {
 	@Path("svg/{sessionid}")
 	public Response getSvg(@PathParam("sessionid") String sessionId) {
 		File file = new File(CliConfSingleton.folder + sessionId + "/" + "res.svg");
-		return Response.ok(file, MediaType.APPLICATION_SVG_XML).build();
+		
+		try {
+			FileInputStream fin = new FileInputStream(file);
+			return Response.ok(file, MediaType.APPLICATION_SVG_XML).build();
+		} catch ( IOException e) {
+			return Response.ok(file, MediaType.APPLICATION_SVG_XML).build();
+		}
+		
+		
 	}
 
 	@GET

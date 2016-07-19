@@ -34,8 +34,7 @@ import com.nh.db.ml.simuservice.sessionmgt.service.SimuService;
 
 @Service
 public class SimuServiceImp implements SimuService {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(SimuServiceImp.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SimuServiceImp.class);
 	@Inject
 	SessionSimuRepository sessionSimuRepository;
 
@@ -59,6 +58,26 @@ public class SimuServiceImp implements SimuService {
 		LOGGER.debug(target.getUri().toString());
 		Response response = target.request().post(Entity.entity(grid, MediaType.APPLICATION_XML));
 
+		return sessionAndSvg;
+	}
+
+	@Override
+	public SessionAndSvg createTopo(Grid grid) {
+		SessionSimu session = new SessionSimu(UUID.randomUUID().toString());
+		SessionAndSvg sessionAndSvg = new SessionAndSvg();
+		sessionAndSvg.setSessionId(session.getSessionId());
+		sessionAndSvg.setLinkSvg("");
+		grid.setSessionId(session.getSessionId());
+		try {
+			session.setJsonGrid(new ObjectMapper().writeValueAsString(grid));
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+
+		sessionSimuRepository.save(session);
+		WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/docker/topo");
+		LOGGER.debug(target.getUri().toString());
+		Response response = target.request().post(Entity.entity(grid, MediaType.APPLICATION_XML));
 		return sessionAndSvg;
 	}
 
@@ -87,7 +106,7 @@ public class SimuServiceImp implements SimuService {
 					e.printStackTrace();
 				}
 
-				slaInfo.setGrid(grid.getX() + "x" + grid.getY());
+				slaInfo.setTopo(grid.getTopo());
 			}
 			WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/docker/sla");
 			Response response = target.request().post(Entity.entity(slaInfo, MediaType.APPLICATION_XML));
@@ -123,7 +142,7 @@ public class SimuServiceImp implements SimuService {
 					e.printStackTrace();
 				}
 
-				slaInfo.setGrid(grid.getX() + "x" + grid.getY());
+				slaInfo.setTopo(grid.getTopo());
 			}
 			WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/docker/LCsla");
 			Response response = target.request().post(Entity.entity(slaInfo, MediaType.APPLICATION_XML));

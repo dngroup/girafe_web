@@ -20,7 +20,7 @@ server:
    - NET_ADMIN
   volumes:
    - ../input:/usr/local/apache2/htdocs/
-server:
+apache:
   image: dngroup/simu-serverapache
   ports:
    - "9003:80"

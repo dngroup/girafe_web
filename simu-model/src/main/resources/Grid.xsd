@@ -6,6 +6,7 @@
 			<xs:sequence>
 				<xs:element name="x" type="xs:int" />
 				<xs:element name="y" type="xs:int" />
+				<xs:element name="topo" type="xs:string" />
 				<xs:element name="sessionId" type="xs:string" />
 			</xs:sequence>
 

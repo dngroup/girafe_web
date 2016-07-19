@@ -153,10 +153,14 @@ function delAllClientCDN(number) {
     updateClient();
 }
 var id = 0;
+var set = new Set();
 function addValueOnTable(vmg, vcdn, cost) {
     id++;
-    table.row.add([id, vmg, vcdn, cost]).draw(false);
+    if (! set.has(JSON.stringify([vmg, vcdn, cost]))){
+        set.add(JSON.stringify([vmg, vcdn, cost]))
 
+    table.row.add([id, vmg, vcdn, cost]).draw(false);
+    }
 
 }
 
@@ -200,6 +204,12 @@ function submitSLA() {
             loadsla(nbUsersSla);
 
         }
+        else if (req.status >= 400 && req.status <= 599) {
+            //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
+            console.log(req.response);
+            $('#sumbitsla').html('Submit <i class="fa fa-close"></i>')
+
+        }
     }
 
     req.onprogress = onProgress;
@@ -237,6 +247,14 @@ function optimalSLA() {
             console.log(req.response)
             res = JSON.parse(req.response);
             addValueOnTable(res.vmg, res.vcdn, res.costs);
+            ctrlSLA();
+            loadsla(nbUsersSla);
+        }
+        else if (req.status >= 400 && req.status <= 599) {
+            //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
+            console.log(req.response);
+            $('#sumbitosla').html('Submit <i class="fa fa-close"></i>')
+
         }
     }
 

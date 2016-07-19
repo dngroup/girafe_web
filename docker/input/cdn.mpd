@@ -7,12 +7,15 @@
  <Period duration="PT0H10M34.207S">
   <AdaptationSet segmentAlignment="true" maxWidth="1280" maxHeight="720" maxFrameRate="1200000/50001" par="16:9" lang="und">
 
-   <Representation id="1" mimeType="video/mp4" codecs="avc3.4d4015" width="426" height="240" frameRate="1200000/50001" sar="640:639" startWithSAP="1" bandwidth="302992">
+
+   <Representation id="1" mimeType="video/mp4" codecs="avc3.4d401f" width="1280" height="720" frameRate="1200000/50001" sar="1:1" startWithSAP="1" bandwidth="1509613">
 	<SegmentTemplate timescale="1200000" media="$Bandwidth$/out$Bandwidth$_dash$Number$.m4s" startNumber="1" duration="7200000" initialization="$Bandwidth$/init.mp4"/>
    </Representation>
-   <Representation id="2" mimeType="video/mp4" codecs="avc3.4d401f" width="1280" height="720" frameRate="1200000/50001" sar="1:1" startWithSAP="1" bandwidth="1509613">
+   
+   <Representation id="2" mimeType="video/mp4" codecs="avc3.4d4015" width="212" height="120" frameRate="1200000/50001" sar="640:639" startWithSAP="1" bandwidth="100863">
 	<SegmentTemplate timescale="1200000" media="$Bandwidth$/out$Bandwidth$_dash$Number$.m4s" startNumber="1" duration="7200000" initialization="$Bandwidth$/init.mp4"/>
    </Representation>
+   
   </AdaptationSet>
  </Period>
 </MPD>

@@ -58,6 +58,8 @@ public interface SimuService {
 	 */
 	public abstract byte[] getCsv(String sessionId);
 
+	public abstract SessionAndSvg createTopo(Grid topo);
+
 //	public abstract SlaInfo getCostFonction(SlaInfo slaInfo) throws SimulationFailedException;
 
 
