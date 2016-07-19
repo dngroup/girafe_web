@@ -204,6 +204,12 @@ function submitSLA() {
             loadsla(nbUsersSla);
 
         }
+        else if (req.status >= 400 && req.status <= 599) {
+            //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
+            console.log(req.response);
+            $('#sumbitsla').html('Submit <i class="fa fa-close"></i>')
+
+        }
     }
 
     req.onprogress = onProgress;
@@ -243,6 +249,12 @@ function optimalSLA() {
             addValueOnTable(res.vmg, res.vcdn, res.costs);
             ctrlSLA();
             loadsla(nbUsersSla);
+        }
+        else if (req.status >= 400 && req.status <= 599) {
+            //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
+            console.log(req.response);
+            $('#sumbitosla').html('Submit <i class="fa fa-close"></i>')
+
         }
     }
 

@@ -8,15 +8,15 @@ var urlGetListTopo = "api/simu/list",
 ////////////////////////////////////////
 var listTopo = [];
 function getList(url) {
-    var req = new XMLHttpRequest();
-
-    function onProgress(e) {
-
-    }
-
-    function onError(e) {
-
-    }
+    // var req = new XMLHttpRequest();
+    //
+    // function onProgress(e) {
+    //
+    // }
+    //
+    // function onError(e) {
+    //
+    // }
 
     function addTopo(name, value, selectList) {
         var option = document.createElement("option");
@@ -25,28 +25,28 @@ function getList(url) {
         selectList.appendChild(option);
     }
 
-    function onLoad(e) {
-        if (req.status == 200) {
-            listTopo = req.responseText;
-            if (listTopo.length > 0) {
-                var myDiv = document.getElementById("divSelectTopo");
-
-                //Create and append select list
-                var selectList = document.createElement("select");
-                selectList.id = "selectTopo";
-                selectList.classList = "form-control"
-                myDiv.appendChild(selectList);
-
-                //Create and append the options
-                for (var i = 0; i < listTopo.length; i++) {
-                    var option = document.createElement("option");
-                    option.value = listTopo[i];
-                    option.text = i;
-                    selectList.appendChild(option);
-                }
-            }
-        }
-        else {
+    // function onLoad(e) {
+    //     if (req.status == 200) {
+    //         listTopo = req.responseText;
+    //         if (listTopo.length > 0) {
+    //             var myDiv = document.getElementById("divSelectTopo");
+    //
+    //             //Create and append select list
+    //             var selectList = document.createElement("select");
+    //             selectList.id = "selectTopo";
+    //             selectList.classList = "form-control"
+    //             myDiv.appendChild(selectList);
+    //
+    //             //Create and append the options
+    //             for (var i = 0; i < listTopo.length; i++) {
+    //                 var option = document.createElement("option");
+    //                 option.value = listTopo[i];
+    //                 option.text = i;
+    //                 selectList.appendChild(option);
+    //             }
+    //         }
+    //     }
+    //     else {
             var myDiv = document.getElementById("divSelectTopo");
 
             //Create and append select list
@@ -60,14 +60,14 @@ function getList(url) {
             addTopo("erdos_renyi random", "erdos_renyi,30,0.1,$(random)", selectList);
 
 
-        }
-    }
-
-    req.onprogress = onProgress;
-    req.onload = onLoad;
-    req.onerror = onError;
-    req.open('GET', url, true);
-    req.send(null);
+    //     }
+    // }
+    //
+    // req.onprogress = onProgress;
+    // req.onload = onLoad;
+    // req.onerror = onError;
+    // req.open('GET', url, true);
+    // req.send(null);
 
 }
 
