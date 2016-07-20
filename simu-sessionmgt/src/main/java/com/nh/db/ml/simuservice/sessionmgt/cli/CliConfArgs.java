@@ -11,6 +11,9 @@ public class CliConfArgs {
 
 			CliConfSingleton.simudocker = cliconf.getSimuDocker();
 			CliConfSingleton.folder = cliconf.getFolder();
+			CliConfSingleton.mpdHDPremium = cliconf.mpdHDPremium();
+			CliConfSingleton.mpdHD = cliconf.getMpdHD();
+			CliConfSingleton.mpdSD = cliconf.getMpdSD();
 			CliConfSingleton.defaultValue();
 	}
 	

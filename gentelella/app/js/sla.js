@@ -172,7 +172,7 @@ function submitSLA() {
     var req = new XMLHttpRequest(),
         data = {};
 
-    $('#slainfo').html()
+    $('#slainfo').html(" ")
 
     a = $('#sumbitsla').text()
     $('#sumbitsla').html('Submit <i class="fa fa-spin fa-refresh"></i>')
@@ -225,7 +225,7 @@ function submitSLA() {
 
 
 function optimalSLA() {
-    $('#slainfo').html()
+    $('#slainfo').html(" ")
 
     a = $('#sumbitosla').text()
     $('#sumbitosla').html(a+'<i class="fa fa-spin fa-refresh"></i>')

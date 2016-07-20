@@ -21,6 +21,7 @@ import javax.xml.ws.WebServiceException;
 import org.springframework.stereotype.Component;
 
 import com.nh.db.ml.simuservice.model.Grid;
+import com.nh.db.ml.simuservice.model.ListString;
 import com.nh.db.ml.simuservice.model.NbUsers;
 import com.nh.db.ml.simuservice.model.SessionAndSvg;
 import com.nh.db.ml.simuservice.model.SlaInfo;
@@ -111,5 +112,16 @@ public class SimuEndpoints {
 	public Response getCsv(@PathParam("sessionid") String sessionId) {
 		byte[] byteArray = simuService.getCsv(sessionId);
 		return Response.ok(byteArray, MediaType.APPLICATION_OCTET_STREAM).build();
+	}
+	
+	@GET
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Path("mpd")
+	public ListString getMpd() {
+		ListString l = new ListString();
+		l.getStr().add(CliConfSingleton.mpdHDPremium);
+		l.getStr().add(CliConfSingleton.mpdHD);
+		l.getStr().add(CliConfSingleton.mpdSD);
+		return l;
 	}
 }

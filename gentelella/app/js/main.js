@@ -12,6 +12,7 @@ var urlSVG = "/api/simu/svg/";
 var urlVideo = "http://localhost:9002/cdn.mpd";
 var urlVideoSD = "http://localhost:9003/cdnld.mpd";
 var urlVideoHD = "http://localhost:9003/cdnhd.mpd";
+var urlMPD = "/api/simu/mpd/"
 
 // var filterBlur = s.filter(Snap.filter.blur(4));
 
@@ -163,7 +164,7 @@ function ctrlSLA() {
         for (var i = 0; i < childNode.length; i++) {
             var c = childNode[i];
             console.log(c.id);
-            if (c.node.textContent.indexOf("VHG")>=0) {
+            if (c.node.textContent.indexOf("VHG") >= 0) {
                 c.node.textContent = c.node.textContent.replace("VHG", "VMG");
 
             }
@@ -174,7 +175,6 @@ function ctrlSLA() {
         for (var i = 0; i < childNode.length; i++) {
             var c = childNode[i];
             console.log(c.id);
-
 
 
             if (c.node.className.baseVal == "node") {
@@ -197,13 +197,49 @@ function ctrlSLA() {
     $("#videoHDWindow").show();
     $("#videoSDWindow").show();
 
-    player.attachSource(urlVideo);
-    playerHD.attachSource(urlVideoHD);
-    playerSD.attachSource(urlVideoSD);
+
+    getMPD();
 
     $("#sla_delay").data("ionRangeSlider").update({disable: true});
     $("#vcdn_ratio").data("ionRangeSlider").update({disable: true});
     $("#nbUsersSla").data("ionRangeSlider").update({disable: true});
 
 
+}
+
+function getMPD() {
+    var req = new XMLHttpRequest(),
+        data = {};
+
+
+    function onProgress(e) {
+
+    }
+
+    function onError(e) {
+
+    }
+
+    function onLoad(e) {
+        if (req.status >= 200 && req.status <= 299) {
+            res = JSON.parse(req.response);
+            urlVideo = res.str[1];
+            urlVideoHD = res.str[0];
+            urlVideoSD = res.str[2];
+
+        }
+
+        player.attachSource(urlVideo);
+        playerHD.attachSource(urlVideoHD);
+        playerSD.attachSource(urlVideoSD);
+
+
+    }
+
+    req.onprogress = onProgress;
+    req.onload = onLoad;
+    req.onerror = onError;
+    req.open('GET', urlMPD, true);
+    req.setRequestHeader('Accept', 'application/json');
+    req.send(null);
 }
