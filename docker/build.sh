@@ -7,3 +7,4 @@ docker build -t dngroup/simu-dockermgt .
 cd ../session
 docker build -t dngroup/simu-sessionmgt .
 #docker push dngroup/simu-dockermgt 
+docker pull dngroup/simuservice
