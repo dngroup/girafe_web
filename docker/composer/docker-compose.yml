@@ -12,6 +12,10 @@ sessionmgt:
    - dockermgt
   volumes:
    - /tmp/datatemu/:/tmp/datatemu/
+  environment:
+    HDP: http://localhost:9003/cdnhd.mpd
+    HD: http://localhost:9002/cdn.mpd
+    SD: http://localhost:9003/cdnld.mpd
 server:
   image: dngroup/simu-serverapache
   ports:
