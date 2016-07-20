@@ -172,6 +172,8 @@ function submitSLA() {
     var req = new XMLHttpRequest(),
         data = {};
 
+    $('#slainfo').html()
+
     a = $('#sumbitsla').text()
     $('#sumbitsla').html('Submit <i class="fa fa-spin fa-refresh"></i>')
     data.cdns = cdns;
@@ -208,6 +210,7 @@ function submitSLA() {
             //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
             console.log(req.response);
             $('#sumbitsla').html('Submit <i class="fa fa-close"></i>')
+            $('#slainfo').html('<span class="badge bg-red"> Error: No solution found </span>')
 
         }
     }
@@ -222,6 +225,8 @@ function submitSLA() {
 
 
 function optimalSLA() {
+    $('#slainfo').html()
+
     a = $('#sumbitosla').text()
     $('#sumbitosla').html(a+'<i class="fa fa-spin fa-refresh"></i>')
     var req = new XMLHttpRequest(),
@@ -254,7 +259,7 @@ function optimalSLA() {
             //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
             console.log(req.response);
             $('#sumbitosla').html('Submit <i class="fa fa-close"></i>')
-
+            $('#slainfo').html('<span class="badge bg-red"> Error: No solution found </span>')
         }
     }
 
