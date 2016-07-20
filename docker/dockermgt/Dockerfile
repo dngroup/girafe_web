@@ -6,5 +6,5 @@ MAINTAINER David Bourasseau <dbourasseau@viotech.net>
 EXPOSE 9000
 ADD dockermgt.jar dockermgt.jar
 
-CMD java -jar dockermgt.jar -d 172.17.0.1:2375 -f /tmp/datatemu/
+CMD java -Djava.security.egd=file:/dev/./urandom -jar dockermgt.jar -d 172.17.0.1:2375 -f /tmp/datatemu/
 

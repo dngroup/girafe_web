@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>G.I.R.A.F. </title>
+    <title>G.I.R.A.F.E. </title>
 
     <!-- Bootstrap -->
     <link href="./vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -47,8 +47,8 @@
             <div class="row">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>G.I.R.A.F
-                            <small>Graphical Interface Reactive and Adaptive Font</small>
+                        <h3>G.I.R.A.F.E.
+                            <small>Graphical Interface for Representing Automatic Function Embedding</small>
                         </h3>
                     </div>
 
@@ -61,19 +61,15 @@
             <div class="col-md-8 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Topo viewer </h2>
+                        <h2>Working Area</h2>
+                        <p>salut</p>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                    aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">Settings 1</a>
-                                    </li>
-                                    <li><a href="#">Settings 2</a>
-                                    </li>
-                                </ul>
+                              
                             </li>
                             <li><a class="close-link"><i class="fa fa-close"></i></a>
                             </li>
@@ -88,67 +84,19 @@
                         </svg>
                     </div>
                 </div>
-
-                <div class="" id="userswindow" style="display: none;">
-                    <div class="x_panel">
-                        <div class="x_title">
-                            <h2>Users</h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                       aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Settings 1</a>
-                                        </li>
-                                        <li><a href="#">Settings 2</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content">
-                            <form id="user" data-parsley-validate="" class="form-horizontal form-label-left"
-                                  novalidate="">
-
-                                <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Concurrent User % SLA</label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="nbUser" name="nbUser" value=""/>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </form>
-
-                        </div>
-
-                    </div>
-                </div>
-
             </div>
             <!------------------------ Load Topo  ------------------------------------->
             <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Form load Topo </h2>
+                        <h2>Topology Generation</h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                    aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">Settings 1</a>
-                                    </li>
-                                    <li><a href="#">Settings 2</a>
-                                    </li>
-                                </ul>
+                              
                             </li>
                             <li><a class="close-link"><i class="fa fa-close"></i></a>
                             </li>
@@ -161,20 +109,19 @@
                               class="form-horizontal form-label-left" novalidate>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Existing topo: </label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Real Tologies</label>
                                 <div class="col-md-6 col-sm-6 col-xs-9" id="divSelectTopo">
 
                                 </div>
                                 <div class="col-md-3 col-sm-3 col-xs-3">
-                                    <button type="button" class="btn btn-success" onClick="sendTopo(topo)">Submit
-                                        topo
+                                    <button type="button" class="btn btn-success" onClick="sendTopo(topo)">Load Topo
                                     </button>
                                 </div>
                             </div>
 
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Grid: </label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Grid Topology:</label>
                                 <div class="col-md-2 col-sm-2 col-xs-2">
                                     <select class="form-control " id="grid1">
                                         <option value="2">2</option>
@@ -200,7 +147,7 @@
                                 </div>
                                 <div class="col-md-1 col-sm-1 col-xs-1 "></div>
                                 <div class="col-md-3 col-sm-3 col-xs-3">
-                                    <button type="button" class="btn btn-success" onClick="sendGrid()">Submit grid
+                                    <button type="button" class="btn btn-success" onClick="sendGrid()">Load Grid
 
                                     </button>
                                 </div>
@@ -214,7 +161,7 @@
             <div class="col-md-4 col-sm-12 col-xs-12" id="SLAwindow"> <!--style="display: none;" -->
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>SLA</h2>
+                        <h2>Service Leverl Agreement</h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
@@ -341,12 +288,12 @@
                         <div class="form-group">
                             <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3">
                                 <!--<button type="submit" class="btn btn-danger">Cancel</button>-->
-                                <button id="sumbitsla" type="button" class="btn btn-success" onClick="submitSLA()">Submit
+                                <button id="sumbitsla" type="button" class="btn btn-success" onClick="submitSLA()">Embed SLA
                                 </button>
                             </div>
                             <div class="col-md-3 col-sm-3 col-xs-12">
                                 <!--<button type="submit" class="btn btn-danger">Cancel</button>-->
-                                <button id="sumbitosla" type="button" class="btn btn-info" onClick="optimalSLA()">Optimal solution
+                                <button id="sumbitosla" type="button" class="btn btn-info" onClick="optimalSLA()">Find Optimal Solution
 
                                 </button>
                             </div>
@@ -383,7 +330,7 @@
             <div class="col-md-4 col-sm-4 col-xs-4" id="videoHDWindow" style="display: none;">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Video viewer
+                        <h2>HD Premium Profile
                         </h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -416,7 +363,7 @@
             <div class="col-md-4 col-sm-4 col-xs-4" id="videoWindow" style="display: none;">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Video viewer
+                        <h2>HD Profile
                         </h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -449,7 +396,7 @@
             <div class="col-md-4 col-sm-4 col-xs-4" id="videoSDWindow" style="display: none;">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Video viewer
+                        <h2>SD Profile
                         </h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -560,7 +507,7 @@
 <script src="./app/js/custom.min.js"></script>
 <script src="./vendors/moment/moment.js"></script>
 
-<!--<script src="./app/js/data.js"></script>-->
+<script src="./app/js/data.js"></script>
 <script src="./app/js/loadTopo.js"></script>
 
 <!--table-->
@@ -580,6 +527,7 @@
 <script src="./vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
 <script src="./vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
 <script src="./vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+<script src="./vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>
 
 
 </body>
