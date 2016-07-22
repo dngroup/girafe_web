@@ -209,7 +209,7 @@ function submitSLA() {
         else if (req.status >= 400 && req.status <= 599) {
             //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
             console.log(req.response);
-            $('#sumbitsla').html('Submit <i class="fa fa-close"></i>')
+            $('#sumbitsla').html(a+' <i class="fa fa-close"></i>')
             $('#slainfo').html('<span class="badge bg-red"> Error: No solution found </span>')
 
         }
@@ -258,7 +258,7 @@ function optimalSLA() {
         else if (req.status >= 400 && req.status <= 599) {
             //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
             console.log(req.response);
-            $('#sumbitosla').html('Submit <i class="fa fa-close"></i>')
+            $('#sumbitosla').html(a+'<i class="fa fa-close"></i>')
             $('#slainfo').html('<span class="badge bg-red"> Error: No solution found </span>')
         }
     }

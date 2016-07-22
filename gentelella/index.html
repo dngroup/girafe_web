@@ -35,6 +35,9 @@
     <!-- Custom Theme Style -->
     <link href="./app/css/main.css" rel="stylesheet">
 
+    <link rel="icon" href="./app/img/GIRAFE2.ico" />
+
+
 </head>
 
 <body class="nav-sm">
@@ -47,7 +50,9 @@
             <div class="row">
                 <div class="page-title">
                     <div class="title">
-                        <h3>G.I.R.A.F.E.
+
+                        <h3><img src="./app/img/GIRAFE0.svg"
+                                 style="max-height: 100px;max-width: 100px; margin-top: -30px; margin-bottom: -20px">G.I.R.A.F.E.
                             <small>Graphical Interface for Representing Automatic Function Embedding</small>
                         </h3>
                     </div>
@@ -84,6 +89,50 @@
                         </svg>
                     </div>
                 </div>
+                <div class="" id="userswindow" style="display: none;">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Users</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                       aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Settings 1</a>
+                                        </li>
+                                        <li><a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <form id="user" data-parsley-validate="" class="form-horizontal form-label-left"
+                                  novalidate="">
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Concurrent User %
+                                        SLA</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="text" id="nbUser" name="nbUser" value=""/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
             </div>
             <!------------------------ Load Topo  ------------------------------------->
             <div class="col-md-4 col-sm-12 col-xs-12">
@@ -109,7 +158,8 @@
                               class="form-horizontal form-label-left" novalidate>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Real Tologies</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12 no-padding">Real
+                                    Topologies:</label>
                                 <div class="col-md-6 col-sm-6 col-xs-9" id="divSelectTopo">
 
                                 </div>
@@ -121,31 +171,34 @@
 
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Grid Topology:</label>
-                                <div class="col-md-2 col-sm-2 col-xs-2">
-                                    <select class="form-control " id="grid1">
-                                        <option value="2">2</option>
-                                        <option value="3" selected="selected">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                    </select>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12 no-padding">Grid
+                                    Topology:</label>
+                                <div class="col-md-6 col-sm-6 col-xs-6 ">
+                                    <div class=" col-md-5 col-sm-5 col-xs-5 no-padding">
+                                        <select class="form-control " id="grid1">
+                                            <option value="2">2</option>
+                                            <option value="3" selected="selected">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-2 no-padding ">
+                                        <span class="glyphicon glyphicon-remove" style="font-size: 24px;"></span>
+                                    </div>
+                                    <div class="col-md-5 col-sm-5 col-xs-5 no-padding">
+                                        <select class="form-control" id="grid2">
+                                            <option value="2">2</option>
+                                            <option value="3" selected="selected">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-md-1 col-sm-1 col-xs-1 ">
-                                    <span class="glyphicon glyphicon-remove" style="font-size: 24px;"></span>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-2">
-                                    <select class="form-control" id="grid2">
-                                        <option value="2">2</option>
-                                        <option value="3" selected="selected">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-1 col-sm-1 col-xs-1 "></div>
+                                <!--<div class="col-md-1 col-sm-1 col-xs-1 "></div>-->
                                 <div class="col-md-3 col-sm-3 col-xs-3">
                                     <button type="button" class="btn btn-success" onClick="sendGrid()">Load Grid
 
@@ -286,13 +339,14 @@
 
                         <div class="ln_solid"></div>
                         <div class="form-group">
-                            <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3">
+                            <div class="col-md-5 col-sm-5 col-xs-12 col-md-offset-1">
                                 <!--<button type="submit" class="btn btn-danger">Cancel</button>-->
                                 <button id="sumbitsla" type="button" class="btn btn-success" onClick="submitSLA()">Embed
                                     SLA
                                 </button>
                             </div>
-                            <div class="col-md-3 col-sm-3 col-xs-12">
+
+                            <div class="col-md-6 col-sm-6 col-xs-12">
                                 <!--<button type="submit" class="btn btn-danger">Cancel</button>-->
                                 <button id="sumbitosla" type="button" class="btn btn-info" onClick="optimalSLA()">Find
                                     Optimal Solution
@@ -467,9 +521,26 @@
 
     <!-- footer content -->
     <footer>
-        <div class="pull-right">
-            <a href="https://giraf.com">G.I.R.A.F.</a>
+        <div class="text-center ">
+            <a href="#">
+                <img class="img-thumbnail" src="./app/img/GIRAFE.svg"
+                     style="max-height: 150px;max-width: 150px;">
+            </a>
+            <a href="http://viotech.net/">
+                <img class="img-thumbnail" src="./app/img/logo_white.svg" style="max-height: 150px;max-width: 250px">
+            </a>
+            <a href="http://www.labri.fr/">
+                <img class="img-thumbnail" src="./app/img/LogoLabri.png" style="max-height: 100px;max-width: 150px">
+            </a>
+            <a href=https://www.u-bordeaux.fr/">
+                <img class="img-thumbnail" src="./app/img/Universite%20Bordeaux%20RVB-10.jpeg"
+                     style="max-height: 150px;max-width: 250px">
+            </a>
+            <div class="pull-right">
+                <a href="http://girafe.nextnet.top">G.I.R.A.F.E.</a>
+            </div>
         </div>
+
         <div class="clearfix"></div>
     </footer>
     <!-- /footer content -->
