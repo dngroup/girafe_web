@@ -138,7 +138,6 @@ function ctrlTopo() {
             }
         }
         $("#SLAwindow").show();
-        $("#userswindow").show();
 
         g = f.select("g");
         s.append(g);
@@ -166,6 +165,10 @@ function ctrlSLA() {
             console.log(c.id);
             if (c.node.textContent.indexOf("VHG") >= 0) {
                 c.node.textContent = c.node.textContent.replace("VHG", "VMG");
+
+            }
+            if (c.node.textContent.indexOf("S") >= 0) {
+                c.node.textContent = c.node.textContent.replace("S", "CG");
 
             }
         }
@@ -196,6 +199,8 @@ function ctrlSLA() {
     $("#videoWindow").show();
     $("#videoHDWindow").show();
     $("#videoSDWindow").show();
+
+    $("#userswindow").show();
 
 
     getMPD();

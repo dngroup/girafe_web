@@ -1,0 +1,1 @@
+IDRViewer.config = {"pagecount":1,"title":"","author":"","fileName":"girafe.pdf","bounds":[[3642,5149]],"bookmarks":[],"thumbnailType":"jpg","pageType":"svg","pageLabels":[]};
