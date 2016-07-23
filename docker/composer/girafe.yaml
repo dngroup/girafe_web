@@ -1,23 +1,24 @@
 dockermgt:
   image: dngroup/simu-dockermgt
+  restart: always
   ports:
    - "9001:9001"
   volumes:
    - /tmp/datatemu/:/tmp/datatemu/
 sessionmgt:
   image: dngroup/simu-sessionmgt
+  restart: always
   ports:
    - "9000:9000"
   links:
    - dockermgt
   volumes:
    - /tmp/datatemu/:/tmp/datatemu/
-  environment:
-    HDP: http://localhost:9003/cdnhd.mpd
-    HD: http://localhost:9002/cdn.mpd
-    SD: http://localhost:9003/cdnld.mpd
+  env_file:
+        - application.env
 server:
   image: dngroup/simu-serverapache
+  restart: always
   ports:
    - "9002:80"
   cap_add:
@@ -26,6 +27,7 @@ server:
    - ../input:/usr/local/apache2/htdocs/
 apache:
   image: dngroup/simu-serverapache
+  restart: always
   ports:
    - "9003:80"
   cap_add:
