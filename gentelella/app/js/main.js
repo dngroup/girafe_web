@@ -193,7 +193,7 @@ function ctrlSLA() {
         s.zpd({zoom: true, drag: false});
 
         // $("#graphWindow").show();
-        svgAppended();
+        // svgAppended();
 
     });
     $("#videoWindow").show();
