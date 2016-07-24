@@ -91,6 +91,8 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
+						Here we display ISP topologies, and successful embedding of vCDN Service.
+						Click on the nodes to assign Client Groups and CDNs peering points.
                         <svg id="svg" height="800" width="100%">
                             <!--<g transform="scale(1)">-->
                             <!--<image x="0" y="0" height="100%" width="100%"  xlink:href="./input/res2.svg"/>-->
@@ -162,6 +164,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
+						Select the Topology to be loaded in the working area.
                         <br>
                         <form id="topo" name="topo" data-parsley-validate=""
                               class="form-horizontal form-label-left" novalidate>
@@ -242,8 +245,11 @@
                         </ul>
                         <div class="clearfix"></div>
                     </div>
+                    
                     <form id="SLA" name="SLA" data-parsley-validate="" class="form-horizontal form-label-left"
                           novalidate="">
+                        Click on the Client button to place client groups on the topology.
+                        Use the sliders to change SLA values.
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Put
                             </label>
@@ -281,37 +287,7 @@
                         </div>
 
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Number of VMG: </label>
-                            <!--<div class="col-md-9 col-sm-9 col-xs-12">-->
-                            <div class="col-md-9 col-sm-9 col-xs-9">
-                                <select class="form-control " id="vmg">
-                                    <option value="1" selected="selected">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                </select>
-                            </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Number of vCDN: </label>
-                            <div class="col-md-9 col-sm-9 col-xs-9">
-                                <select class="form-control" id="vcdn">
-                                    <option value="1" selected="selected">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                </select>
-                            </div>
-                            <!--</div>-->
-                        </div>
 
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Bandwidth Per User </label>
@@ -343,6 +319,40 @@
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input type="text" id="sla_delay" name="sla_delay" value=""/>
                             </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Number of VMG: </label>
+                            <!--<div class="col-md-9 col-sm-9 col-xs-12">-->
+                            <div class="col-md-9 col-sm-9 col-xs-9">
+                                <select class="form-control " id="vmg">
+                                    <option value="1" selected="selected">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Number of vCDN: </label>
+                            <div class="col-md-9 col-sm-9 col-xs-9">
+                                <select class="form-control" id="vcdn">
+                                    <option value="1" selected="selected">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                </select>
+                            </div>
+
+                        
+                            <!--</div>-->
                         </div>
 
 
@@ -396,6 +406,7 @@
                     <div class="x_title">
                         <h2>HD Premium Profile
                         </h2>
+                        
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
@@ -415,6 +426,8 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
+						<p>
+                        Clients requests are always routed to the vCDN.</p>
                         <body>
                         <div>
                             <video id="videoPlayerHD" preload="none" autoplay="false" controls loop></video>
@@ -429,6 +442,7 @@
                     <div class="x_title">
                         <h2>HD Profile
                         </h2>
+                        
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
@@ -448,6 +462,9 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
+						<p>
+                        Clients requests are routed to the vCDN if the bandwidth allows it. SD fallback is activated if the vCDN link is saturated.
+                        </p>
                         <body>
                         <div>
                             <video id="videoPlayer" preload="none" autoplay="false" controls loop></video>
@@ -462,6 +479,7 @@
                     <div class="x_title">
                         <h2>SD Profile
                         </h2>
+                        
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
@@ -481,6 +499,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
+						<p>Clients requests are always routed to the CDN.</p>
                         <body>
                         <div>
                             <video id="videoPlayerSD" preload="none" autoplay="false" controls loop></video>
