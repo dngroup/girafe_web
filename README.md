@@ -1,1 +1,1 @@
-# temu-demo
+# girafe-demo
