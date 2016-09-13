@@ -12,7 +12,7 @@ var urlSVG = "/api/simu/svg/";
 var urlVideo = "http://localhost:9002/cdn.mpd";
 var urlVideoSD = "http://localhost:9003/cdnld.mpd";
 var urlVideoHD = "http://localhost:9003/cdnhd.mpd";
-var urlMPD = "/api/simu/mpd/"
+var urlMPD = "/api/simu/mpd/";
 
 // var filterBlur = s.filter(Snap.filter.blur(4));
 

@@ -204,6 +204,7 @@ function submitSLA() {
             addValueOnTable(res.vmg, res.vcdn, res.costs);
             ctrlSLA();
             loadsla(nbUsersSla);
+            submitUsers();
 
         }
         else if (req.status >= 400 && req.status <= 599) {
@@ -290,6 +291,12 @@ function submitUsers() {
         if (req.status >= 200 && req.status <= 299) {
 
         }
+    }
+    if (data.nbusers>120){
+        player.setQualityFor("video", 0);
+    }
+    if (data.nbusers<120){
+        player.setQualityFor("video", 1);
     }
 
     req.onprogress = onProgress;
