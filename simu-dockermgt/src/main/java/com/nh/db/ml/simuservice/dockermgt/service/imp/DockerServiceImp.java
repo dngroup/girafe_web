@@ -11,14 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.async.ResultCallback;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.command.ExecCreateCmdResponse;
-import com.github.dockerjava.api.command.SearchImagesCmd;
 import com.github.dockerjava.api.model.Bind;
 import com.github.dockerjava.api.model.Container;
-import com.github.dockerjava.api.model.ExposedPort;
-import com.github.dockerjava.api.model.Ports;
 import com.github.dockerjava.api.model.Volume;
 import com.github.dockerjava.core.command.ExecStartResultCallback;
 import com.github.dockerjava.core.command.WaitContainerResultCallback;
@@ -158,9 +154,9 @@ public class DockerServiceImp implements DockerService {
 		dockerClient.waitContainerCmd(container2.getId()).exec(new WaitContainerResultCallback());
 		dockerClient.startContainerCmd(container3.getId()).exec();
 		dockerClient.waitContainerCmd(container3.getId()).exec(new WaitContainerResultCallback());
-		// dockerClient.removeContainerCmd(container.getId()).exec();
-		// dockerClient.removeContainerCmd(container2.getId()).exec();
-		// dockerClient.removeContainerCmd(container3.getId()).exec();
+		 dockerClient.removeContainerCmd(container.getId()).exec();
+		 dockerClient.removeContainerCmd(container2.getId()).exec();
+		 dockerClient.removeContainerCmd(container3.getId()).exec();
 	}
 
 	@Override
@@ -196,9 +192,9 @@ public class DockerServiceImp implements DockerService {
 		dockerClient.waitContainerCmd(container2.getId()).exec(new WaitContainerResultCallback());
 		dockerClient.startContainerCmd(container3.getId()).exec();
 		dockerClient.waitContainerCmd(container3.getId()).exec(new WaitContainerResultCallback());
-		// dockerClient.removeContainerCmd(container.getId()).exec();
-		// dockerClient.removeContainerCmd(container2.getId()).exec();
-		// dockerClient.removeContainerCmd(container3.getId()).exec();
+		 dockerClient.removeContainerCmd(container.getId()).exec();
+		 dockerClient.removeContainerCmd(container2.getId()).exec();
+		 dockerClient.removeContainerCmd(container3.getId()).exec();
 	}
 
 	@Override
@@ -220,9 +216,9 @@ public class DockerServiceImp implements DockerService {
 		dockerClient.waitContainerCmd(container2.getId()).exec(new WaitContainerResultCallback());
 		dockerClient.startContainerCmd(container3.getId()).exec();
 		dockerClient.waitContainerCmd(container3.getId()).exec(new WaitContainerResultCallback());
-		// dockerClient.removeContainerCmd(container.getId()).exec();
-		// dockerClient.removeContainerCmd(container2.getId()).exec();
-		// dockerClient.removeContainerCmd(container3.getId()).exec();
+		 dockerClient.removeContainerCmd(container.getId()).exec();
+		 dockerClient.removeContainerCmd(container2.getId()).exec();
+		 dockerClient.removeContainerCmd(container3.getId()).exec();
 	}
 
 	@Override
@@ -268,9 +264,9 @@ public class DockerServiceImp implements DockerService {
 		dockerClient.waitContainerCmd(container2.getId()).exec(new WaitContainerResultCallback());
 		dockerClient.startContainerCmd(container3.getId()).exec();
 		dockerClient.waitContainerCmd(container3.getId()).exec(new WaitContainerResultCallback());
-		// dockerClient.removeContainerCmd(container.getId()).exec();
-		// dockerClient.removeContainerCmd(container2.getId()).exec();
-		// dockerClient.removeContainerCmd(container3.getId()).exec();
+		 dockerClient.removeContainerCmd(container.getId()).exec();
+		 dockerClient.removeContainerCmd(container2.getId()).exec();
+		 dockerClient.removeContainerCmd(container3.getId()).exec();
 	}
 
 	@Override
@@ -306,8 +302,8 @@ public class DockerServiceImp implements DockerService {
 		dockerClient.waitContainerCmd(container.getId()).exec(new WaitContainerResultCallback());
 		dockerClient.startContainerCmd(container3.getId()).exec();
 		dockerClient.waitContainerCmd(container3.getId()).exec(new WaitContainerResultCallback());
-		// dockerClient.removeContainerCmd(container.getId()).exec();
-		// dockerClient.removeContainerCmd(container3.getId()).exec();
+		dockerClient.removeContainerCmd(container.getId()).exec();
+		dockerClient.removeContainerCmd(container3.getId()).exec();
 	}
 
 	@Override
