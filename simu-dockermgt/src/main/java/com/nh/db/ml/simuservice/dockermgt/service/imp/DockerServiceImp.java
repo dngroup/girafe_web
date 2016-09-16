@@ -1,28 +1,27 @@
 package com.nh.db.ml.simuservice.dockermgt.service.imp;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.async.ResultCallback;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.command.ExecCreateCmdResponse;
 import com.github.dockerjava.api.command.SearchImagesCmd;
 import com.github.dockerjava.api.model.Bind;
-import com.github.dockerjava.api.model.Capability;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.Ports;
 import com.github.dockerjava.api.model.Volume;
+import com.github.dockerjava.core.command.ExecStartResultCallback;
+import com.github.dockerjava.core.command.WaitContainerResultCallback;
 import com.nh.db.ml.simuservice.dockergmgt.cli.CliConfSingleton;
 import com.nh.db.ml.simuservice.dockermgt.service.DockerService;
 import com.nh.db.ml.simuservice.model.Grid;
@@ -54,16 +53,18 @@ public class DockerServiceImp implements DockerService {
 						.execCreateCmd(container.getId()).withAttachStdout(true).withCmd("tc", "qdisc", "change", "dev",
 								"eth0", "root", "tbf", "rate", bitrate + "kbit", "burst", "64kbit", "latency", "1ms")
 						.exec();
-				InputStream run=dockerClient.execStartCmd(execCreateCmdResponse.getId()).exec();
-				System.out.println(run);
+				// ResultCallback dd;
+				dockerClient.execStartCmd(execCreateCmdResponse.getId())
+						.exec(new ExecStartResultCallback(System.out, System.err));
+				// System.out.println(run);
 			}
 		}
 	}
 
 	@Override
 	public void setBitrate(NbUsers nbUsers) {
-		setBitrate("server", 170000/nbUsers.getNbusers());
-		
+		setBitrate("server", 170000 / nbUsers.getNbusers());
+
 	}
 
 	/*
@@ -84,7 +85,8 @@ public class DockerServiceImp implements DockerService {
 						.execCreateCmd(container.getId()).withAttachStdout(true).withCmd("tc", "qdisc", "change", "dev",
 								"eth0", "root", "tbf", "rate", "2500" + "kbit", "burst", "64kbit", "latency", "1ms")
 						.exec();
-				dockerClient.execStartCmd(execCreateCmdResponse.getId()).exec();
+				dockerClient.execStartCmd(execCreateCmdResponse.getId())
+						.exec(new ExecStartResultCallback(System.out, System.err));
 			}
 		}
 	}
@@ -105,17 +107,19 @@ public class DockerServiceImp implements DockerService {
 			if (container.getNames()[0].contains(idDocker)) {
 				ExecCreateCmdResponse execCreateCmdResponse = dockerClient.execCreateCmd(container.getId())
 						.withAttachStdout(true).withCmd("tc", "qdisc").exec();
-				InputStream inputStream = dockerClient.execStartCmd(execCreateCmdResponse.getId()).exec();
+				OutputStream outputStream = null;
+				dockerClient.execStartCmd(execCreateCmdResponse.getId())
+						.exec(new ExecStartResultCallback(outputStream, System.err));
 
-				StringWriter writer = new StringWriter();
-				try {
-					IOUtils.copy(inputStream, writer, "UTF-8");
-					String theString = writer.toString();
-					LOGGER.debug(theString);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				// StringWriter writer = new StringWriter();
+				// try {
+				// IOUtils.copy(inputStream, writer, "UTF-8");
+				// String theString = writer.toString();
+				// LOGGER.debug(theString);
+				// } catch (IOException e) {
+				// // TODO Auto-generated catch block
+				// e.printStackTrace();
+				// }
 
 			}
 		}
@@ -138,8 +142,9 @@ public class DockerServiceImp implements DockerService {
 	public void createSvgFromGrid(Grid grid) {
 		Volume volume = new Volume("/opt/simuservice/offline/results/");
 		CreateContainerResponse container = dockerClient.createContainerCmd("dngroup/simuservice")
-				.withBinds(new Bind(CliConfSingleton.folder + grid.getSessionId(), volume))
-				.withCmd("python", "-m", "offline.tools.dstep", "--grid", grid.getX() + "x" + grid.getY(), "--just-topo").exec();
+				.withBinds(new Bind(CliConfSingleton.folder + grid.getSessionId(), volume)).withCmd("python", "-m",
+						"offline.tools.dstep", "--grid", grid.getX() + "x" + grid.getY(), "--just-topo")
+				.exec();
 		CreateContainerResponse container2 = dockerClient.createContainerCmd("dngroup/simuservice")
 				.withBinds(new Bind(CliConfSingleton.folder + grid.getSessionId(), volume))
 				.withCmd("python", "-m", "offline.tools.plotting", "--svg", "--net").exec();
@@ -148,19 +153,19 @@ public class DockerServiceImp implements DockerService {
 				.withCmd("chmod", "737", "/opt/simuservice/offline/results/res.svg").exec();
 
 		dockerClient.startContainerCmd(container.getId()).exec();
-		dockerClient.waitContainerCmd(container.getId()).exec();
+		dockerClient.waitContainerCmd(container.getId()).exec(new WaitContainerResultCallback());
 		dockerClient.startContainerCmd(container2.getId()).exec();
-		dockerClient.waitContainerCmd(container2.getId()).exec();
+		dockerClient.waitContainerCmd(container2.getId()).exec(new WaitContainerResultCallback());
 		dockerClient.startContainerCmd(container3.getId()).exec();
-		dockerClient.waitContainerCmd(container3.getId()).exec();
-		dockerClient.removeContainerCmd(container.getId()).exec();
-		dockerClient.removeContainerCmd(container2.getId()).exec();
-		dockerClient.removeContainerCmd(container3.getId()).exec();
+		dockerClient.waitContainerCmd(container3.getId()).exec(new WaitContainerResultCallback());
+		// dockerClient.removeContainerCmd(container.getId()).exec();
+		// dockerClient.removeContainerCmd(container2.getId()).exec();
+		// dockerClient.removeContainerCmd(container3.getId()).exec();
 	}
 
 	@Override
 	public void createSvgFromTopo(Grid grid) {
-		
+
 		List<String> list = new ArrayList<String>();
 		list.add("python");
 		list.add("-m");
@@ -170,14 +175,14 @@ public class DockerServiceImp implements DockerService {
 		for (String arg : args) {
 			list.add(arg);
 		}
-		
+
 		list.add("--just-topo");
-		
-		
+
 		Volume volume = new Volume("/opt/simuservice/offline/results/");
 		CreateContainerResponse container = dockerClient.createContainerCmd("dngroup/simuservice")
 				.withBinds(new Bind(CliConfSingleton.folder + grid.getSessionId(), volume))
-				.withCmd(list.toArray(new String[list.size()])).exec();
+				.withCmd(list.toArray(new String[list.size()]))
+				.exec();
 		CreateContainerResponse container2 = dockerClient.createContainerCmd("dngroup/simuservice")
 				.withBinds(new Bind(CliConfSingleton.folder + grid.getSessionId(), volume))
 				.withCmd("python", "-m", "offline.tools.plotting", "--svg", "--net").exec();
@@ -186,14 +191,14 @@ public class DockerServiceImp implements DockerService {
 				.withCmd("chmod", "737", "/opt/simuservice/offline/results/res.svg").exec();
 
 		dockerClient.startContainerCmd(container.getId()).exec();
-		dockerClient.waitContainerCmd(container.getId()).exec();
+		dockerClient.waitContainerCmd(container.getId()).exec(new WaitContainerResultCallback());
 		dockerClient.startContainerCmd(container2.getId()).exec();
-		dockerClient.waitContainerCmd(container2.getId()).exec();
+		dockerClient.waitContainerCmd(container2.getId()).exec(new WaitContainerResultCallback());
 		dockerClient.startContainerCmd(container3.getId()).exec();
-		dockerClient.waitContainerCmd(container3.getId()).exec();
-		dockerClient.removeContainerCmd(container.getId()).exec();
-		dockerClient.removeContainerCmd(container2.getId()).exec();
-		dockerClient.removeContainerCmd(container3.getId()).exec();
+		dockerClient.waitContainerCmd(container3.getId()).exec(new WaitContainerResultCallback());
+		// dockerClient.removeContainerCmd(container.getId()).exec();
+		// dockerClient.removeContainerCmd(container2.getId()).exec();
+		// dockerClient.removeContainerCmd(container3.getId()).exec();
 	}
 
 	@Override
@@ -210,14 +215,14 @@ public class DockerServiceImp implements DockerService {
 				.withCmd("chmod", "737", "/opt/simuservice/offline/results/res.svg").exec();
 
 		dockerClient.startContainerCmd(container.getId()).exec();
-		dockerClient.waitContainerCmd(container.getId()).exec();
+		dockerClient.waitContainerCmd(container.getId()).exec(new WaitContainerResultCallback());
 		dockerClient.startContainerCmd(container2.getId()).exec();
-		dockerClient.waitContainerCmd(container2.getId()).exec();
+		dockerClient.waitContainerCmd(container2.getId()).exec(new WaitContainerResultCallback());
 		dockerClient.startContainerCmd(container3.getId()).exec();
-		dockerClient.waitContainerCmd(container3.getId()).exec();
-		dockerClient.removeContainerCmd(container.getId()).exec();
-		dockerClient.removeContainerCmd(container2.getId()).exec();
-		dockerClient.removeContainerCmd(container3.getId()).exec();
+		dockerClient.waitContainerCmd(container3.getId()).exec(new WaitContainerResultCallback());
+		// dockerClient.removeContainerCmd(container.getId()).exec();
+		// dockerClient.removeContainerCmd(container2.getId()).exec();
+		// dockerClient.removeContainerCmd(container3.getId()).exec();
 	}
 
 	@Override
@@ -227,10 +232,10 @@ public class DockerServiceImp implements DockerService {
 		list.add("python");
 		list.add("-m");
 		list.add("offline.tools.dstep");
-		
-			list.add("--topo");
-			list.add(slaInfo.getTopo());
-		
+
+		list.add("--topo");
+		list.add(slaInfo.getTopo());
+
 		list.add("--vhg");
 		list.add((slaInfo.getVmg()));
 		list.add("--vcdn");
@@ -254,18 +259,18 @@ public class DockerServiceImp implements DockerService {
 				.withCmd("python", "-m", "offline.tools.plotting", "--svg").exec();
 		CreateContainerResponse container3 = dockerClient.createContainerCmd("dngroup/simuservice")
 				.withBinds(new Bind(CliConfSingleton.folder + slaInfo.getSessionId(), volume))
-				.withCmd("chmod", "737","-R", "/opt/simuservice/offline/results/").exec();
+				.withCmd("chmod", "737", "-R", "/opt/simuservice/offline/results/").exec();
 
 		dockerClient.startContainerCmd(container.getId()).exec();
-		dockerClient.waitContainerCmd(container.getId()).exec();
-		
+		dockerClient.waitContainerCmd(container.getId()).exec(new WaitContainerResultCallback());
+
 		dockerClient.startContainerCmd(container2.getId()).exec();
-		dockerClient.waitContainerCmd(container2.getId()).exec();
+		dockerClient.waitContainerCmd(container2.getId()).exec(new WaitContainerResultCallback());
 		dockerClient.startContainerCmd(container3.getId()).exec();
-		dockerClient.waitContainerCmd(container3.getId()).exec();
-		dockerClient.removeContainerCmd(container.getId()).exec();
-		dockerClient.removeContainerCmd(container2.getId()).exec();
-		dockerClient.removeContainerCmd(container3.getId()).exec();
+		dockerClient.waitContainerCmd(container3.getId()).exec(new WaitContainerResultCallback());
+		// dockerClient.removeContainerCmd(container.getId()).exec();
+		// dockerClient.removeContainerCmd(container2.getId()).exec();
+		// dockerClient.removeContainerCmd(container3.getId()).exec();
 	}
 
 	@Override
@@ -275,10 +280,10 @@ public class DockerServiceImp implements DockerService {
 		list.add("python");
 		list.add("-m");
 		list.add("offline.tools.ostep");
-//		if (slaInfo.getTopo() != null) {
-			list.add("--topo");
-			list.add(slaInfo.getTopo());
-//		}
+		// if (slaInfo.getTopo() != null) {
+		list.add("--topo");
+		list.add(slaInfo.getTopo());
+		// }
 		list.add("--sla_delay");
 		list.add(Integer.toString(slaInfo.getSladelay()));
 		list.add("--sourcebw");
@@ -295,14 +300,14 @@ public class DockerServiceImp implements DockerService {
 				.withCmd(list.toArray(new String[list.size()])).exec();
 		CreateContainerResponse container3 = dockerClient.createContainerCmd("dngroup/simuservice")
 				.withBinds(new Bind(CliConfSingleton.folder + slaInfo.getSessionId(), volume))
-				.withCmd("chmod", "737","-R", "/opt/simuservice/offline/results/").exec();
+				.withCmd("chmod", "737", "-R", "/opt/simuservice/offline/results/").exec();
 
 		dockerClient.startContainerCmd(container.getId()).exec();
-		dockerClient.waitContainerCmd(container.getId()).exec();
+		dockerClient.waitContainerCmd(container.getId()).exec(new WaitContainerResultCallback());
 		dockerClient.startContainerCmd(container3.getId()).exec();
-		dockerClient.waitContainerCmd(container3.getId()).exec();
-		dockerClient.removeContainerCmd(container.getId()).exec();
-		dockerClient.removeContainerCmd(container3.getId()).exec();
+		dockerClient.waitContainerCmd(container3.getId()).exec(new WaitContainerResultCallback());
+		// dockerClient.removeContainerCmd(container.getId()).exec();
+		// dockerClient.removeContainerCmd(container3.getId()).exec();
 	}
 
 	@Override
@@ -314,32 +319,38 @@ public class DockerServiceImp implements DockerService {
 
 	@Override
 	public String createVideoServer() {
-		createRegistery();
-		ExposedPort tcp80 = ExposedPort.tcp(80);
-		Ports portBindings = new Ports();
-		portBindings.bind(tcp80, Ports.Binding(null));
-
-		Volume volume = new Volume("/usr/share/nginx/html");
-		Bind bind = new Bind(CliConfSingleton.videoFolder, volume);
-		CreateContainerResponse container = dockerClient.createContainerCmd("ngnix:1.10").withBinds(bind)
-				.withExposedPorts(tcp80).withPortBindings(portBindings).withPublishAllPorts(true).exec();
-		dockerClient.startContainerCmd(container.getId()).exec();
-
-		return container.getId();
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public void createRegistery() {
-
-		SearchImagesCmd searchImagesCmd = dockerClient.searchImagesCmd("nginx-proxy");
-		ExposedPort tcp80 = ExposedPort.tcp(80);
-		Ports portBindings = new Ports();
-		portBindings.bind(tcp80, Ports.Binding(80));
-		Volume volume = new Volume("/tmp/docker.sock");
-		Bind bind = new Bind("/var/run/docker.sock", volume);
-		CreateContainerResponse container = dockerClient.createContainerCmd("jwilder/nginx-proxy")
-				.withName("nginx-proxy").withBinds(bind).exec();
-
-		dockerClient.startContainerCmd(container.getId()).exec();
-	}
+//	@Override
+//	public String createVideoServer() {
+//		createRegistery();
+//		ExposedPort tcp80 = ExposedPort.tcp(80);
+//		Ports portBindings = new Ports();
+//		portBindings.bind(tcp80, Ports.Binding(null));
+//
+//		Volume volume = new Volume("/usr/share/nginx/html");
+//		Bind bind = new Bind(CliConfSingleton.videoFolder, volume);
+//		CreateContainerResponse container = dockerClient.createContainerCmd("ngnix:1.10").withBinds(bind)
+//				.withExposedPorts(tcp80).withPortBindings(portBindings).withPublishAllPorts(true).exec();
+//		dockerClient.startContainerCmd(container.getId()).exec();
+//
+//		return container.getId();
+//	}
+//
+//	public void createRegistery() {
+//
+//		SearchImagesCmd searchImagesCmd = dockerClient.searchImagesCmd("nginx-proxy");
+//		ExposedPort tcp80 = ExposedPort.tcp(80);
+//		Ports portBindings = new Ports();
+//		portBindings.bind(tcp80, Ports.Binding(80));
+//		Volume volume = new Volume("/tmp/docker.sock");
+//		Bind bind = new Bind("/var/run/docker.sock", volume);
+//		CreateContainerResponse container = dockerClient.createContainerCmd("jwilder/nginx-proxy")
+//				.withName("nginx-proxy").withBinds(bind).exec();
+//
+//		dockerClient.startContainerCmd(container.getId()).exec();
+//	}
 
 }

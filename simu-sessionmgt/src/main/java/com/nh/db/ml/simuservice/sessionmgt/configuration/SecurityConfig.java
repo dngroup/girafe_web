@@ -69,9 +69,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	}
 	
-    @EnableGlobalMethodSecurity(prePostEnabled = true)
-    private static class GlobalSecurityConfiguration extends GlobalMethodSecurityConfiguration {
-    }
+//    @EnableGlobalMethodSecurity(prePostEnabled = true)
+//    private static class GlobalSecurityConfiguration extends GlobalMethodSecurityConfiguration {
+//    }
     
     @Override
     public void configure(WebSecurity web) throws Exception {
