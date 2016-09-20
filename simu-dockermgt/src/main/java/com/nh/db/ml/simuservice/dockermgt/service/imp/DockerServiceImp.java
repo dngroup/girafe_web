@@ -154,9 +154,9 @@ public class DockerServiceImp implements DockerService {
 		dockerClient.waitContainerCmd(container2.getId()).exec(new WaitContainerResultCallback());
 		dockerClient.startContainerCmd(container3.getId()).exec();
 		dockerClient.waitContainerCmd(container3.getId()).exec(new WaitContainerResultCallback());
-		 dockerClient.removeContainerCmd(container.getId()).exec();
-		 dockerClient.removeContainerCmd(container2.getId()).exec();
-		 dockerClient.removeContainerCmd(container3.getId()).exec();
+		dockerClient.removeContainerCmd(container.getId()).exec();
+		dockerClient.removeContainerCmd(container2.getId()).exec();
+		dockerClient.removeContainerCmd(container3.getId()).exec();
 	}
 
 	@Override
@@ -175,50 +175,49 @@ public class DockerServiceImp implements DockerService {
 		list.add("--just-topo");
 
 		Volume volume = new Volume("/opt/simuservice/offline/results/");
-		CreateContainerResponse container = dockerClient.createContainerCmd("dngroup/simuservice")
+		CreateContainerResponse topoGen = dockerClient.createContainerCmd("dngroup/simuservice")
 				.withBinds(new Bind(CliConfSingleton.folder + grid.getSessionId(), volume))
-				.withCmd(list.toArray(new String[list.size()]))
-				.exec();
-		CreateContainerResponse container2 = dockerClient.createContainerCmd("dngroup/simuservice")
+				.withCmd(list.toArray(new String[list.size()])).exec();
+		CreateContainerResponse svgGen = dockerClient.createContainerCmd("dngroup/simuservice")
 				.withBinds(new Bind(CliConfSingleton.folder + grid.getSessionId(), volume))
 				.withCmd("python", "-m", "offline.tools.plotting", "--svg", "--net").exec();
-		CreateContainerResponse container3 = dockerClient.createContainerCmd("dngroup/simuservice")
+		CreateContainerResponse chmod = dockerClient.createContainerCmd("dngroup/simuservice")
 				.withBinds(new Bind(CliConfSingleton.folder + grid.getSessionId(), volume))
 				.withCmd("chmod", "737", "/opt/simuservice/offline/results/res.svg").exec();
 
-		dockerClient.startContainerCmd(container.getId()).exec();
-		dockerClient.waitContainerCmd(container.getId()).exec(new WaitContainerResultCallback());
-		dockerClient.startContainerCmd(container2.getId()).exec();
-		dockerClient.waitContainerCmd(container2.getId()).exec(new WaitContainerResultCallback());
-		dockerClient.startContainerCmd(container3.getId()).exec();
-		dockerClient.waitContainerCmd(container3.getId()).exec(new WaitContainerResultCallback());
-		 dockerClient.removeContainerCmd(container.getId()).exec();
-		 dockerClient.removeContainerCmd(container2.getId()).exec();
-		 dockerClient.removeContainerCmd(container3.getId()).exec();
+		dockerClient.startContainerCmd(topoGen.getId()).exec();
+		dockerClient.waitContainerCmd(topoGen.getId()).exec(new WaitContainerResultCallback());
+		dockerClient.startContainerCmd(svgGen.getId()).exec();
+		dockerClient.waitContainerCmd(svgGen.getId()).exec(new WaitContainerResultCallback());
+		dockerClient.startContainerCmd(chmod.getId()).exec();
+		dockerClient.waitContainerCmd(chmod.getId()).exec(new WaitContainerResultCallback());
+		dockerClient.removeContainerCmd(topoGen.getId()).exec();
+		dockerClient.removeContainerCmd(svgGen.getId()).exec();
+		dockerClient.removeContainerCmd(chmod.getId()).exec();
 	}
 
 	@Override
 	public void createSvgDefault(String sessionID) {
 		Volume volume = new Volume("/opt/simuservice/offline/results/");
-		CreateContainerResponse container = dockerClient.createContainerCmd("dngroup/simuservice")
+		CreateContainerResponse topoGen = dockerClient.createContainerCmd("dngroup/simuservice")
 				.withBinds(new Bind(CliConfSingleton.folder + sessionID, volume))
 				.withCmd("python", "-m", "offline.tools.dstep", "--just-topo").exec();
-		CreateContainerResponse container2 = dockerClient.createContainerCmd("dngroup/simuservice")
+		CreateContainerResponse svgGen = dockerClient.createContainerCmd("dngroup/simuservice")
 				.withBinds(new Bind(CliConfSingleton.folder + sessionID, volume))
 				.withCmd("python", "-m", "offline.tools.plotting", "--svg", "--net").exec();
-		CreateContainerResponse container3 = dockerClient.createContainerCmd("dngroup/simuservice")
+		CreateContainerResponse chmod = dockerClient.createContainerCmd("dngroup/simuservice")
 				.withBinds(new Bind(CliConfSingleton.folder + sessionID, volume))
 				.withCmd("chmod", "737", "/opt/simuservice/offline/results/res.svg").exec();
 
-		dockerClient.startContainerCmd(container.getId()).exec();
-		dockerClient.waitContainerCmd(container.getId()).exec(new WaitContainerResultCallback());
-		dockerClient.startContainerCmd(container2.getId()).exec();
-		dockerClient.waitContainerCmd(container2.getId()).exec(new WaitContainerResultCallback());
-		dockerClient.startContainerCmd(container3.getId()).exec();
-		dockerClient.waitContainerCmd(container3.getId()).exec(new WaitContainerResultCallback());
-		 dockerClient.removeContainerCmd(container.getId()).exec();
-		 dockerClient.removeContainerCmd(container2.getId()).exec();
-		 dockerClient.removeContainerCmd(container3.getId()).exec();
+		dockerClient.startContainerCmd(topoGen.getId()).exec();
+		dockerClient.waitContainerCmd(topoGen.getId()).exec(new WaitContainerResultCallback());
+		dockerClient.startContainerCmd(svgGen.getId()).exec();
+		dockerClient.waitContainerCmd(svgGen.getId()).exec(new WaitContainerResultCallback());
+		dockerClient.startContainerCmd(chmod.getId()).exec();
+		dockerClient.waitContainerCmd(chmod.getId()).exec(new WaitContainerResultCallback());
+		dockerClient.removeContainerCmd(topoGen.getId()).exec();
+		dockerClient.removeContainerCmd(svgGen.getId()).exec();
+		dockerClient.removeContainerCmd(chmod.getId()).exec();
 	}
 
 	@Override
@@ -247,26 +246,26 @@ public class DockerServiceImp implements DockerService {
 		list.add("--cdn");
 		list.addAll(slaInfo.getCdns());
 
-		CreateContainerResponse container = dockerClient.createContainerCmd("dngroup/simuservice")
+		CreateContainerResponse topoSolver = dockerClient.createContainerCmd("dngroup/simuservice")
 				.withBinds(new Bind(CliConfSingleton.folder + slaInfo.getSessionId(), volume))
 				.withCmd(list.toArray(new String[list.size()])).exec();
-		CreateContainerResponse container2 = dockerClient.createContainerCmd("dngroup/simuservice")
+		CreateContainerResponse svgGen = dockerClient.createContainerCmd("dngroup/simuservice")
 				.withBinds(new Bind(CliConfSingleton.folder + slaInfo.getSessionId(), volume))
 				.withCmd("python", "-m", "offline.tools.plotting", "--svg").exec();
-		CreateContainerResponse container3 = dockerClient.createContainerCmd("dngroup/simuservice")
+		CreateContainerResponse chmod = dockerClient.createContainerCmd("dngroup/simuservice")
 				.withBinds(new Bind(CliConfSingleton.folder + slaInfo.getSessionId(), volume))
 				.withCmd("chmod", "737", "-R", "/opt/simuservice/offline/results/").exec();
 
-		dockerClient.startContainerCmd(container.getId()).exec();
-		dockerClient.waitContainerCmd(container.getId()).exec(new WaitContainerResultCallback());
+		dockerClient.startContainerCmd(topoSolver.getId()).exec();
+		dockerClient.waitContainerCmd(topoSolver.getId()).exec(new WaitContainerResultCallback()).awaitStatusCode();
 
-		dockerClient.startContainerCmd(container2.getId()).exec();
-		dockerClient.waitContainerCmd(container2.getId()).exec(new WaitContainerResultCallback());
-		dockerClient.startContainerCmd(container3.getId()).exec();
-		dockerClient.waitContainerCmd(container3.getId()).exec(new WaitContainerResultCallback());
-		 dockerClient.removeContainerCmd(container.getId()).exec();
-		 dockerClient.removeContainerCmd(container2.getId()).exec();
-		 dockerClient.removeContainerCmd(container3.getId()).exec();
+		dockerClient.startContainerCmd(svgGen.getId()).exec();
+		dockerClient.waitContainerCmd(svgGen.getId()).exec(new WaitContainerResultCallback()).awaitStatusCode();
+		dockerClient.startContainerCmd(chmod.getId()).exec();
+		dockerClient.waitContainerCmd(chmod.getId()).exec(new WaitContainerResultCallback()).awaitStatusCode();
+		dockerClient.removeContainerCmd(topoSolver.getId()).exec();
+		dockerClient.removeContainerCmd(svgGen.getId()).exec();
+		dockerClient.removeContainerCmd(chmod.getId()).exec();
 	}
 
 	@Override
@@ -291,18 +290,18 @@ public class DockerServiceImp implements DockerService {
 		list.add("--cdn");
 		list.addAll(slaInfo.getCdns());
 
-		CreateContainerResponse container = dockerClient.createContainerCmd("dngroup/simuservice")
+		CreateContainerResponse bestSolutionSolver = dockerClient.createContainerCmd("dngroup/simuservice")
 				.withBinds(new Bind(CliConfSingleton.folder + slaInfo.getSessionId(), volume))
 				.withCmd(list.toArray(new String[list.size()])).exec();
 		CreateContainerResponse container3 = dockerClient.createContainerCmd("dngroup/simuservice")
 				.withBinds(new Bind(CliConfSingleton.folder + slaInfo.getSessionId(), volume))
 				.withCmd("chmod", "737", "-R", "/opt/simuservice/offline/results/").exec();
 
-		dockerClient.startContainerCmd(container.getId()).exec();
-		dockerClient.waitContainerCmd(container.getId()).exec(new WaitContainerResultCallback());
+		dockerClient.startContainerCmd(bestSolutionSolver.getId()).exec();
+		dockerClient.waitContainerCmd(bestSolutionSolver.getId()).exec(new WaitContainerResultCallback());
 		dockerClient.startContainerCmd(container3.getId()).exec();
 		dockerClient.waitContainerCmd(container3.getId()).exec(new WaitContainerResultCallback());
-		dockerClient.removeContainerCmd(container.getId()).exec();
+		dockerClient.removeContainerCmd(bestSolutionSolver.getId()).exec();
 		dockerClient.removeContainerCmd(container3.getId()).exec();
 	}
 
@@ -319,34 +318,37 @@ public class DockerServiceImp implements DockerService {
 		return null;
 	}
 
-//	@Override
-//	public String createVideoServer() {
-//		createRegistery();
-//		ExposedPort tcp80 = ExposedPort.tcp(80);
-//		Ports portBindings = new Ports();
-//		portBindings.bind(tcp80, Ports.Binding(null));
-//
-//		Volume volume = new Volume("/usr/share/nginx/html");
-//		Bind bind = new Bind(CliConfSingleton.videoFolder, volume);
-//		CreateContainerResponse container = dockerClient.createContainerCmd("ngnix:1.10").withBinds(bind)
-//				.withExposedPorts(tcp80).withPortBindings(portBindings).withPublishAllPorts(true).exec();
-//		dockerClient.startContainerCmd(container.getId()).exec();
-//
-//		return container.getId();
-//	}
-//
-//	public void createRegistery() {
-//
-//		SearchImagesCmd searchImagesCmd = dockerClient.searchImagesCmd("nginx-proxy");
-//		ExposedPort tcp80 = ExposedPort.tcp(80);
-//		Ports portBindings = new Ports();
-//		portBindings.bind(tcp80, Ports.Binding(80));
-//		Volume volume = new Volume("/tmp/docker.sock");
-//		Bind bind = new Bind("/var/run/docker.sock", volume);
-//		CreateContainerResponse container = dockerClient.createContainerCmd("jwilder/nginx-proxy")
-//				.withName("nginx-proxy").withBinds(bind).exec();
-//
-//		dockerClient.startContainerCmd(container.getId()).exec();
-//	}
+	// @Override
+	// public String createVideoServer() {
+	// createRegistery();
+	// ExposedPort tcp80 = ExposedPort.tcp(80);
+	// Ports portBindings = new Ports();
+	// portBindings.bind(tcp80, Ports.Binding(null));
+	//
+	// Volume volume = new Volume("/usr/share/nginx/html");
+	// Bind bind = new Bind(CliConfSingleton.videoFolder, volume);
+	// CreateContainerResponse container =
+	// dockerClient.createContainerCmd("ngnix:1.10").withBinds(bind)
+	// .withExposedPorts(tcp80).withPortBindings(portBindings).withPublishAllPorts(true).exec();
+	// dockerClient.startContainerCmd(container.getId()).exec();
+	//
+	// return container.getId();
+	// }
+	//
+	// public void createRegistery() {
+	//
+	// SearchImagesCmd searchImagesCmd =
+	// dockerClient.searchImagesCmd("nginx-proxy");
+	// ExposedPort tcp80 = ExposedPort.tcp(80);
+	// Ports portBindings = new Ports();
+	// portBindings.bind(tcp80, Ports.Binding(80));
+	// Volume volume = new Volume("/tmp/docker.sock");
+	// Bind bind = new Bind("/var/run/docker.sock", volume);
+	// CreateContainerResponse container =
+	// dockerClient.createContainerCmd("jwilder/nginx-proxy")
+	// .withName("nginx-proxy").withBinds(bind).exec();
+	//
+	// dockerClient.startContainerCmd(container.getId()).exec();
+	// }
 
 }
