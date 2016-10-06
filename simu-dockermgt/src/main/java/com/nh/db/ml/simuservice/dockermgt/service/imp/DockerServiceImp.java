@@ -149,11 +149,11 @@ public class DockerServiceImp implements DockerService {
 				.withCmd("chmod", "737", "/opt/simuservice/offline/results/res.svg").exec();
 
 		dockerClient.startContainerCmd(container.getId()).exec();
-		dockerClient.waitContainerCmd(container.getId()).exec(new WaitContainerResultCallback());
+		dockerClient.waitContainerCmd(container.getId()).exec(new WaitContainerResultCallback()).awaitStatusCode();
 		dockerClient.startContainerCmd(container2.getId()).exec();
-		dockerClient.waitContainerCmd(container2.getId()).exec(new WaitContainerResultCallback());
+		dockerClient.waitContainerCmd(container2.getId()).exec(new WaitContainerResultCallback()).awaitStatusCode();
 		dockerClient.startContainerCmd(container3.getId()).exec();
-		dockerClient.waitContainerCmd(container3.getId()).exec(new WaitContainerResultCallback());
+		dockerClient.waitContainerCmd(container3.getId()).exec(new WaitContainerResultCallback()).awaitStatusCode();
 		dockerClient.removeContainerCmd(container.getId()).exec();
 		dockerClient.removeContainerCmd(container2.getId()).exec();
 		dockerClient.removeContainerCmd(container3.getId()).exec();
@@ -186,11 +186,11 @@ public class DockerServiceImp implements DockerService {
 				.withCmd("chmod", "737", "/opt/simuservice/offline/results/res.svg").exec();
 
 		dockerClient.startContainerCmd(topoGen.getId()).exec();
-		dockerClient.waitContainerCmd(topoGen.getId()).exec(new WaitContainerResultCallback());
+		dockerClient.waitContainerCmd(topoGen.getId()).exec(new WaitContainerResultCallback()).awaitStatusCode();
 		dockerClient.startContainerCmd(svgGen.getId()).exec();
-		dockerClient.waitContainerCmd(svgGen.getId()).exec(new WaitContainerResultCallback());
+		dockerClient.waitContainerCmd(svgGen.getId()).exec(new WaitContainerResultCallback()).awaitStatusCode();
 		dockerClient.startContainerCmd(chmod.getId()).exec();
-		dockerClient.waitContainerCmd(chmod.getId()).exec(new WaitContainerResultCallback());
+		dockerClient.waitContainerCmd(chmod.getId()).exec(new WaitContainerResultCallback()).awaitStatusCode();
 		dockerClient.removeContainerCmd(topoGen.getId()).exec();
 		dockerClient.removeContainerCmd(svgGen.getId()).exec();
 		dockerClient.removeContainerCmd(chmod.getId()).exec();
@@ -210,11 +210,11 @@ public class DockerServiceImp implements DockerService {
 				.withCmd("chmod", "737", "/opt/simuservice/offline/results/res.svg").exec();
 
 		dockerClient.startContainerCmd(topoGen.getId()).exec();
-		dockerClient.waitContainerCmd(topoGen.getId()).exec(new WaitContainerResultCallback());
+		dockerClient.waitContainerCmd(topoGen.getId()).exec(new WaitContainerResultCallback()).awaitStatusCode();
 		dockerClient.startContainerCmd(svgGen.getId()).exec();
-		dockerClient.waitContainerCmd(svgGen.getId()).exec(new WaitContainerResultCallback());
+		dockerClient.waitContainerCmd(svgGen.getId()).exec(new WaitContainerResultCallback()).awaitStatusCode();
 		dockerClient.startContainerCmd(chmod.getId()).exec();
-		dockerClient.waitContainerCmd(chmod.getId()).exec(new WaitContainerResultCallback());
+		dockerClient.waitContainerCmd(chmod.getId()).exec(new WaitContainerResultCallback()).awaitStatusCode();
 		dockerClient.removeContainerCmd(topoGen.getId()).exec();
 		dockerClient.removeContainerCmd(svgGen.getId()).exec();
 		dockerClient.removeContainerCmd(chmod.getId()).exec();
@@ -298,9 +298,9 @@ public class DockerServiceImp implements DockerService {
 				.withCmd("chmod", "737", "-R", "/opt/simuservice/offline/results/").exec();
 
 		dockerClient.startContainerCmd(bestSolutionSolver.getId()).exec();
-		dockerClient.waitContainerCmd(bestSolutionSolver.getId()).exec(new WaitContainerResultCallback());
+		dockerClient.waitContainerCmd(bestSolutionSolver.getId()).exec(new WaitContainerResultCallback()).awaitStatusCode();
 		dockerClient.startContainerCmd(container3.getId()).exec();
-		dockerClient.waitContainerCmd(container3.getId()).exec(new WaitContainerResultCallback());
+		dockerClient.waitContainerCmd(container3.getId()).exec(new WaitContainerResultCallback()).awaitStatusCode();
 		dockerClient.removeContainerCmd(bestSolutionSolver.getId()).exec();
 		dockerClient.removeContainerCmd(container3.getId()).exec();
 	}
