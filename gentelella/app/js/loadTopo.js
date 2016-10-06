@@ -78,6 +78,8 @@ getList(urlGetListTopo);
 //  send selected topo
 ////////////////////////////////////////
 function sendTopo() {
+    a = $('#loadTopo').text()
+    $('#loadTopo').html(a+'<i class="fa fa-spin fa-refresh"></i>')
     var topo = {};
     topo.x=-1;
     topo.y=-1;
@@ -98,8 +100,14 @@ function sendTopo() {
 
     function onLoad(e) {
         if (req.status >= 200 && req.status <= 299) {
+            $('#loadTopo').text(a)
             sessionInfo = JSON.parse(req.responseText);
             ctrlTopo();
+        }
+        else if (req.status >= 400 && req.status <= 599) {
+            //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
+            console.log(req.response);
+            $('#loadTopo').html(a+' <i class="fa fa-close"></i>')
         }
     }
 
@@ -119,6 +127,8 @@ function sendTopo() {
 ////////////////////////////////////////
 function sendGrid() {
     var grid = {};
+    a = $('#loadGrid').text()
+    $('#loadGrid').html(a+'<i class="fa fa-spin fa-refresh"></i>')
     grid.x = document.getElementById("grid1").value;
     grid.y = document.getElementById("grid2").value;
     grid.topo = "grid," + grid.x + "," +grid.y;
@@ -136,6 +146,12 @@ function sendGrid() {
         if (req.status >= 200 && req.status <= 299) {
             sessionInfo = JSON.parse(req.responseText);
             ctrlTopo();
+            $('#loadGrid').text(a)
+        }
+        else if (req.status >= 400 && req.status <= 599) {
+            //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
+            console.log(req.response);
+            $('#loadGrid').html(a+' <i class="fa fa-close"></i>')
         }
     }
 
