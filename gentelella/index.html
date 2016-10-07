@@ -15,6 +15,9 @@
     <link href="./vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- jQuery custom content scroller -->
     <link href="./vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet"/>
+    <!--jQuery-ui-->
+    <link href="./vendors/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet"/>
+
     <!-- Ion.RangeSlider -->
     <link href="./vendors/normalize-css/normalize.css" rel="stylesheet">
     <link href="./vendors/ion.rangeSlider/css/ion.rangeSlider.css" rel="stylesheet">
@@ -38,6 +41,7 @@
     <link rel="icon" href="./app/img/GIRAFE2.ico"/>
 
 
+
 </head>
 
 <body class="nav-sm">
@@ -51,10 +55,10 @@
                 <div class="page-title">
                     <div class="pull-right">
                         <a href="https://fr.linkedin.com/in/david-bourasseau-71998b82">David Bourasseau,</a>
-                    <!--</div>-->
-                    <!--<div class="pull-right">-->
+                        <!--</div>-->
+                        <!--<div class="pull-right">-->
                         <a href="http://www.labri.fr/perso/nherbaut/">Nicolas Herbaut,</a>
-                    <!--</div>-->
+                        <!--</div>-->
                         <!--<div class="pull-right">-->
                         <a href="http://www.labri.fr/~negru">Daniel Negru</a>
                     </div>
@@ -91,8 +95,8 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-						Here we display ISP topologies, and successful embedding of vCDN Service.
-						Click on the nodes to assign Client Groups and CDNs peering points.
+                        Here we display ISP topologies, and successful embedding of vCDN Service.
+                        Click on the nodes to assign Client Groups and CDNs peering points.
                         <svg id="svg" height="800" width="100%">
                             <!--<g transform="scale(1)">-->
                             <!--<image x="0" y="0" height="100%" width="100%"  xlink:href="./input/res2.svg"/>-->
@@ -149,7 +153,7 @@
             <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Topology Generation</h2>
+                        <h2>1. Select your Topology</h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
@@ -164,58 +168,27 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-						Select the Topology to be loaded in the working area.
+                        Select the Topology to be loaded in the working area.
                         <br>
                         <form id="topo" name="topo" data-parsley-validate=""
                               class="form-horizontal form-label-left" novalidate>
 
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12 no-padding">Topologies:</label>
-                                <div class="col-md-6 col-sm-6 col-xs-9" id="divSelectTopo">
+                                <div class="col-md-9 col-sm-9 col-xs-9" id="divSelectTopo">
 
                                 </div>
-                                <div class="col-md-3 col-sm-3 col-xs-3">
-                                    <button id="loadTopo" type="button" class="btn btn-success" onClick="sendTopo(topo)">Load Topo
-                                    </button>
-                                </div>
+                                <!--<div class="col-md-3 col-sm-3 col-xs-3">-->
+                                    <!--<button id="loadTopo" type="button" class="btn btn-success"-->
+                                            <!--onClick="sendTopo(topo)">Load Topo-->
+                                    <!--</button>-->
+                                <!--</div>-->
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12 no-padding">Grid
-                                    Topology:</label>
-                                <div class="col-md-6 col-sm-6 col-xs-6 ">
-                                    <div class=" col-md-5 col-sm-5 col-xs-5 no-padding">
-                                        <select class="form-control " id="grid1">
-                                            <option value="2">2</option>
-                                            <option value="3" selected="selected">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 col-xs-2 no-padding ">
-                                        <span class="glyphicon glyphicon-remove" style="font-size: 24px;"></span>
-                                    </div>
-                                    <div class="col-md-5 col-sm-5 col-xs-5 no-padding">
-                                        <select class="form-control" id="grid2">
-                                            <option value="2">2</option>
-                                            <option value="3" selected="selected">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <!--<div class="col-md-1 col-sm-1 col-xs-1 "></div>-->
-                                <div class="col-md-3 col-sm-3 col-xs-3">
-                                    <button id="loadGrid" type="button" class="btn btn-success" onClick="sendGrid()">Load Grid
+                            <div class="" id="ConfigureTopo"></div>
 
-                                    </button>
-                                </div>
-                            </div>
+                            <div class="" id="UserPools"></div>
                         </form>
                     </div>
                 </div>
@@ -244,7 +217,7 @@
                         </ul>
                         <div class="clearfix"></div>
                     </div>
-                    
+
                     <form id="SLA" name="SLA" data-parsley-validate="" class="form-horizontal form-label-left"
                           novalidate="">
                         Click on the Client button to place client groups on the topology.
@@ -252,40 +225,38 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Put
                             </label>
-                            <div class=" col-md-9 col-sm-9 col-xs-12">
+                            <!--<div class=" col-md-9 col-sm-9 col-xs-12">-->
 
-                                <div class="btn-group">
-                                    <button class=" btn btn-success" type="button" name="listToModify"
-                                            value="clients"
-                                            onClick="setListToModify('clients')" checked>
+                                <!--<div class="btn-group">-->
+                                    <!--<button class=" btn btn-success" type="button" name="listToModify"-->
+                                            <!--value="clients"-->
+                                            <!--onClick="setListToModify('clients')" checked>-->
 
-                                        <i class="fa fa-users"></i>Clients
-                                    </button>
-                                    <button class=" btn btn-danger" type="button" name="listToModify"
-                                            value="cdns" onClick="setListToModify('cdns')">
+                                        <!--<i class="fa fa-users"></i>Clients-->
+                                    <!--</button>-->
+                                    <!--<button class=" btn btn-danger" type="button" name="listToModify"-->
+                                            <!--value="cdns" onClick="setListToModify('cdns')">-->
 
-                                        <i class="fa fa-save"></i>
-                                        CDNs
-                                    </button>
-                                </div>
-                            </div>
-
-
-                        </div>
-                        <div class="row">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Clients: </label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                                <div id="react-content-client"></div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">CDNs: </label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                                <div id="react-content-cdn"></div>
-                            </div>
-                        </div>
+                                        <!--<i class="fa fa-save"></i>-->
+                                        <!--CDNs-->
+                                    <!--</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
 
 
+                        <!--</div>-->
+                        <!--<div class="row">-->
+                            <!--<label class="control-label col-md-3 col-sm-3 col-xs-12">Clients: </label>-->
+                            <!--<div class="col-md-9 col-sm-9 col-xs-12">-->
+                                <!--<div id="react-content-client"></div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="row">-->
+                            <!--<label class="control-label col-md-3 col-sm-3 col-xs-12">CDNs: </label>-->
+                            <!--<div class="col-md-9 col-sm-9 col-xs-12">-->
+                                <!--<div id="react-content-cdn"></div>-->
+                            <!--</div>-->
+                        <!--</div>-->
 
 
                         <div class="form-group">
@@ -350,7 +321,7 @@
                                 </select>
                             </div>
 
-                        
+
                             <!--</div>-->
                         </div>
 
@@ -405,7 +376,7 @@
                     <div class="x_title">
                         <h2>HD Premium Profile
                         </h2>
-                        
+
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
@@ -425,8 +396,8 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-						<p>
-                        Clients requests are always routed to the vCDN.</p>
+                        <p>
+                            Clients requests are always routed to the vCDN.</p>
                         <body>
                         <div>
                             <video id="videoPlayerHD" preload="none" autoplay="false" controls loop></video>
@@ -441,7 +412,7 @@
                     <div class="x_title">
                         <h2>HD Profile
                         </h2>
-                        
+
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
@@ -461,8 +432,9 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-						<p>
-                        Clients requests are routed to the vCDN if the bandwidth allows it. SD fallback is activated if the vCDN link is saturated.
+                        <p>
+                            Clients requests are routed to the vCDN if the bandwidth allows it. SD fallback is activated
+                            if the vCDN link is saturated.
                         </p>
                         <body>
                         <div>
@@ -478,7 +450,7 @@
                     <div class="x_title">
                         <h2>SD Profile
                         </h2>
-                        
+
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
@@ -498,7 +470,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-						<p>Clients requests are always routed to the CDN.</p>
+                        <p>Clients requests are always routed to the CDN.</p>
                         <body>
                         <div>
                             <video id="videoPlayerSD" preload="none" autoplay="false" controls loop></video>
@@ -552,10 +524,10 @@
 
             <div class="pull-right">
                 <a href="https://nextnet.top/sites/default/files/girafe.pdf">
-                Download Poster : <img class="img-thumbnail" src="./app/img/1.svg"
-                     style="max-height: 150px;max-width: 150px;">
-            </a>
-                </div>
+                    Download Poster : <img class="img-thumbnail" src="./app/img/1.svg"
+                                           style="max-height: 150px;max-width: 150px;">
+                </a>
+            </div>
             <a href="#">
                 <img class="img-thumbnail" src="./app/img/GIRAFE.svg"
                      style="max-height: 150px;max-width: 150px;">
@@ -572,7 +544,7 @@
                      style="max-height: 150px;max-width: 250px">
             </a>
             <!--<div class="pull-right">-->
-                <!--<a href="http://girafe.nextnet.top">G.I.R.A.F.E.</a>-->
+            <!--<a href="http://girafe.nextnet.top">G.I.R.A.F.E.</a>-->
             <!--</div>-->
         </div>
 
@@ -583,6 +555,7 @@
 
 <!-- jQuery -->
 <script src="./vendors/jquery/dist/jquery.min.js"></script>
+<script src="./vendors/jquery-ui-1.12.1/jquery-ui.min.js"></script>
 <!-- Bootstrap -->
 <script src="./vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- FastClick -->
@@ -635,14 +608,23 @@
 <script src="./vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
 <script src="./vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
 <!--<script src="./vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>-->
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-85204951-2', 'auto');
-  ga('send', 'pageview');
+
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-85204951-2', 'auto');
+    ga('send', 'pageview');
 
 </script>
 

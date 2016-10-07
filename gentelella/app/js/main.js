@@ -123,6 +123,19 @@ function ctrlTopo() {
     delAllClientCDN();
     s.zpd('destroy')
     s.clear();
+
+    $.ajax({
+        url: "./app/html/userpool.html",
+        async: false,
+        success: function (template) {
+            $("#UserPools").html(template);
+            $(".glyphicon-info-sign").tooltip();
+        },
+        dataType: "text",
+        complete: function () {
+        }
+    });
+
     var da = Snap.load(urlSVG + sessionInfo.sessionId, function (f) {
         var childNode = f.selectAll("g");
 
