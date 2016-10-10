@@ -18,23 +18,41 @@ var urlMPD = "/api/simu/mpd/";
 
 $(window).scroll(function () {
 
-    var valuelow = $("footer").height();
-    if ($(videoWindow).is(":visible")) {
-        valuelow += $(videoWindow).height()+60
-    }
+    var valuelow = $("#videoHDWindow").position().top;
+    // if ($(videoWindow).is(":visible")) {
+    //     valuelow += $(videoWindow).height() + 60
+    // }
     lawerScroll = $(document).height() // - $(window).height()
-    console.log($(window).scrollTop() + "," + lawerScroll + "," + valuelow +","+($(window).scrollTop()+ $('#move').height())+","+$('#move').height());
-    if ($(window).scrollTop() > ($('#title').height() + $('#general_pres').height() + $('#publi').height() +20) && ($(window).scrollTop()+ $('#move').height()) <= ($(document).height() - valuelow )) {
-
-
+    if ($(window).scrollTop() > ($('#general_pres').position().top + $('#general_pres').height() + 5) && ($(window).scrollTop() + $('#move').height()) <= (valuelow )) {
         $("#move").stop().animate({
 
             "marginTop": ($(window).scrollTop()) + "px",
             // "marginLeft": ($(window).scrollLeft()) + "px"
         }, "slow");
     }
+    else if ($(window).scrollTop() < ($('#general_pres').position().top + $('#general_pres').height() + 4)) {
+        $("#move").stop().animate({
+
+            "marginTop": ($('#general_pres').position().top + $('#general_pres').height() + 5) + "px",
+            // "marginLeft": ($(window).scrollLeft()) + "px"
+        }, "slow");
+    }
 
 });
+
+$(window).resize(function () {
+    $("#movesize").height($('#move').height());
+});
+
+$( document ).ready(function() {
+    $("#move").stop().animate({
+
+        "marginTop": ($('#general_pres').position().top + $('#general_pres').height() + 5) + "px",
+        // "marginLeft": ($(window).scrollLeft()) + "px"
+    }, "slow");
+    $("#movesize").height($('#move').height());
+});
+
 
 function hello(s2) {
     var text = s2.select("text");
