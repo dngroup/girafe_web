@@ -16,6 +16,26 @@ var urlMPD = "/api/simu/mpd/";
 
 // var filterBlur = s.filter(Snap.filter.blur(4));
 
+$(window).scroll(function () {
+
+    var valuelow = $("footer").height();
+    if ($(videoWindow).is(":visible")) {
+        valuelow += $(videoWindow).height()+60
+    }
+    lawerScroll = $(document).height() // - $(window).height()
+    console.log($(window).scrollTop() + "," + lawerScroll + "," + valuelow +","+($(window).scrollTop()+ $('#move').height())+","+$('#move').height());
+    if ($(window).scrollTop() > $('#title').height() && ($(window).scrollTop()+ $('#move').height()) <= ($(document).height() - valuelow )) {
+
+
+        $("#move").stop().animate({
+
+            "marginTop": ($(window).scrollTop()) + "px",
+            // "marginLeft": ($(window).scrollLeft()) + "px"
+        }, "slow");
+    }
+
+});
+
 function hello(s2) {
     var text = s2.select("text");
     var pol = s2.select("polygon");
@@ -375,7 +395,7 @@ function ctrlSLA() {
 
         for (var i = 0; i < childNode.length; i++) {
             var c = childNode[i];
-            console.log(c.id);
+            // console.log(c.id);
             if (c.node.textContent.indexOf("VHG") >= 0) {
                 c.node.textContent = c.node.textContent.replace("VHG", "VMG");
 
@@ -390,11 +410,11 @@ function ctrlSLA() {
 
         for (var i = 0; i < childNode.length; i++) {
             var c = childNode[i];
-            console.log(c.id);
+            // console.log(c.id);
 
 
             if (c.node.className.baseVal == "node") {
-                console.log(c.node.id);
+                // console.log(c.node.id);
                 childNode[i].click(function () {
                     hello(s2);
                 });
