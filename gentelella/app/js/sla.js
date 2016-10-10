@@ -131,7 +131,7 @@ function submitSLA() {
     var req = new XMLHttpRequest(),
         data = {};
 
-    $('#slainfo').html(" ")
+    // $('#slainfo').html(" ")
 
     a = $('#sumbitsla').text()
     $('#sumbitsla').html('Submit <i class="fa fa-spin fa-refresh"></i>')
@@ -157,6 +157,7 @@ function submitSLA() {
     function onLoad(e) {
         $('#sumbitsla').text(a)
         if (req.status >= 200 && req.status <= 299) {
+            $('#slainfo').hide()
             //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
             console.log(req.response);
             res = JSON.parse(req.response);
@@ -165,12 +166,13 @@ function submitSLA() {
             loadsla(nbUsersSla);
             submitUsers();
 
+
         }
         else if (req.status >= 400 && req.status <= 599) {
             //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
             console.log(req.response);
             $('#sumbitsla').html(a + ' <i class="fa fa-close"></i>')
-            $('#slainfo').html('<span class="badge bg-red"> Error: No solution found </span>')
+            $('#slainfo').show()
 
         }
     }
@@ -186,7 +188,7 @@ function submitSLA() {
 
 
 function optimalSLA() {
-    $('#slainfo').html(" ")
+    // $('#slaoinfo').html(" ")
 
     a = $('#sumbitosla').text()
     $('#sumbitosla').html(a + '<i class="fa fa-spin fa-refresh"></i>')
@@ -210,6 +212,8 @@ function optimalSLA() {
     function onLoad(e) {
         $('#sumbitosla').text(a)
         if (req.status >= 200 && req.status <= 299) {
+
+            $('#slaoinfo').hide()
             console.log(req.response)
             res = JSON.parse(req.response);
             addValueOnTable(res.vmg, res.vcdn, res.costs, true);
@@ -220,7 +224,7 @@ function optimalSLA() {
             //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
             console.log(req.response);
             $('#sumbitosla').html(a + '<i class="fa fa-close"></i>')
-            $('#slainfo').html('<span class="badge bg-red"> Error: No solution found </span>')
+            $('#slaoinfo').show()
         }
     }
 

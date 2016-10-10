@@ -53,6 +53,11 @@
             <button id="sumbitsla" type="button" class="btn btn btn-primary" onClick="submitSLA()">Embed
                 SLA
             </button>
+            <div id="slainfo" hidden>
+                <span class="badge bg-red"> Error: No solution found </span>
+                <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top"
+              data-original-title="No solution found. Try to add VMG/VCDN or try to change configuration og your vCDN"></span>
+            </div>
         </div>
     </div>
 
@@ -66,6 +71,11 @@
         </button>
         <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top"
               data-original-title="Find the lowest cost embedding"></span>
+    </div>
+    <div id="slaoinfo" class="text-center" hidden>
+        <span class="badge bg-red"> Error: No solution found </span>
+        <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top"
+              data-original-title="No solution found. try to change configuration og your vCDN"></span>
     </div>
 
 

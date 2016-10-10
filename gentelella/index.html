@@ -50,7 +50,7 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-            <div class="row">
+            <div id="title" class="row">
                 <div class="page-title">
                     <div class="pull-right">
                         <a href="https://fr.linkedin.com/in/david-bourasseau-71998b82">David Bourasseau,</a>
@@ -75,7 +75,7 @@
             <!------------------------ Topo viewer ------------------------------------->
             <div class="clearfix"></div>
             
-            <div class="col-md-16 col-sm-16 col-xs-16">
+            <div class="col-md-16 col-sm-16 col-xs-16" id="general_pres">
 				<div class="x_panel">
 					<p>
 				This tool is targeted as Internet Service Providers that are willing to deploy a third-party VCDN Services targetting OTT-VOD delivery market. The algorithm we implemented deploys a service function chain composed of 2 VNF: the Virtual Media Gateways (routing) and the Virtual CDN cache (content delivery) that garanty the Quality of Service for end-users on enhanced paths.
@@ -90,7 +90,7 @@
             
             </div>
             
-             <div class="col-md-16 col-sm-16 col-xs-16">
+             <div class="col-md-16 col-sm-16 col-xs-16" id="publi">
 				<div class="x_panel">
 					<h1> Publications</h1>
 					<ul>
@@ -104,9 +104,12 @@
 				
             
             </div>
-            
+                 <div class="clearfix visible-xs-block"
+                 style="height: 1000px;">
+                Usage on small screen not working
+            </div>
 
-            <div class="col-md-8 col-sm-12 col-xs-12">
+            <div class="col-md-8 col-sm-12 col-xs-12" id="move">
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Working Area</h2>
@@ -116,7 +119,7 @@
                     </div>
                     <div class="x_content">
                         Here we display ISP topologies, and successful embedding of vCDN Service.
-                        <svg id="svg" height="800" width="100%">
+                        <svg id="svg" height="500" width="100%">
                             <!--<g transform="scale(1)">-->
                             <!--<image x="0" y="0" height="100%" width="100%"  xlink:href="./input/res2.svg"/>-->
                             <!--</g>-->
@@ -158,7 +161,7 @@
 
             </div>
             <!------------------------ Load Topo  ------------------------------------->
-            <div class="col-md-4 col-sm-12 col-xs-12">
+            <div class="col-md-offset-8 col-md-4 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>1. Select your Topology</h2>
