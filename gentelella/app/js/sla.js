@@ -20,50 +20,7 @@ function getListToModify() {
     return listToModify;
 }
 
-sliderSla_delay = $("#sla_delay").ionRangeSlider({
-    type: "single",
-    min: 0,
-    max: 200,
-    from: slaDelay,
-    keyboard: true,
-    onFinish: function (data) {
-        slaDelay = data.from;
-    }
-});
-sliderVcdn_ratio = $("#vcdn_ratio").ionRangeSlider({
-    type: "single",
-    min: 0,
-    max: 1,
-    from: vcdnRatio,
-    step: 0.01,
-    keyboard: true,
-    onFinish: function (data) {
-        vcdnRatio = data.from;
-    }
-});
-sliderNbUsersSla = $("#nbUsersSla").ionRangeSlider({
-    type: "single",
-    min: 0,
-    max: 6000,
-    from: nbUsersSla,
-    step: 100,
-    keyboard: true,
-    onFinish: function (data) {
-        nbUsersSla = data.from;
-    }
-});
-sliderBandwidthPerUser = $("#bandwidthPerUser").ionRangeSlider({
-    type: "single",
-    min: 0,
-    max: 10,
-    from: bandwidthPerUser,
-    disable: true,
-    step: 0.1,
-    keyboard: true,
-    onFinish: function (data) {
-        bandwidthPerUser = data.from;
-    }
-});
+
 function loadsla(clients) {
     sliderNbUser = $("#nbUser").ionRangeSlider({
         type: "single",
@@ -82,22 +39,6 @@ function loadsla(clients) {
     });
 }
 
-
-$(document).ready(function () {
-    table = $('#myTable').DataTable({
-        data: dataSet,
-        columns: [
-            {title: "ID"},
-            {title: "Number of VMG"},
-            {title: "Number of vCDN"},
-            {title: "Cost."}
-        ],
-        // "paging":   false,
-        "info": false,
-        "searching": false,
-        "order": [[3, "desc"]]
-    });
-});
 
 /////////////////////////////////////////////////
 // Repeat elements
@@ -146,22 +87,40 @@ function delCDN(number) {
     updateCDN()
 }
 
-function delAllClientCDN(number) {
+function delAllClient(number) {
     clients = [];
-    cdns = [];
-    updateCDN();
     updateClient();
 }
+
+function delAllCDN(number) {
+    cdns = [];
+    updateCDN();
+}
+
 var id = 0;
 var set = new Set();
-function addValueOnTable(vmg, vcdn, cost) {
+function addValueOnTable(vmg, vcdn, cost, best) {
     id++;
-    if (! set.has(JSON.stringify([vmg, vcdn, cost]))){
-        set.add(JSON.stringify([vmg, vcdn, cost]))
 
-    table.row.add([id, vmg, vcdn, cost]).draw(false);
+
+    if (!set.has(JSON.stringify([vmg, vcdn, cost, best]))) {
+        set.add(JSON.stringify([vmg, vcdn, cost, best]))
+        rowNode = table.row.add([id, vmg, vcdn, cost]).draw(false).node();
+        if (best) {
+            $(rowNode)
+                .css('color', 'red').css({'font-weight': 'bold'})
+                .animate({color: 'red'});
+        }
     }
 
+
+}
+
+function resetTable() {
+
+    id = 0;
+    set = new Set()
+    table.rows().remove().draw();
 }
 
 ///////////////////////////////////////////////////
@@ -210,7 +169,7 @@ function submitSLA() {
         else if (req.status >= 400 && req.status <= 599) {
             //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
             console.log(req.response);
-            $('#sumbitsla').html(a+' <i class="fa fa-close"></i>')
+            $('#sumbitsla').html(a + ' <i class="fa fa-close"></i>')
             $('#slainfo').html('<span class="badge bg-red"> Error: No solution found </span>')
 
         }
@@ -222,6 +181,7 @@ function submitSLA() {
     req.open('POST', urlSLA, true);
     req.setRequestHeader("Content-Type", "application/json");
     req.send(JSON.stringify(data));
+    nextResult();
 }
 
 
@@ -229,7 +189,7 @@ function optimalSLA() {
     $('#slainfo').html(" ")
 
     a = $('#sumbitosla').text()
-    $('#sumbitosla').html(a+'<i class="fa fa-spin fa-refresh"></i>')
+    $('#sumbitosla').html(a + '<i class="fa fa-spin fa-refresh"></i>')
     var req = new XMLHttpRequest(),
         data = {};
 
@@ -252,14 +212,14 @@ function optimalSLA() {
         if (req.status >= 200 && req.status <= 299) {
             console.log(req.response)
             res = JSON.parse(req.response);
-            addValueOnTable(res.vmg, res.vcdn, res.costs);
+            addValueOnTable(res.vmg, res.vcdn, res.costs, true);
             ctrlSLA();
             loadsla(nbUsersSla);
         }
         else if (req.status >= 400 && req.status <= 599) {
             //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
             console.log(req.response);
-            $('#sumbitosla').html(a+'<i class="fa fa-close"></i>')
+            $('#sumbitosla').html(a + '<i class="fa fa-close"></i>')
             $('#slainfo').html('<span class="badge bg-red"> Error: No solution found </span>')
         }
     }
@@ -270,6 +230,7 @@ function optimalSLA() {
     req.open('POST', urlLCSLA, true);
     req.setRequestHeader("Content-Type", "application/json");
     req.send(JSON.stringify(data));
+    nextResult();
 }
 
 function submitUsers() {
@@ -292,10 +253,11 @@ function submitUsers() {
 
         }
     }
-    if (data.nbusers>120){
+
+    if (data.nbusers > 120) {
         player.setQualityFor("video", 0);
     }
-    if (data.nbusers<120){
+    if (data.nbusers < 120) {
         player.setQualityFor("video", 1);
     }
 

@@ -3,41 +3,41 @@
     <div class="clearfix"></div>
 </div>
 
-<div class="col-md-12 col-sm-12 col-xs-12 ">
+<div class="x_content col-md-12 col-sm-12 col-xs-12 ">
 
 
-    <label class="control-label col-md-3 col-sm-3 col-xs-3 ">Value 1:
+    <label class="control-label col-md-3 col-sm-3 col-xs-3 ">Number node:
         <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top"
-              data-original-title="Value 1 detail"></span>
+              data-original-title="Number of node on the network"></span>
     </label>
 
     <div class="input-group col-md-9 col-sm-9 col-xs-9 ">
         <input type="text" id="value1" name="nbUser" value=""/>
     </div>
-
-    <label class="control-label col-md-3 col-sm-3 col-xs-3 ">Value 2:
+    <div class="clearfix"></div>
+    <label class="control-label col-md-3 col-sm-3 col-xs-3 ">Probability for edge creation:
         <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top"
-              data-original-title="Value 2 detail"></span>
+              data-original-title="Probability for edge creation."></span>
     </label>
     <div class="input-group col-md-9 col-sm-9 col-xs-9 ">
         <input type="text" id="value2" name="nbUser" value=""/>
     </div>
-
-    <label class="control-label col-md-3 col-sm-3 col-xs-3 ">Value 3:
+    <div class="clearfix"></div>
+    <label class="control-label col-md-3 col-sm-3 col-xs-3 ">Seed:
         <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top"
-              data-original-title="Value 3 detail"></span>
+              data-original-title="Seed for random number generator"></span>
     </label>
     <div class="input-group col-md-9 col-sm-9 col-xs-9 ">
         <input type="text" id="value3" name="nbUser" value=""/>
     </div>
 </div>
-
+<div class="clearfix"></div>
 <div class="">
     <div class="pull-right">
-        <button id="LoadTopo" type="button" class="btn btn-success" onClick="sendTopo()"> Load</button>
+        <button id="LoadTopo" type="button" class="btn  btn-primary" onClick="sendTopo()"> Load</button>
     </div>
     <div class="pull-right">
-        <button id="CancelGrid" type="button" class="btn btn-danger" onClick="cancelTopo()">
+        <button id="CancelGrid" type="button" class="btn btn-default" onClick="cancelBtn(2)">
             Cancel
         </button>
     </div>

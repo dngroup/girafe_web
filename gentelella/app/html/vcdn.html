@@ -1,0 +1,69 @@
+<div class="clearfix"></div>
+<div class="x_title">
+    <h2>5. Configure your vCDN</h2>
+    <div class="clearfix"></div>
+</div>
+
+<form id="SLA" name="SLA" data-parsley-validate="" class="form-horizontal form-label-left"
+      novalidate="">
+
+    Use the sliders to change SLA values.
+    <div class="form-group">
+
+        <div class="form-group" hidden>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Bandwidth Per User
+                <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-original-title="bandwidth of user"></span>
+            </label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+
+                <input type="text" id="bandwidthPerUser" name="bandwidthPerUser" value=""/>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Number of Users (@1.5Mbps)
+                <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-original-title="Number of concurrent user to watch video @ 1.5Mbps "></span>
+            </label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+
+                <input type="text" id="nbUsersSla" name="nbUsersSla" value=""/>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">vCDN Ratio (%)
+                <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-original-title="Parts of user get content on vCDN. Other user get on the CDN"></span>
+            </label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+                <input type="text" id="vcdn_ratio" name="ucd_ratio" value=""/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">SLA Delay
+                <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-original-title="maximal time too deliver video by vCDN"></span>
+            </label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+                <input type="text" id="sla_delay" name="sla_delay" value=""/>
+            </div>
+        </div>
+
+
+    </div>
+
+</form>
+<div class="clearfix"></div>
+<div>
+    <div class="pull-right">
+        <button id="sendUserPools" type="button" class="btn btn-primary" onClick="nextServiceTopo()"> Next</button>
+    </div>
+    <div class="pull-right">
+        <button id="CancelGrid" type="button" class="btn btn-default" onClick="cancelBtn(5)">
+            Cancel
+        </button>
+    </div>
+</div>
+
+
+

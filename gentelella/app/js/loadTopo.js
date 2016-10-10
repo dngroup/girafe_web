@@ -60,7 +60,9 @@ function configureTopo(topo) {
             url: "./app/html/grid.html",
             async: false,
             success: function (template) {
-                $("#UserPools").html(template);
+                $("#ConfigureTopo").html(template);
+                sliderNbUser = $("#value1").ionRangeSlider({min: 1, max: 10, from: 3, keyboard: true});
+                sliderNbUser = $("#value2").ionRangeSlider({min: 1, max: 10, from: 3, keyboard: true});
                 $(".glyphicon-info-sign").tooltip();
             },
             dataType: "text",
@@ -128,15 +130,30 @@ getList(urlGetListTopo);
 //  send selected topo
 ////////////////////////////////////////
 function sendTopo() {
+
+    if ($("#value1").length != 0) {
+        $("#value1").data("ionRangeSlider").update({disable: true});
+    }
+    if ($("#value2").length != 0) {
+        $("#value2").data("ionRangeSlider").update({disable: true});
+    }
+    if ($("#value3").length != 0) {
+        $("#value3").data("ionRangeSlider").update({disable: true});
+    }
+    if ($("#value4").length != 0) {
+        $("#value4").data("ionRangeSlider").update({disable: true});
+    }
+    $("#selectTopo").prop('disabled', true);
+
     a = $('#LoadTopo').text();
-    $('#LoadTopo').html(a + '<i class="fa fa-spin fa-refresh"></i>');
+    $('#LoadTopo').html(a + ' <i class="fa fa-spin fa-refresh"></i>');
     var topoName = "";
 
     switch (document.getElementById("selectTopo").value) {
         case "Grid":
             value1 = document.getElementById("value1").value;
             value2 = document.getElementById("value2").value;
-            topoName = ("Grid," + value1 + "," + value2);
+            topoName = ("grid," + value1 + "," + value2);
             break;
         case "Geant":
             topoName = "file,Geant2012.graphml"
@@ -164,10 +181,13 @@ function sendTopo() {
     topo.y = -1;
     topo.topo = topoName;
     var req = new XMLHttpRequest();
+
     function onProgress(e) {
     }
+
     function onError(e) {
     }
+
     function onLoad(e) {
         if (req.status >= 200 && req.status <= 299) {
             $('#LoadTopo').text(a)
@@ -175,6 +195,7 @@ function sendTopo() {
             ctrlTopo();
         }
     }
+
     req.onprogress = onProgress;
     req.onload = onLoad;
     req.onerror = onError;

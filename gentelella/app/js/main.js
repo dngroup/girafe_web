@@ -119,10 +119,7 @@ function video(s2) {
 // Svg loaded when a grid is submitted
 ///////////////////////////////////////////////
 function ctrlTopo() {
-    table.clear().draw();
-    delAllClientCDN();
-    s.zpd('destroy')
-    s.clear();
+
 
     $.ajax({
         url: "./app/html/userpool.html",
@@ -135,6 +132,14 @@ function ctrlTopo() {
         complete: function () {
         }
     });
+
+    if (typeof table != 'undefined') {
+        table.clear().draw();
+    }
+    delAllClient();
+    s.zpd('destroy')
+    s.clear();
+
 
     var da = Snap.load(urlSVG + sessionInfo.sessionId, function (f) {
         var childNode = f.selectAll("g");
@@ -150,17 +155,212 @@ function ctrlTopo() {
                 });
             }
         }
-        $("#SLAwindow").show();
+
 
         g = f.select("g");
         s.append(g);
         s.zpd({zoom: true, drag: false});
     });
 
-    $("#sla_delay").data("ionRangeSlider").update({disable: false});
-    $("#vcdn_ratio").data("ionRangeSlider").update({disable: false});
-    $("#nbUsersSla").data("ionRangeSlider").update({disable: false});
 
+}
+
+//load cdn peering point
+function nextCDN() {
+    setListToModify('cdns')
+    // $("#SLAwindow").hide();
+    $.ajax({
+        url: "./app/html/cdnPeeringPoints.html",
+        async: false,
+        success: function (template) {
+            $("#cdnPeeringPoints").html(template);
+            $(".glyphicon-info-sign").tooltip();
+        },
+        dataType: "text",
+        complete: function () {
+        }
+    });
+    delAllCDN();
+    // $("#SLAwindow").show();
+
+}
+
+
+//load service topology
+function nextVCDN() {
+    $.ajax({
+        url: "./app/html/vcdn.html",
+        async: false,
+        success: function (template) {
+            $("#confvcdn").html(template);
+            $(".glyphicon-info-sign").tooltip();
+            sliderSla_delay = $("#sla_delay").ionRangeSlider({
+                type: "single",
+                min: 0,
+                max: 200,
+                from: slaDelay,
+                keyboard: true,
+                onFinish: function (data) {
+                    slaDelay = data.from;
+                }
+            });
+            sliderVcdn_ratio = $("#vcdn_ratio").ionRangeSlider({
+                type: "single",
+                min: 0,
+                max: 1,
+                from: vcdnRatio,
+                step: 0.01,
+                keyboard: true,
+                onFinish: function (data) {
+                    vcdnRatio = data.from;
+                }
+            });
+            sliderNbUsersSla = $("#nbUsersSla").ionRangeSlider({
+                type: "single",
+                min: 0,
+                max: 6000,
+                from: nbUsersSla,
+                step: 100,
+                keyboard: true,
+                onFinish: function (data) {
+                    nbUsersSla = data.from;
+                }
+            });
+            sliderBandwidthPerUser = $("#bandwidthPerUser").ionRangeSlider({
+                type: "single",
+                min: 0,
+                max: 10,
+                from: bandwidthPerUser,
+                disable: true,
+                step: 0.1,
+                keyboard: true,
+                onFinish: function (data) {
+                    bandwidthPerUser = data.from;
+                }
+            });
+            $("#sla_delay").data("ionRangeSlider").update({disable: false});
+            $("#vcdn_ratio").data("ionRangeSlider").update({disable: false});
+            $("#nbUsersSla").data("ionRangeSlider").update({disable: false});
+        },
+        dataType: "text",
+        complete: function () {
+
+
+        }
+    });
+
+}
+
+
+//load service topology
+function nextServiceTopo() {
+    $.ajax({
+        url: "./app/html/ServiceTopology.html",
+        async: false,
+        success: function (template) {
+            $("#serviceTopo").html(template);
+            $(".glyphicon-info-sign").tooltip();
+        },
+        dataType: "text",
+        complete: function () {
+        }
+    });
+
+    $("#result").hide();
+    $.ajax({
+        url: "./app/html/result.html",
+        async: false,
+        success: function (template) {
+            $("#result").html(template);
+            $(".glyphicon-info-sign").tooltip();
+            table = $('#myTable').DataTable({
+                data: dataSet,
+                responsive: true,
+                columns: [
+                    {title: "ID"},
+                    {title: "Number of VMG"},
+                    {title: "Number of vCDN"},
+                    {title: "Cost."}
+                ],
+                // "columnDefs": [
+                //     {
+                //         "targets": [0],
+                //         "visible": false,
+                //         "searchable": false
+                //     }
+                // ],
+                // "paging":   false,
+                "info": false,
+                "searching": false,
+                "order": [[3, "desc"]]
+            });
+        },
+        dataType: "text",
+        complete: function () {
+        }
+    });
+
+}
+
+
+//load result
+function nextResult() {
+    $("#result").show()
+}
+
+function cancelBtn(value) {
+    switch (value) {
+        case 1:
+            $("#ConfigureTopo").html("");
+        case 2:
+            $("#UserPools").html("");
+            if ($("#value1").length != 0) {
+                $("#value1").data("ionRangeSlider").update({disable: false});
+            }
+            if ($("#value2").length != 0) {
+                $("#value2").data("ionRangeSlider").update({disable: false});
+            }
+            if ($("#value3").length != 0) {
+                $("#value3").data("ionRangeSlider").update({disable: false});
+            }
+            if ($("#value4").length != 0) {
+                $("#value4").data("ionRangeSlider").update({disable: false});
+            }
+            if ($("#selectTopo").length != 0) {
+                $("#selectTopo").prop('disabled', false);
+            }
+        case 3:
+            $("#cdnPeeringPoints").html("");
+        case 4:
+            $("#confvcdn").html("");
+        case 5:
+            $("#serviceTopo").html("");
+            $("#result").html("");
+        case 6:
+            if ($("#btnclients").length != 0) {
+                $("#btnclients").prop('disabled', false);
+            }
+            if ($("#btncdns").length != 0) {
+                $("#btncdns").prop('disabled', false);
+            }
+            if ($("#sla_delay").length != 0) {
+
+                $("#sla_delay").data("ionRangeSlider").update({disable: false});
+            }
+            if ($("#vcdn_ratio").length != 0) {
+                $("#vcdn_ratio").data("ionRangeSlider").update({disable: false});
+            }
+            if ($("#nbUsersSla").length != 0) {
+                $("#nbUsersSla").data("ionRangeSlider").update({disable: false});
+            }
+            if ($("#result").length != 0) {
+                $("#result").hide()
+            }
+            resetTable();
+            break;
+        default:
+            console.log("error")
+    }
 }
 
 ///////////////////////////////////////////////
@@ -218,6 +418,8 @@ function ctrlSLA() {
 
     getMPD();
 
+    $("#btnclients").prop('disabled', true)
+    $("#btncdns").prop('disabled', true)
     $("#sla_delay").data("ionRangeSlider").update({disable: true});
     $("#vcdn_ratio").data("ionRangeSlider").update({disable: true});
     $("#nbUsersSla").data("ionRangeSlider").update({disable: true});
