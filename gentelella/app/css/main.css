@@ -20,3 +20,14 @@ path[stroke="chartreuse"] {
         stroke-dashoffset: 100;
     }
 }
+
+#move {
+    /*background-color: #fca9a9;*/
+    /*width: 100%;*/
+    /*height: 50px;*/
+    margin-top: 80px;
+    line-height: 50px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}

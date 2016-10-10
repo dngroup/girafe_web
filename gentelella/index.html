@@ -50,7 +50,7 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-            <div class="row">
+            <div id="title" class="row">
                 <div class="page-title">
                     <div class="pull-right">
                         <a href="https://fr.linkedin.com/in/david-bourasseau-71998b82">David Bourasseau,</a>
@@ -75,28 +75,32 @@
             <!------------------------ Topo viewer ------------------------------------->
             <div class="clearfix"></div>
 
-            <div class="col-md-8 col-sm-12 col-xs-12">
+            <div class="clearfix visible-xs-block"
+                 style="height: 1000px;">
+                Usage on small screen not working
+            </div>
+            <div class="col-md-8 col-sm-12 col-xs-12" id="move">
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Working Area</h2>
 
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <!--<ul class="nav navbar-right panel_toolbox">-->
+                        <!--<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>-->
+                        <!--</li>-->
+                        <!--<li class="dropdown">-->
+                        <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"-->
+                        <!--aria-expanded="false"><i class="fa fa-wrench"></i></a>-->
 
-                            </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
+                        <!--</li>-->
+                        <!--<li><a class="close-link"><i class="fa fa-close"></i></a>-->
+                        <!--</li>-->
+                        <!--</ul>-->
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
                         Here we display ISP topologies, and successful embedding of vCDN Service.
                         Click on the nodes to assign Client Groups and CDNs peering points.
-                        <svg id="svg" height="800" width="100%">
+                        <svg id="svg" height="500" width="100%">
                             <!--<g transform="scale(1)">-->
                             <!--<image x="0" y="0" height="100%" width="100%"  xlink:href="./input/res2.svg"/>-->
                             <!--</g>-->
@@ -107,22 +111,6 @@
                     <div class="x_panel">
                         <div class="x_title">
                             <h2>Users</h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                       aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Settings 1</a>
-                                        </li>
-                                        <li><a href="#">Settings 2</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                                </li>
-                            </ul>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
@@ -153,7 +141,7 @@
 
             </div>
             <!------------------------ Load Topo  ------------------------------------->
-            <div class="col-md-4 col-sm-12 col-xs-12">
+            <div class="col-md-offset-8 col-md-4 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>1. Select your Topology</h2>
