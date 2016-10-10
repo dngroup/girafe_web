@@ -1,21 +1,21 @@
 <div class="clearfix"></div>
 <div class="x_title">
-    <h2>6. Configure Service topology</h2>
+    <h2>6. Configure Service Topology</h2>
     <div class="clearfix"></div>
 </div>
 
 <div class="col-md-6 col-sm-6 col-xs-6 ">
     <div class="col-md-12 col-sm-12 col-xs-12 text-center ">
-        <button id="" type="button" class="btn btn btn-primary" onClick="$('#manual').toggle();">Manuel
+        <button id="" type="button" class="btn btn btn-primary" onClick="$('#manual').toggle();">Manual
         </button>
         <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top"
-              data-original-title="you can set yourself how many you want VMG and vCDN"></span>
+              data-original-title="Specify how many VMG and VCDN should be embedded"></span>
     </div>
     <div hidden id="manual">
         <div class="form-group">
             <label class="col-md-12 col-sm-12 col-xs-12">Number of VMG:
             <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top"
-                  data-original-title="Number of VMG to optimise the traffic"></span>
+                  data-original-title="Number of VMG to be used"></span>
             </label>
 
             <!--<div class="col-md-9 col-sm-9 col-xs-12">-->
@@ -34,7 +34,7 @@
         <div class="form-group">
             <label class="col-md-12 col-sm-12 col-xs-12">Number of vCDN:
             <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top"
-                  data-original-title="Number of VCDN for caching data on the network"></span>
+                  data-original-title="number of vCDN to be used"></span>
             </label>
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <select class="form-control" id="vcdn">
@@ -62,10 +62,10 @@
     <div class="col-md-12 col-sm-12 col-xs-12 text-center">
         <!--<button type="submit" class="btn btn-danger">Cancel</button>-->
         <button id="sumbitosla" type="button" class="btn btn btn-primary" onClick="optimalSLA()">
-            Find Automatic
+            Automatic
         </button>
         <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top"
-              data-original-title="Try to find low cost solution"></span>
+              data-original-title="Find the lowest cost embedding"></span>
     </div>
 
 

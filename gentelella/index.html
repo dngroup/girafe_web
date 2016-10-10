@@ -74,6 +74,21 @@
             </div>
             <!------------------------ Topo viewer ------------------------------------->
             <div class="clearfix"></div>
+            
+            <div class="col-md-16 col-sm-16 col-xs-16">
+				<div class="x_panel">
+					<p>
+				This tool is targeted as Internet Service Providers that are willing to deploy a third-party VCDN Services targetting OTT-VOD delivery market. The algorithm we implemented deploys a service function chain composed of 2 VNF: the Virtual Media Gateways (routing) and the Virtual CDN cache (content delivery) that garanty the Quality of Service for end-users on enhanced paths.
+				</p>
+				<p>
+				After loading a demo topology, we can configure the User pools which consumes the data, as well as the legacy CDN network peering points, which will support the best-effort IP traffic. Other Service Level agreement parameters can be configured. Finally, we can compute the optimal embedding or manually set the vNF numbers.
+				</p>
+				
+				
+				</div>
+				
+            
+            </div>
 
             <div class="col-md-8 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -95,7 +110,6 @@
                     </div>
                     <div class="x_content">
                         Here we display ISP topologies, and successful embedding of vCDN Service.
-                        Click on the nodes to assign Client Groups and CDNs peering points.
                         <svg id="svg" height="800" width="100%">
                             <!--<g transform="scale(1)">-->
                             <!--<image x="0" y="0" height="100%" width="100%"  xlink:href="./input/res2.svg"/>-->
@@ -131,7 +145,7 @@
 
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                                        Concurrent User % SLA
+                                        Total Concurrent Users
                                         <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
                                               data-placement="top"
                                               data-original-title="Number of concurrent user to watch video @ 1.5Mbps. If the number of user is higher than the SLA the HD profile while redirect to SD video"></span>
@@ -235,8 +249,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <p>
-                            Clients requests are always routed to the vCDN.</p>
+                        <p>Those customers will always benefit from the enhanced distribution, as their resquests will be routed to the vCDN vNF</p>
                         <body>
                         <div>
                             <video id="videoPlayerHD" preload="none" autoplay="false" controls loop></video>
@@ -249,7 +262,7 @@
             <div class="col-md-4 col-sm-4 col-xs-4" id="videoWindow" style="display: none;">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>HD Profile
+                        <h2>HD Standard Free Users
                         </h2>
 
                         <ul class="nav navbar-right panel_toolbox">
@@ -272,8 +285,7 @@
                     </div>
                     <div class="x_content">
                         <p>
-                            Clients requests are routed to the vCDN if the bandwidth allows it. SD fallback is activated
-                            if the vCDN link is saturated.
+                            Clients requests are routed to the vCDN if the bandwidth allows it. In case the vCDN link is beyond capacity, they will be served by best-effort IP through the legacy CDN channel.
                         </p>
                         <body>
                         <div>
@@ -287,7 +299,7 @@
             <div class="col-md-4 col-sm-4 col-xs-4" id="videoSDWindow" style="display: none;">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>SD Profile
+                        <h2>SD Users
                         </h2>
 
                         <ul class="nav navbar-right panel_toolbox">
@@ -309,7 +321,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <p>Clients requests are always routed to the CDN.</p>
+                        <p>Clients requests are always routed to the legacy CDN, with no quality garanty</p>
                         <body>
                         <div>
                             <video id="videoPlayerSD" preload="none" autoplay="false" controls loop></video>
