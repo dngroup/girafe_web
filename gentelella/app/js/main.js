@@ -24,7 +24,7 @@ $(window).scroll(function () {
     }
     lawerScroll = $(document).height() // - $(window).height()
     console.log($(window).scrollTop() + "," + lawerScroll + "," + valuelow +","+($(window).scrollTop()+ $('#move').height())+","+$('#move').height());
-    if ($(window).scrollTop() > $('#title').height() && ($(window).scrollTop()+ $('#move').height()) <= ($(document).height() - valuelow )) {
+    if ($(window).scrollTop() > ($('#title').height() + $('#general_pres').height() + $('#publi').height() +20) && ($(window).scrollTop()+ $('#move').height()) <= ($(document).height() - valuelow )) {
 
 
         $("#move").stop().animate({

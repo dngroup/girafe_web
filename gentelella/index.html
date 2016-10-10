@@ -50,7 +50,7 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-            <div class="row">
+            <div id="title" class="row">
                 <div class="page-title">
                     <div class="pull-right">
                         <a href="https://fr.linkedin.com/in/david-bourasseau-71998b82">David Bourasseau,</a>
@@ -74,8 +74,42 @@
             </div>
             <!------------------------ Topo viewer ------------------------------------->
             <div class="clearfix"></div>
+            
+            <div class="col-md-16 col-sm-16 col-xs-16" id="general_pres">
+				<div class="x_panel">
+					<p>
+				This tool is targeted as Internet Service Providers that are willing to deploy a third-party VCDN Services targetting OTT-VOD delivery market. The algorithm we implemented deploys a service function chain composed of 2 VNF: the Virtual Media Gateways (routing) and the Virtual CDN cache (content delivery) that garanty the Quality of Service for end-users on enhanced paths.
+				</p>
+				<p>
+				After loading a demo topology, we can configure the User pools which consumes the data, as well as the legacy CDN network peering points, which will support the best-effort IP traffic. Other Service Level agreement parameters can be configured. Finally, we can compute the optimal embedding or manually set the vNF numbers.
+				</p>
+				
+				
+				</div>
+				
+            
+            </div>
+            
+             <div class="col-md-16 col-sm-16 col-xs-16" id="publi">
+				<div class="x_panel">
+					<h1> Publications</h1>
+					<ul>
+					<li>Herbaut, N., D. Négru, Y. Chen, P. A. Frangoudis, and A. Ksentini, "Content Delivery Networks as a Virtual Network Function: a Win-win ISP-CDN Collaboration", IEEE Global Communications Conference, 12/2016, 2016</li>
+					<li>Herbaut, N., D. Négru, D. Magoni, and P. A. Frangoudis, <a href="http://ieeexplore.ieee.org/document/7551917/">Deploying a Content Delivery Service Function Chain on an SDN-NFV Operator Infrastructure</a>, 2016 International Conference on Telecommunications and Multimedia (TEMU) , Heraklion, IEEE, 07/2016.</li>
+					<li>Herbaut, N., D. Negru, G. Xilouris, and Y. Chen, <a href="http://ieeexplore.ieee.org/document/7333284/">Migrating to a NFV-based Home Gateway: introducing a Surrogate vNF approach</a>, Network of the Future (NOF), 2015 6th International Conference on the: IEEE, 2015.</li>
+					<li>Herbaut, N., G. Xilouris, and D. Negru, <a href="http://mmc.committees.comsoc.org/files/2016/04/E-Letter-July2015.pdf#page=10">The Surrogate vNF approach for Content Distribution", COMSOC Multimedia Communications Technical Committee E-Letter</a>, vol. 10, pp. 4–6, 2015.</li>
+					</ul>
 
-            <div class="col-md-8 col-sm-12 col-xs-12">
+				</div>
+				
+            
+            </div>
+                 <div class="clearfix visible-xs-block"
+                 style="height: 1000px;">
+                Usage on small screen not working
+            </div>
+
+            <div class="col-md-8 col-sm-12 col-xs-12" id="move">
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Working Area</h2>
@@ -85,8 +119,7 @@
                     </div>
                     <div class="x_content">
                         Here we display ISP topologies, and successful embedding of vCDN Service.
-                        Click on the nodes to assign Client Groups and CDNs peering points.
-                        <svg id="svg" height="800" width="100%">
+                        <svg id="svg" height="500" width="100%">
                             <!--<g transform="scale(1)">-->
                             <!--<image x="0" y="0" height="100%" width="100%"  xlink:href="./input/res2.svg"/>-->
                             <!--</g>-->
@@ -106,7 +139,7 @@
 
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                                        Concurrent User % SLA
+                                        Total Concurrent Users
                                         <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
                                               data-placement="top"
                                               data-original-title="Number of concurrent user to watch video @ 1.5Mbps. If the number of user is higher than the SLA the HD profile while redirect to SD video"></span>
@@ -128,21 +161,11 @@
 
             </div>
             <!------------------------ Load Topo  ------------------------------------->
-            <div class="col-md-4 col-sm-12 col-xs-12">
+            <div class="col-md-offset-8 col-md-4 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>1. Select your Topology</h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
-
-                            </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
+                       
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -192,26 +215,11 @@
                         </h2>
 
                         <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">Settings 1</a>
-                                    </li>
-                                    <li><a href="#">Settings 2</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
+                          
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <p>
-                            Clients requests are always routed to the vCDN.</p>
+                        <p>Those customers will always benefit from the enhanced distribution, as their resquests will be routed to the vCDN vNF</p>
                         <body>
                         <div>
                             <video id="videoPlayerHD" preload="none" autoplay="false" controls loop></video>
@@ -224,31 +232,15 @@
             <div class="col-md-4 col-sm-4 col-xs-4" id="videoWindow" style="display: none;">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>HD Profile
+                        <h2>HD Standard Free Users
                         </h2>
 
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">Settings 1</a>
-                                    </li>
-                                    <li><a href="#">Settings 2</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
+                      
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
                         <p>
-                            Clients requests are routed to the vCDN if the bandwidth allows it. SD fallback is activated
-                            if the vCDN link is saturated.
+                            Clients requests are routed to the vCDN if the bandwidth allows it. In case the vCDN link is beyond capacity, they will be served by best-effort IP through the legacy CDN channel.
                         </p>
                         <body>
                         <div>
@@ -262,29 +254,13 @@
             <div class="col-md-4 col-sm-4 col-xs-4" id="videoSDWindow" style="display: none;">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>SD Profile
+                        <h2>SD Users
                         </h2>
 
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">Settings 1</a>
-                                    </li>
-                                    <li><a href="#">Settings 2</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <p>Clients requests are always routed to the CDN.</p>
+                        <p>Clients requests are always routed to the legacy CDN, with no quality garanty</p>
                         <body>
                         <div>
                             <video id="videoPlayerSD" preload="none" autoplay="false" controls loop></video>
@@ -333,6 +309,9 @@
     <!-- /page content -->
 
     <!-- footer content -->
+    
+     
+            
     <footer>
         <div class="text-center ">
 
@@ -353,8 +332,18 @@
             <a href="http://www.labri.fr/">
                 <img class="img-thumbnail" src="./app/img/LogoLabri.png" style="max-height: 100px;max-width: 150px">
             </a>
-            <a href=https://www.u-bordeaux.fr/">
+            <a href="https://www.u-bordeaux.fr/">
                 <img class="img-thumbnail" src="./app/img/Universite%20Bordeaux%20RVB-10.jpeg"
+                     style="max-height: 150px;max-width: 250px">
+            </a>
+            
+            <a href="http://t-nova.eu/">
+                <img class="img-thumbnail" src="./app/img/t-nova.jpg"
+                     style="max-height: 150px;max-width: 250px">
+            </a>
+            
+            <a href="https://dvd2c.cms.orange-labs.fr/">
+                <img class="img-thumbnail" src="./app/img/dvd2c.png"
                      style="max-height: 150px;max-width: 250px">
             </a>
             <!--<div class="pull-right">-->
@@ -416,7 +405,7 @@
 <script src="./vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
 <script src="./vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
 <script src="./vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-<script src="./vendors/datata bles.net-buttons/js/buttons.print.min.js"></script>
+<script src="./vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
 <script src="./vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
 <script src="./vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
 <script src="./vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
