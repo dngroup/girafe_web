@@ -134,7 +134,7 @@ function submitSLA() {
     // $('#slainfo').html(" ")
 
     a = $('#sumbitsla').text()
-    $('#sumbitsla').html('Submit <i class="fa fa-spin fa-refresh"></i>')
+    $('#sumbitsla').html('Embedding <i class="fa fa-spin fa-refresh"></i>')
     data.cdns = cdns;
     data.clients = clients;
     data.sladelay = slaDelay;
@@ -171,7 +171,7 @@ function submitSLA() {
         else if (req.status >= 400 && req.status <= 599) {
             //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
             console.log(req.response);
-            $('#sumbitsla').html(a + ' <i class="fa fa-close"></i>')
+            $('#sumbitsla').html(a + ' <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>')
             $('#slainfo').show()
 
         }
@@ -191,7 +191,7 @@ function optimalSLA() {
     // $('#slaoinfo').html(" ")
 
     a = $('#sumbitosla').text()
-    $('#sumbitosla').html(a + '<i class="fa fa-spin fa-refresh"></i>')
+    $('#sumbitosla').html('Optimal Embedding <i class="fa fa-spin fa-refresh"></i>')
     var req = new XMLHttpRequest(),
         data = {};
 

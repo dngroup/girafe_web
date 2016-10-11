@@ -95,7 +95,7 @@ function configureTopo(topo) {
             async: false,
             success: function (template) {
                 $("#ConfigureTopo").html(template);
-                sliderNbUser = $("#value1").ionRangeSlider({min: 1, max: 200, from: 100, keyboard: true});
+                sliderNbUser = $("#value1").ionRangeSlider({min: 1, max: 200, from: 40, keyboard: true});
                 sliderNbUser = $("#value2").ionRangeSlider({min: 1, max: 10, from: 1, keyboard: true});
                 sliderNbUser = $("#value3").ionRangeSlider({min: 0, max: 1, from: 0.1, step: 0.05, keyboard: true});
                 sliderNbUser = $("#value4").ionRangeSlider({min: 1, max: 10, from: 1, keyboard: true});

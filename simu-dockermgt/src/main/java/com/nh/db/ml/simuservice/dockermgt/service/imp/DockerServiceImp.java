@@ -107,15 +107,6 @@ public class DockerServiceImp implements DockerService {
 				dockerClient.execStartCmd(execCreateCmdResponse.getId())
 						.exec(new ExecStartResultCallback(outputStream, System.err));
 
-				// StringWriter writer = new StringWriter();
-				// try {
-				// IOUtils.copy(inputStream, writer, "UTF-8");
-				// String theString = writer.toString();
-				// LOGGER.debug(theString);
-				// } catch (IOException e) {
-				// // TODO Auto-generated catch block
-				// e.printStackTrace();
-				// }
 
 			}
 		}

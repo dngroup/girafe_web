@@ -197,7 +197,8 @@ function ctrlTopo() {
             console.log(c.id);
 
             if (c.node.className.baseVal == "node") {
-                console.log(c.node.id);
+                // console.log(c.node.id);
+                // childNode[i].mouseover("this.style.cursor='pointer'")
                 childNode[i].click(function () {
                     hello(this);
                 });
@@ -404,9 +405,9 @@ function cancelBtn(value) {
             if ($("#result").length != 0) {
                 $("#result").hide()
             }
-            player.reset();
-            playerHD.reset();
-            playerSD.reset();
+            // player.reset();
+            // playerHD.reset();
+            // playerSD.reset();
             $("#videoWindow").hide();
             $("#videoHDWindow").hide();
             $("#videoSDWindow").hide();

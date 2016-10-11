@@ -130,18 +130,14 @@
                                   novalidate="">
 
                                 <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                                       <p>Here, we can modify the number of user connected to the system, and see how the quality varies according to user profiles</p>
-                                       <ul>
-										   <li>HD Premium Profile: These users benefit from the best experience possible by beeing served by the vCDN</li>
-										   <li>HD Free Profile: These users request HD videos, and will be served by the vCDN as long as the vCDN path is not saturated. They will be downgraded to SD quality is offload the vCDN path if needed</li>
-										   <li>SD Profile: These users will always be served SD quality from a Legacy CDN peering node</li>
-                                       </ul>
-                                        <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
-                                              data-placement="top"
-                                              data-original-title="Number of concurrent user to watch video @ 1.5Mbps. If the number of user is higher than the SLA the HD profile while redirect to SD video"></span>
-                                    </label>
-                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                    <div class=" col-md-12 col-sm-12 col-xs-12">
+                                        <p>Here, we can modify the number of user connected to the system, and see how the quality varies according to user profiles <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-original-title="Number of concurrent user to watch video @ 1.5Mbps. If the number of user is higher than the SLA the HD profile while redirect to SD video"></span></p><ul class="">
+                                        <li>HD Premium Profile: These users benefit from the best experience possible by beeing served by the vCDN</li>
+                                        <li>HD Free Profile: These users request HD videos, and will be served by the vCDN as long as the vCDN path is not saturated. They will be downgraded to SD quality is offload the vCDN path if needed</li>
+                                        <li>SD Profile: These users will always be served SD quality from a Legacy CDN peering node</li>
+                                    </ul>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
 
                                         <input type="text" id="nbUser" name="nbUser" value=""/>
 
@@ -218,11 +214,11 @@
                     <div class="x_content">
                         <p>Those customers will always benefit from the enhanced distribution, as their resquests will
                             be routed to the vCDN vNF</p>
-                        <body>
+                        <!--<body>-->
                         <div>
                             <video id="videoPlayerHD" preload="none" autoplay="false" controls loop></video>
                         </div>
-                        </body>
+                        <!--</body>-->
                     </div>
                 </div>
             </div>
@@ -241,11 +237,11 @@
                             Clients requests are routed to the vCDN if the bandwidth allows it. In case the vCDN link is
                             beyond capacity, they will be served by best-effort IP through the legacy CDN channel.
                         </p>
-                        <body>
+                        <!--<body>-->
                         <div>
                             <video id="videoPlayer" preload="none" autoplay="false" controls loop></video>
                         </div>
-                        </body>
+                        <!--</body>-->
                     </div>
                 </div>
             </div>
@@ -260,11 +256,11 @@
                     </div>
                     <div class="x_content">
                         <p>Clients requests are always routed to the legacy CDN, with no quality garanty</p>
-                        <body>
+                        <!--<body>-->
                         <div>
                             <video id="videoPlayerSD" preload="none" autoplay="false" controls loop></video>
                         </div>
-                        </body>
+                        <!--</body>-->
                     </div>
                 </div>
             </div>
@@ -346,7 +342,7 @@
 
             <div class="pull-right">
                 <a href="https://nextnet.top/sites/default/files/girafe.pdf">
-                    Download Poster : <img class="img-thumbnail" src="./app/img/1.svg"
+                   <img class="img-thumbnail" src="./app/img/post1.png" onmouseover="this.src='./app/img/post2.png'" onmouseout="this.src='./app/img/post1.png'"
                                            style="max-height: 150px;max-width: 150px;">
                 </a>
             </div>
@@ -356,14 +352,14 @@
             </a>
 
             <a href="http://viotech.net/">
-                <img class="img-thumbnail" src="./app/img/logo_white.svg" style="max-height: 150px;max-width: 250px">
+                <img class="img-thumbnail" src="./app/img/logo_white.svg" style="max-height: 150px;max-width: 200px">
             </a>
             <a href="http://www.labri.fr/">
                 <img class="img-thumbnail" src="./app/img/LogoLabri.png" style="max-height: 100px;max-width: 150px">
             </a>
             <a href="https://www.u-bordeaux.fr/">
                 <img class="img-thumbnail" src="./app/img/Universite%20Bordeaux%20RVB-10.jpeg"
-                     style="max-height: 150px;max-width: 250px">
+                     style="max-height: 150px;max-width: 200px">
             </a>
 
             <a href="http://t-nova.eu/">
@@ -373,7 +369,7 @@
 
             <a href="https://dvd2c.cms.orange-labs.fr/">
                 <img class="img-thumbnail" src="./app/img/dvd2c.png"
-                     style="max-height: 150px;max-width: 250px">
+                     style="max-height: 120px;max-width: 250px">
             </a>
             <!--<div class="pull-right">-->
             <!--<a href="http://girafe.nextnet.top">G.I.R.A.F.E.</a>-->
