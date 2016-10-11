@@ -327,8 +327,8 @@ function nextServiceTopo() {
                 responsive: true,
                 columns: [
                     {title: "ID"},
-                    {title: "Number of VMG"},
-                    {title: "Number of vCDN"},
+                    {title: "Number of VMGs"},
+                    {title: "Number of VCDNs"},
                     {title: "Cost."}
                 ],
                 // "columnDefs": [
