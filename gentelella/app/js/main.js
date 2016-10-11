@@ -18,10 +18,13 @@ var urlMPD = "/api/simu/mpd/";
 
 $(window).scroll(function () {
 
-    var valuelow = $("#videoHDWindow").position().top;
-    // if ($(videoWindow).is(":visible")) {
-    //     valuelow += $(videoWindow).height() + 60
-    // }
+    if ($("#videoHDWindow").is(":visible")) {
+        valuelow = $("#videoHDWindow").position().top
+    }
+    else {
+        valuelow = $("#publi").position().top;
+    }
+    console.log(valuelow);
     lawerScroll = $(document).height() // - $(window).height()
     if ($(window).scrollTop() > ($('#general_pres').position().top + $('#general_pres').height() + 5) && ($(window).scrollTop() + $('#move').height()) <= (valuelow )) {
         $("#move").stop().animate({
@@ -37,6 +40,13 @@ $(window).scroll(function () {
             // "marginLeft": ($(window).scrollLeft()) + "px"
         }, "slow");
     }
+    else if (($(window).scrollTop() + $('#move').height()) > (valuelow )) {
+        $("#move").stop().animate({
+
+            "marginTop": (valuelow-$('#move').height()) + "px",
+            // "marginLeft": ($(window).scrollLeft()) + "px"
+        }, "slow");
+    }
 
 });
 
@@ -44,7 +54,7 @@ $(window).resize(function () {
     $("#movesize").height($('#move').height());
 });
 
-$( document ).ready(function() {
+$(document).ready(function () {
     $("#move").stop().animate({
 
         "marginTop": ($('#general_pres').position().top + $('#general_pres').height() + 5) + "px",
@@ -394,6 +404,13 @@ function cancelBtn(value) {
             if ($("#result").length != 0) {
                 $("#result").hide()
             }
+            player.reset();
+            playerHD.reset();
+            playerSD.reset();
+            $("#videoWindow").hide();
+            $("#videoHDWindow").hide();
+            $("#videoSDWindow").hide();
+            $("#userswindow").hide();
             resetTable();
             break;
         default:
