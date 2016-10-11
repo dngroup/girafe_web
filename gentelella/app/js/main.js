@@ -31,21 +31,21 @@ $(window).scroll(function () {
 
             "marginTop": ($(window).scrollTop()) + "px",
             // "marginLeft": ($(window).scrollLeft()) + "px"
-        }, "slow");
+        }, 0);
     }
     else if ($(window).scrollTop() < ($('#general_pres').position().top + $('#general_pres').height() + 4)) {
         $("#move").stop().animate({
 
             "marginTop": ($('#general_pres').position().top + $('#general_pres').height() + 5) + "px",
             // "marginLeft": ($(window).scrollLeft()) + "px"
-        }, "slow");
+        }, 0);
     }
     else if (($(window).scrollTop() + $('#move').height()) > (valuelow )) {
         $("#move").stop().animate({
 
             "marginTop": (valuelow-$('#move').height()) + "px",
             // "marginLeft": ($(window).scrollLeft()) + "px"
-        }, "slow");
+        }, 0);
     }
 
 });
