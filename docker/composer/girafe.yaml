@@ -23,7 +23,7 @@ server:
   volumes:
    - ../input:/usr/local/apache2/htdocs/
 apache:
-  image: dngroup/simu-serverapache
+  image: dngroup/simu-serverapache:nolimit
   ports:
    - "127.0.0.1:9003:80"
   cap_add:
