@@ -121,7 +121,7 @@
                 <div class="" id="userswindow" style="display: none;">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Users</h2>
+                            <h2> Total Concurrent Users</h2>
 
                             <div class="clearfix"></div>
                         </div>
@@ -131,7 +131,12 @@
 
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                                        Total Concurrent Users
+                                       <p>Here, we can modify the number of user connected to the system, and see how the quality varies according to user profiles</p>
+                                       <ul>
+										   <li>HD Premium Profile: These users benefit from the best experience possible by beeing served by the vCDN</li>
+										   <li>HD Free Profile: These users request HD videos, and will be served by the vCDN as long as the vCDN path is not saturated. They will be downgraded to SD quality is offload the vCDN path if needed</li>
+										   <li>SD Profile: These users will always be served SD quality from a Legacy CDN peering node</li>
+                                       </ul>
                                         <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
                                               data-placement="top"
                                               data-original-title="Number of concurrent user to watch video @ 1.5Mbps. If the number of user is higher than the SLA the HD profile while redirect to SD video"></span>
@@ -225,7 +230,7 @@
             <div class="col-md-4 col-sm-4 col-xs-4" id="videoWindow" style="display: none;">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>HD Standard Free Users
+                        <h2>HD Free Profile
                         </h2>
 
 
@@ -248,7 +253,7 @@
             <div class="col-md-4 col-sm-4 col-xs-4" id="videoSDWindow" style="display: none;">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>SD Users
+                        <h2>SD Profile
                         </h2>
 
                         <div class="clearfix"></div>
