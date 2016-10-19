@@ -59,7 +59,7 @@ $(document).ready(function () {
 
         "marginTop": ($('#general_pres').position().top + $('#general_pres').height() + 5) + "px",
         // "marginLeft": ($(window).scrollLeft()) + "px"
-    }, "slow");
+    }, 0);
     $("#movesize").height($('#move').height());
 });
 
