@@ -10,19 +10,13 @@ import com.nh.db.ml.simuservice.sessionmgt.service.imp.SimulationFailedException
 
 public interface SimuService {
 	
-	/**
-	 * Create the topology svg on which the user can select the SLA informations
-	 * 
-	 * @param grid
-	 */
-	public abstract SessionAndSvg createTopoFromGrid(Grid grid);
-	
-	/**
-	 * Create the topology svg on which the user can select the SLA informations
-	 * 
-	 * @param grid
-	 */
-	public abstract SessionAndSvg createTopoDefault();
+
+//	/**
+//	 * Create the topology svg on which the user can select the SLA informations
+//	 * 
+//	 * @param grid
+//	 */
+//	public abstract SessionAndSvg createTopoDefault();
 	
 	/**
 	 * Compute the topo for the given SLA

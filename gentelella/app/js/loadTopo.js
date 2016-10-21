@@ -1,6 +1,5 @@
 var urlGetListTopo = "api/simu/list",
     urlSendSelectedTopo = "/api/simu/topo",
-    urlSendGrid = "/api/simu/grid",
     sessionInfo = "";
 
 ////////////////////////////////////////

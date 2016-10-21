@@ -31,25 +31,25 @@ public class DockerCTLEndpoints {
 	@Inject
 	DockerService dockerService;
 
-	@POST
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Path("docker/grid")
-	public Response createGridSvg(Grid grid) {
-		LOGGER.debug(grid.getSessionId());
-        dockerService.createSvgFromGrid(grid);
-		return Response.accepted().build();
-	}
-	
-	@POST
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Path("docker/default")
-	public Response createDefault(String SessionID) {
-		LOGGER.debug("Request for default {}",SessionID);
-        dockerService.createSvgDefault(SessionID);
-		return Response.accepted().build();
-	}
+//	@POST
+//	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+//	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+//	@Path("docker/grid")
+//	public Response createGridSvg(Grid grid) {
+//		LOGGER.debug(grid.getSessionId());
+//        dockerService.createSvgFromGrid(grid);
+//		return Response.accepted().build();
+//	}
+//	
+//	@POST
+//	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+//	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+//	@Path("docker/default")
+//	public Response createDefault(String SessionID) {
+//		LOGGER.debug("Request for default {}",SessionID);
+//        dockerService.createSvgDefault(SessionID);
+//		return Response.accepted().build();
+//	}
 	
 	@POST
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

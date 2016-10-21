@@ -39,11 +39,6 @@ public interface DockerService {
 	 */
 	public abstract List<Container> getstatus();
 
-	public abstract void createSvgFromGrid(Grid grid);
-	
-	public abstract void createSvgDefault(String sessionID);
-	
-
 	public abstract void createSvgFromSla(SlaInfo slaInfo);
 
 

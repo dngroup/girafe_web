@@ -35,14 +35,6 @@ public class SimuEndpoints {
 	@Inject
 	SimuService simuService;
 
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Path("grid")
-	public Response postGrid(Grid grid) {
-		SessionAndSvg sessionAndSvg = simuService.createTopoFromGrid(grid);
-		return Response.accepted(sessionAndSvg).build();
-	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -94,7 +86,7 @@ public class SimuEndpoints {
 	@Produces(MediaType.APPLICATION_SVG_XML)
 	@Path("svg/{sessionid}")
 	public Response getSvg(@PathParam("sessionid") String sessionId) {
-		File file = new File(CliConfSingleton.folder + sessionId + "/" + "res.svg");
+		File file = new File(CliConfSingleton.folder + sessionId + "/topo.svg");
 		
 		try {
 			FileInputStream fin = new FileInputStream(file);

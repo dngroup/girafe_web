@@ -41,25 +41,27 @@ public class SimuServiceImp implements SimuService {
 	@Inject
 	Client client;
 
-	@Override
-	public SessionAndSvg createTopoFromGrid(Grid grid) {
-		SessionSimu session = new SessionSimu(UUID.randomUUID().toString());
-		SessionAndSvg sessionAndSvg = new SessionAndSvg();
-		sessionAndSvg.setSessionId(session.getSessionId());
-		sessionAndSvg.setLinkSvg("");
-		grid.setSessionId(session.getSessionId());
-		try {
-			session.setJsonGrid(new ObjectMapper().writeValueAsString(grid));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		sessionSimuRepository.save(session);
-		WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/docker/grid");
-		LOGGER.debug(target.getUri().toString());
-		Response response = target.request().post(Entity.entity(grid, MediaType.APPLICATION_XML));
-
-		return sessionAndSvg;
-	}
+	// @Override
+	// public SessionAndSvg createTopoFromGrid(Grid grid) {
+	// SessionSimu session = new SessionSimu(UUID.randomUUID().toString());
+	// SessionAndSvg sessionAndSvg = new SessionAndSvg();
+	// sessionAndSvg.setSessionId(session.getSessionId());
+	// sessionAndSvg.setLinkSvg("");
+	// grid.setSessionId(session.getSessionId());
+	// try {
+	// session.setJsonGrid(new ObjectMapper().writeValueAsString(grid));
+	// } catch (JsonProcessingException e) {
+	// e.printStackTrace();
+	// }
+	// sessionSimuRepository.save(session);
+	// WebTarget target = client.target("http://" + CliConfSingleton.simudocker
+	// + "/api/docker/grid");
+	// LOGGER.debug(target.getUri().toString());
+	// Response response = target.request().post(Entity.entity(grid,
+	// MediaType.APPLICATION_XML));
+	//
+	// return sessionAndSvg;
+	// }
 
 	@Override
 	public SessionAndSvg createTopo(Grid grid) {
@@ -81,18 +83,21 @@ public class SimuServiceImp implements SimuService {
 		return sessionAndSvg;
 	}
 
-	@Override
-	public SessionAndSvg createTopoDefault() {
-		SessionSimu session = new SessionSimu(UUID.randomUUID().toString());
-		SessionAndSvg sessionAndSvg = new SessionAndSvg();
-		sessionAndSvg.setSessionId(session.getSessionId());
-		sessionAndSvg.setLinkSvg("");
-
-		sessionSimuRepository.save(session);
-		WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/docker/default");
-		Response response = target.request().post(Entity.entity(session.getSessionId(), MediaType.TEXT_PLAIN));
-		return sessionAndSvg;
-	}
+	// @Override
+	// public SessionAndSvg createTopoDefault() {
+	// SessionSimu session = new SessionSimu(UUID.randomUUID().toString());
+	// SessionAndSvg sessionAndSvg = new SessionAndSvg();
+	// sessionAndSvg.setSessionId(session.getSessionId());
+	// sessionAndSvg.setLinkSvg("");
+	//
+	// sessionSimuRepository.save(session);
+	// WebTarget target = client.target("http://" + CliConfSingleton.simudocker
+	// + "/api/docker/default");
+	// Response response =
+	// target.request().post(Entity.entity(session.getSessionId(),
+	// MediaType.TEXT_PLAIN));
+	// return sessionAndSvg;
+	// }
 
 	@Override
 	public SlaInfo computeTopoFromSla(SlaInfo slaInfo) throws SimulationFailedException {
@@ -113,21 +118,28 @@ public class SimuServiceImp implements SimuService {
 		}
 
 		try {
-			File file = new File(CliConfSingleton.folder + slaInfo.getSessionId() + "/solutions.data");
-			FileReader fr = new FileReader(file);
-			char[] a = new char[99999];
-			fr.read(a);
-			for (String d : String.valueOf(a).split("\n")) {
-				if (d.contains("objective value:")) {
-					slaInfo.setCosts(Double.valueOf(d.split("objective value:")[1]));
-					return slaInfo;
-				}
-			}
+			return getPrice(slaInfo);
 		} catch (IOException fnfe) {
 			throw new SimulationFailedException();
 		}
 
-		throw new SimulationFailedException();
+//		throw new SimulationFailedException();
+	}
+
+	/**
+	 * @param slaInfo
+	 * @return
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	private SlaInfo getPrice(SlaInfo slaInfo) throws FileNotFoundException, IOException {
+		File file = new File(CliConfSingleton.folder + slaInfo.getSessionId() + "/price.data");
+		FileReader fr = new FileReader(file);
+		char[] a = new char[99999];
+		fr.read(a);
+		slaInfo.setCosts(Double.valueOf(String.valueOf(a).split("\n")[0]));
+		fr.close();
+		return slaInfo;
 	}
 
 	@Override
@@ -149,6 +161,7 @@ public class SimuServiceImp implements SimuService {
 		}
 
 		try {
+			
 			File file = new File(CliConfSingleton.folder + slaInfo.getSessionId() + "/best.mapping.data");
 			FileReader fr = new FileReader(file);
 			char[] a = new char[99999];
@@ -161,6 +174,7 @@ public class SimuServiceImp implements SimuService {
 					return slaInfo;
 				}
 			}
+			fr.close();
 		} catch (IOException fnfe) {
 			throw new SimulationFailedException();
 		}
@@ -190,7 +204,7 @@ public class SimuServiceImp implements SimuService {
 
 	@Override
 	public File getSvg(SessionAndSvg svgInfo) {
-		File file = new File(CliConfSingleton.folder + svgInfo.getSessionId() + "/res.svg");
+		File file = new File(CliConfSingleton.folder + svgInfo.getSessionId() + "/topo.svg");
 
 		return file;
 	}
