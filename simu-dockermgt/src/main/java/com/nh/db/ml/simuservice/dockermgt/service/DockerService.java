@@ -3,6 +3,7 @@ package com.nh.db.ml.simuservice.dockermgt.service;
 import java.util.List;
 
 import com.github.dockerjava.api.model.Container;
+import com.nh.db.ml.simuservice.dockermgt.exception.NoZeroStatusCode;
 import com.nh.db.ml.simuservice.model.Grid;
 import com.nh.db.ml.simuservice.model.NbUsers;
 import com.nh.db.ml.simuservice.model.SlaInfo;
@@ -39,7 +40,7 @@ public interface DockerService {
 	 */
 	public abstract List<Container> getstatus();
 
-	public abstract void createSvgFromSla(SlaInfo slaInfo);
+	public abstract void createSvgFromSla(SlaInfo slaInfo) throws NoZeroStatusCode, InterruptedException;
 
 
 	/**
@@ -58,8 +59,8 @@ public interface DockerService {
 
 	public abstract void setBitrate(NbUsers nbUsers);
 
-	public abstract void findBestSLA(SlaInfo slaInfo);
+	public abstract void findBestSLA(SlaInfo slaInfo) throws InterruptedException, NoZeroStatusCode;
 
-	public abstract void createSvgFromTopo(Grid grid);
+	public abstract void createSvgFromTopo(Grid grid) throws NoZeroStatusCode, InterruptedException;
 
 }

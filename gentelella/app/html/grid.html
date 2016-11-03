@@ -12,42 +12,60 @@
     </label>
 
     <div class="input-group col-md-9 col-sm-9 col-xs-9 ">
-        <input type="text" id="value1" name="nbUser" value=""/>
+        <input type="text" id="value1" name="value1" value=""/>
     </div>
-    <!--<div class="input-group col-md-9 col-sm-9 col-xs-12">-->
-        <!--<select class="form-control" id="value1">-->
-            <!--<option value="2">2</option>-->
-            <!--<option value="3" style="background-color: #FFD9CC" selected="selected">3</option>-->
-            <!--<option value="4">4</option>-->
-            <!--<option value="5">5</option>-->
-            <!--<option value="6">6</option>-->
-            <!--<option value="7">7</option>-->
-        <!--</select>-->
-        <!--&lt;!&ndash;<span class="input-group-addon">&ndash;&gt;-->
-        <!--</span>-->
-    <!--</div>-->
-
     <label class="control-label col-md-3 col-sm-3 col-xs-12 ">Length:
         <span class="glyphicon glyphicon-info-sign"
               data-toggle="tooltip" data-placement="top"
               data-original-title="Number of Length node"></span>
-        </span></label>
-    <!--<div class="input-group col-md-9 col-sm-9 col-xs-12 ">-->
-
-        <!--<select class="form-control" id="value2">-->
-            <!--<option value="2">2</option>-->
-            <!--<option value="3" style="background-color: #ffd9cc" selected="selected">3</option>-->
-            <!--<option value="4">4</option>-->
-            <!--<option value="5">5</option>-->
-            <!--<option value="6">6</option>-->
-            <!--<option value="7">7</option>-->
-        <!--</select>-->
-        <!--&lt;!&ndash;<span class="input-group-addon" >&ndash;&gt;-->
-
-    <!--</div>-->
+    </label>
     <div class="input-group col-md-9 col-sm-9 col-xs-9 ">
-        <input type="text" id="value2" name="nbUser" value=""/>
+        <input type="text" id="value2" name="value2" value=""/>
     </div>
+
+    <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+
+        <div class="panel">
+            <a class="panel-heading" role="tab" id="headingTwo" data-toggle="collapse"
+               data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                <h4 class="panel-title text-center">Advanced</h4>
+            </a>
+            <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo"
+                 aria-expanded="false">
+                <div class="panel-body">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12 ">Bandwidth:
+                    <span class="glyphicon glyphicon-info-sign"
+                          data-toggle="tooltip" data-placement="top"
+                          data-original-title="Bandwidth for each link"></span>
+                    </label>
+                    <div class="input-group col-md-9 col-sm-9 col-xs-9 ">
+                        <input type="text" id="bw" name="bw" value=""/>
+                    </div>
+
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12 ">Delay:
+                    <span class="glyphicon glyphicon-info-sign"
+                          data-toggle="tooltip" data-placement="top"
+                          data-original-title="Delay on each link"></span>
+                    </label>
+                    <div class="input-group col-md-9 col-sm-9 col-xs-9 ">
+                        <input type="text" id="delay" name="delay" value=""/>
+                    </div>
+
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12 ">Cpu:
+                    <span class="glyphicon glyphicon-info-sign"
+                          data-toggle="tooltip" data-placement="top"
+                          data-original-title="Cpu on each node"></span>
+                    </label>
+                    <div class="input-group col-md-9 col-sm-9 col-xs-9 ">
+                        <input type="text" id="cpu" name="cpu" value=""/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
 </div>
 <div class="clearfix"></div>
 <div class="">

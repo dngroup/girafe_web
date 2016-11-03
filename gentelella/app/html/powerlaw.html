@@ -15,7 +15,7 @@
         <input type="text" id="value1" name="nbUser" value=""/>
     </div>
     <div class="clearfix"></div>
-    <label class="control-label col-md-3 col-sm-3 col-xs-3 ">Number of edges :
+    <label class="control-label col-md-3 col-sm-3 col-xs-3 ">Number of edges:
         <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top"
               data-original-title="the number of random edges to add for each new node"></span>
     </label>
@@ -30,14 +30,59 @@
     <div class="input-group col-md-9 col-sm-9 col-xs-9 ">
         <input type="text" id="value3" name="nbUser" value=""/>
     </div>
-    <div class="clearfix"></div>
-    <label class="control-label col-md-3 col-sm-3 col-xs-3 ">seed:
-        <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top"
-              data-original-title="Seed"></span>
-    </label>
-    <div class="input-group col-md-9 col-sm-9 col-xs-9 ">
-        <input type="text" id="value4" name="nbUser" value=""/>
+
+    <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+
+        <div class="panel">
+            <a class="panel-heading" role="tab" id="headingTwo" data-toggle="collapse"
+               data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                <h4 class="panel-title text-center">Advanced</h4>
+            </a>
+            <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo"
+                 aria-expanded="false">
+                <div class="panel-body">
+
+                    <div class="clearfix"></div>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-3 ">seed:
+                    <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top"
+                          data-original-title="Seed"></span>
+                    </label>
+                    <div class="input-group col-md-9 col-sm-9 col-xs-9 ">
+                        <input type="text" id="value4" name="nbUser" value=""/>
+                    </div>
+
+
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12 ">Bandwidth:
+                    <span class="glyphicon glyphicon-info-sign"
+                          data-toggle="tooltip" data-placement="top"
+                          data-original-title="Bandwidth for each link"></span>
+                    </label>
+                    <div class="input-group col-md-9 col-sm-9 col-xs-9 ">
+                        <input type="text" id="bw" name="bw" value=""/>
+                    </div>
+
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12 ">Delay:
+                    <span class="glyphicon glyphicon-info-sign"
+                          data-toggle="tooltip" data-placement="top"
+                          data-original-title="Delay on each link"></span>
+                    </label>
+                    <div class="input-group col-md-9 col-sm-9 col-xs-9 ">
+                        <input type="text" id="delay" name="delay" value=""/>
+                    </div>
+
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12 ">Cpu:
+                    <span class="glyphicon glyphicon-info-sign"
+                          data-toggle="tooltip" data-placement="top"
+                          data-original-title="Cpu on each node"></span>
+                    </label>
+                    <div class="input-group col-md-9 col-sm-9 col-xs-9 ">
+                        <input type="text" id="cpu" name="cpu" value=""/>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 </div>
 <div class="clearfix"></div>
 <div class="">

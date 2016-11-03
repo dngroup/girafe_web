@@ -2,12 +2,13 @@ video {
     width: 100%;
     height: 100%;
 }
-.nav-sm footer{
+
+.nav-sm footer {
     margin-left: 0px;
 }
 
 path[stroke="chartreuse"] {
-    stroke-dasharray: 5,2;
+    stroke-dasharray: 5, 2;
     stroke-dashoffset: 1000;
     animation: dash 5s linear infinite;
 }
@@ -26,8 +27,12 @@ path[stroke="chartreuse"] {
     position: absolute;
     top: 0;
     left: 0;
+    padding-right: 10px;
+    padding-left: 30px;
+    padding-right: calc((80px / 3) - 10px);
+    /*padding-right: calc(((100% / 3) * 2) - (((100% - 40px) / 3) * 2 - 10px));*/
 }
 
-.node{
+.node {
     cursor: pointer;
 }

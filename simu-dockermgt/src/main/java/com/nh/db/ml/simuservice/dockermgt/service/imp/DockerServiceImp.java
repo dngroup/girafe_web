@@ -19,6 +19,7 @@ import com.github.dockerjava.api.model.Volume;
 import com.github.dockerjava.core.command.ExecStartResultCallback;
 import com.github.dockerjava.core.command.WaitContainerResultCallback;
 import com.nh.db.ml.simuservice.dockergmgt.cli.CliConfSingleton;
+import com.nh.db.ml.simuservice.dockermgt.exception.NoZeroStatusCode;
 import com.nh.db.ml.simuservice.dockermgt.service.DockerService;
 import com.nh.db.ml.simuservice.model.Grid;
 import com.nh.db.ml.simuservice.model.NbUsers;
@@ -127,8 +128,8 @@ public class DockerServiceImp implements DockerService {
 	}
 
 	@Override
-	public void createSvgFromTopo(Grid grid) {
-		List<String> list = init();
+	public void createSvgFromTopo(Grid grid) throws NoZeroStatusCode, InterruptedException {
+		List<String> list = new ArrayList<String>();
 		// Topo Part
 		initTopo(grid.getTopo(), list);
 		// SLA Part
@@ -138,19 +139,21 @@ public class DockerServiceImp implements DockerService {
 
 		list.add("--cdn");
 		list.add("0");
-		
-		startStop(grid.getSessionId(), list);
+		LogContainerCallback logCall = new LogContainerCallback();
+		Integer statusCode = startStop(grid.getSessionId(), list, logCall);
+		if (statusCode != 0) {
+			LOGGER.error(logCall.toString());
+			throw new NoZeroStatusCode();
+
+		}
 	}
 
 	@Override
-	public void createSvgFromSla(SlaInfo slaInfo) {
+	public void createSvgFromSla(SlaInfo slaInfo) throws NoZeroStatusCode, InterruptedException {
 		// Default Part
-
-		List<String> list = init();
-
+		List<String> list = new ArrayList<String>();
 		// Topo Part
 		initTopo(slaInfo.getTopo(), list);
-
 		// SLA Part
 		list.add("--sla_delay");
 		list.add(Integer.toString(slaInfo.getSladelay()));
@@ -166,46 +169,23 @@ public class DockerServiceImp implements DockerService {
 		list.add(slaInfo.getVmg());
 		list.add("--vcdn");
 		list.add(slaInfo.getVcdn());
+		Integer statusCode;
+		LogContainerCallback logCall = new LogContainerCallback();
+		statusCode = startStop(slaInfo.getSessionId(), list, logCall);
+		if (statusCode != 0) {
+			LOGGER.error(logCall.toString());
+			throw new NoZeroStatusCode();
 
-		startStop(slaInfo.getSessionId(), list);
-	}
+		}
 
-	/**
-	 * Start and stop docker
-	 * 
-	 * @param slaInfo
-	 * @param list
-	 */
-	private void startStop(String sessionID, List<String> list) {
-		CreateContainerResponse container = dockerClient.createContainerCmd("nherbaut/simuservice")
-				.withBinds(new Bind(CliConfSingleton.folder + sessionID, volume))
-				.withCmd(list.toArray(new String[list.size()])).exec();
-		dockerClient.startContainerCmd(container.getId()).exec();
-		dockerClient.waitContainerCmd(container.getId()).exec(new WaitContainerResultCallback()).awaitStatusCode();
-//		dockerClient.removeContainerCmd(container.getId()).exec();
-	}
-
-	private void initTopo(String topo, List<String> list) {
-		list.add("--topo");
-		// TODO: change metrics to get from a SLA
-		// don't work with all topology like Geant
-		list.add(topo + ",10000000000,10,1000");
-	}
-
-	private List<String> init() {
-		List<String> list = new ArrayList<String>();
-//		list.add("--dest_folder");
-//		list.add("/tmp/data");
-		return list;
 	}
 
 	@Override
-	public void findBestSLA(SlaInfo slaInfo) {
-		List<String> list = init();
-
+	public void findBestSLA(SlaInfo slaInfo) throws InterruptedException, NoZeroStatusCode {
+		List<String> list = new ArrayList<String>();
 		// Topo Part
 		initTopo(slaInfo.getTopo(), list);
-
+	
 		// SLA Part
 		list.add("--sla_delay");
 		list.add(Integer.toString(slaInfo.getSladelay()));
@@ -217,10 +197,47 @@ public class DockerServiceImp implements DockerService {
 		list.addAll(slaInfo.getClients());
 		list.add("--cdn");
 		list.addAll(slaInfo.getCdns());
-
+	
 		list.add("--auto");
+		LogContainerCallback logCall = new LogContainerCallback();
+		Integer statusCode = startStop(slaInfo.getSessionId(), list, logCall);
+		if (statusCode != 0) {
+			LOGGER.error(logCall.toString());
+			throw new NoZeroStatusCode();
+	
+		}
+	}
 
-		startStop(slaInfo.getSessionId(), list);
+	/**
+	 * Start and stop docker
+	 * 
+	 * @param slaInfo
+	 * @param list
+	 * @throws InterruptedException
+	 */
+	private Integer startStop(String sessionID, List<String> list, LogContainerCallback logCall)
+			throws InterruptedException {
+		CreateContainerResponse container = dockerClient.createContainerCmd("nherbaut/simuservice")
+				.withBinds(new Bind(CliConfSingleton.folder + sessionID, volume))
+				.withCmd(list.toArray(new String[list.size()])).exec();
+
+		dockerClient.startContainerCmd(container.getId()).exec();
+
+		Integer statusCode = dockerClient.waitContainerCmd(container.getId()).exec(new WaitContainerResultCallback())
+				.awaitStatusCode();
+
+		/** get log of docker **/
+		
+		dockerClient.logContainerCmd(container.getId()).withStdErr(true).withStdOut(true).exec(logCall);
+		logCall.awaitCompletion();
+		// TODO: if the next line is comment uncomment it
+		dockerClient.removeContainerCmd(container.getId()).exec();
+		return statusCode;
+	}
+
+	private void initTopo(String topo, List<String> list) {
+		list.add("--topo");
+		list.add(topo);
 	}
 
 	// @Override
@@ -236,5 +253,4 @@ public class DockerServiceImp implements DockerService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

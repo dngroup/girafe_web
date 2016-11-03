@@ -26,17 +26,17 @@ $(window).scroll(function () {
     }
     console.log(valuelow);
     lawerScroll = $(document).height() // - $(window).height()
-    if ($(window).scrollTop() > ($('#general_pres').position().top + $('#general_pres').height() + 5) && ($(window).scrollTop() + $('#move').height()) <= (valuelow )) {
+    if ($(window).scrollTop() > ($('#general_pres').position().top + $('#general_pres').height()) && ($(window).scrollTop() + $('#move').height()) <= (valuelow )) {
         $("#move").stop().animate({
 
             "marginTop": ($(window).scrollTop()) + "px",
             // "marginLeft": ($(window).scrollLeft()) + "px"
         }, 0);
     }
-    else if ($(window).scrollTop() < ($('#general_pres').position().top + $('#general_pres').height() + 4)) {
+    else if ($(window).scrollTop() < ($('#general_pres').position().top + $('#general_pres').height() )) {
         $("#move").stop().animate({
 
-            "marginTop": ($('#general_pres').position().top + $('#general_pres').height() + 5) + "px",
+            "marginTop": ($('#general_pres').position().top + $('#general_pres').height() ) + "px",
             // "marginLeft": ($(window).scrollLeft()) + "px"
         }, 0);
     }
@@ -57,10 +57,12 @@ $(window).resize(function () {
 $(document).ready(function () {
     $("#move").stop().animate({
 
-        "marginTop": ($('#general_pres').position().top + $('#general_pres').height() + 5) + "px",
+        "marginTop": ($('#general_pres').position().top + $('#general_pres').height() ) + "px",
         // "marginLeft": ($(window).scrollLeft()) + "px"
     }, 0);
+    $("#move").show();
     $("#movesize").height($('#move').height());
+
 });
 
 
@@ -378,6 +380,15 @@ function cancelBtn(value) {
             if ($("#selectTopo").length != 0) {
                 $("#selectTopo").prop('disabled', false);
             }
+            if ($("#bw").length != 0) {
+                $("#bw").data("ionRangeSlider").update({disable: false});
+            }
+            if ($("#delay").length != 0) {
+                $("#delay").data("ionRangeSlider").update({disable: false});
+            }
+            if ($("#cpu").length != 0) {
+                $("#cpu").data("ionRangeSlider").update({disable: false});
+            }
         case 3:
             $("#cdnPeeringPoints").html("");
         case 4:
@@ -503,11 +514,11 @@ function getMPD() {
             urlVideoHD = res.str[0];
             urlVideoSD = res.str[2];
 
+            player.attachSource(urlVideo);
+            playerHD.attachSource(urlVideoHD);
+            playerSD.attachSource(urlVideoSD);
         }
 
-        player.attachSource(urlVideo);
-        playerHD.attachSource(urlVideoHD);
-        playerSD.attachSource(urlVideoSD);
 
 
     }

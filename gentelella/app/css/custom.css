@@ -21,7 +21,8 @@
 
 .nav-sm .container.body .right_col {
   padding: 10px 20px;
-  z-index: 2; }
+  z-index: 2;
+  }
 
 .nav-sm .navbar.nav_title {
   width: 70px; }
@@ -410,7 +411,8 @@ table.no-margin .progress {
   min-height: 1px;
   float: left;
   padding-right: 10px;
-  padding-left: 10px; }
+  padding-left: 10px;
+  }
 
 .row {
   margin-right: -10px;

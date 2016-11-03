@@ -11,11 +11,13 @@ import java.util.Date;
 import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,6 +82,9 @@ public class SimuServiceImp implements SimuService {
 		WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/docker/topo");
 		LOGGER.debug(target.getUri().toString());
 		Response response = target.request().post(Entity.entity(grid, MediaType.APPLICATION_XML));
+		if (response.getStatus() != Status.ACCEPTED.getStatusCode()) {
+			throw new WebApplicationException("docker return error", response.getStatus());
+		}
 		return sessionAndSvg;
 	}
 
@@ -123,7 +128,7 @@ public class SimuServiceImp implements SimuService {
 			throw new SimulationFailedException();
 		}
 
-//		throw new SimulationFailedException();
+		// throw new SimulationFailedException();
 	}
 
 	/**
@@ -132,10 +137,10 @@ public class SimuServiceImp implements SimuService {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	private SlaInfo getPrice(SlaInfo slaInfo) throws FileNotFoundException, IOException {
-		File file = new File(CliConfSingleton.folder + slaInfo.getSessionId() + "/price.data");
-		FileReader fr = new FileReader(file);
-		char[] a = new char[99999];
+	private SlaInfo getPrice(final SlaInfo slaInfo) throws FileNotFoundException, IOException {
+		final File file = new File(CliConfSingleton.folder + slaInfo.getSessionId() + "/price.data");
+		final FileReader fr = new FileReader(file);
+		final char[] a = new char[99999];
 		fr.read(a);
 		slaInfo.setCosts(Double.valueOf(String.valueOf(a).split("\n")[0]));
 		fr.close();
@@ -143,60 +148,48 @@ public class SimuServiceImp implements SimuService {
 	}
 
 	@Override
-	public SlaInfo computeLowCostSla(SlaInfo slaInfo) throws SimulationFailedException {
-		SessionSimu session = sessionSimuRepository.findOneBySessionId(slaInfo.getSessionId());
+	public SlaInfo computeLowCostSla(final SlaInfo slaInfo) throws SimulationFailedException {
+		final SessionSimu session = sessionSimuRepository.findOneBySessionId(slaInfo.getSessionId());
 		if (session != null) {
 			Grid grid = null;
 			if (session.getJsonGrid() != null) {
 				try {
 					grid = new ObjectMapper().readValue(session.getJsonGrid(), Grid.class);
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					e.printStackTrace();
 				}
 
 				slaInfo.setTopo(grid.getTopo());
 			}
-			WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/docker/LCsla");
-			Response response = target.request().post(Entity.entity(slaInfo, MediaType.APPLICATION_XML));
+			final WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/docker/LCsla");
+			final Response respons = target.request().post(Entity.entity(slaInfo, MediaType.APPLICATION_XML));
 		}
 
 		try {
-			
-			File file = new File(CliConfSingleton.folder + slaInfo.getSessionId() + "/best.mapping.data");
-			FileReader fr = new FileReader(file);
-			char[] a = new char[99999];
-			fr.read(a);
-			for (String d : String.valueOf(a).split("\n")) {
-				if (!d.contains("CostFunction")) {
-					slaInfo.setCosts(Double.valueOf(d.split(",")[2]));
-					slaInfo.setVcdn(d.split(",")[1]);
-					slaInfo.setVmg(d.split(",")[0]);
-					return slaInfo;
-				}
-			}
-			fr.close();
-		} catch (IOException fnfe) {
-			throw new SimulationFailedException();
-		}
 
-		throw new SimulationFailedException();
+			final File file = new File(CliConfSingleton.folder + slaInfo.getSessionId() + "/price.data");
+			final FileReader fr = new FileReader(file);
+			final char[] a = new char[99999];
+			fr.read(a);
+			final String[] ligne = String.valueOf(a).split("\n");
+			slaInfo.setCosts(Double.valueOf(ligne[0]));
+			slaInfo.setVcdn(ligne[1].split(",")[1]);
+			slaInfo.setVmg(ligne[1].split(",")[0]);
+			fr.close();
+			return slaInfo;
+
+		} catch (final IOException fnfe) {
+
+			throw new SimulationFailedException();
+		} finally {
+
+		}
 	}
 
 	@Override
 	public void addUserForSession(NbUsers nbUsers) {
 		SessionSimu session = sessionSimuRepository.findOneBySessionId(nbUsers.getSessionId());
 		if (session != null) {
-			Grid grid = null;
-			// SlaInfo slaInfo = null;
-			// try {
-			// grid = new ObjectMapper().readValue(session.getJsonGrid(),
-			// Grid.class);
-			// slaInfo = new ObjectMapper().readValue(session.getJsonSla(),
-			// SlaInfo.class);
-			// } catch (IOException e) {
-			// e.printStackTrace();
-			// }
-			// slaInfo.setGrid(grid.getX() + "x" + grid.getY());
 			WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/docker/users");
 			Response response = target.request().post(Entity.entity(nbUsers, MediaType.APPLICATION_XML));
 		}
