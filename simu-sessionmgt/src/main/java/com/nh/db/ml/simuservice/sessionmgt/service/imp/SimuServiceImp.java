@@ -88,21 +88,7 @@ public class SimuServiceImp implements SimuService {
 		return sessionAndSvg;
 	}
 
-	// @Override
-	// public SessionAndSvg createTopoDefault() {
-	// SessionSimu session = new SessionSimu(UUID.randomUUID().toString());
-	// SessionAndSvg sessionAndSvg = new SessionAndSvg();
-	// sessionAndSvg.setSessionId(session.getSessionId());
-	// sessionAndSvg.setLinkSvg("");
-	//
-	// sessionSimuRepository.save(session);
-	// WebTarget target = client.target("http://" + CliConfSingleton.simudocker
-	// + "/api/docker/default");
-	// Response response =
-	// target.request().post(Entity.entity(session.getSessionId(),
-	// MediaType.TEXT_PLAIN));
-	// return sessionAndSvg;
-	// }
+
 
 	@Override
 	public SlaInfo computeTopoFromSla(SlaInfo slaInfo) throws SimulationFailedException {
@@ -120,6 +106,9 @@ public class SimuServiceImp implements SimuService {
 			}
 			WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/docker/sla");
 			Response response = target.request().post(Entity.entity(slaInfo, MediaType.APPLICATION_XML));
+			if (response.getStatus() != Status.ACCEPTED.getStatusCode()) {
+				throw new WebApplicationException("docker return error", response.getStatus());
+			}
 		}
 
 		try {
@@ -162,7 +151,10 @@ public class SimuServiceImp implements SimuService {
 				slaInfo.setTopo(grid.getTopo());
 			}
 			final WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/docker/LCsla");
-			final Response respons = target.request().post(Entity.entity(slaInfo, MediaType.APPLICATION_XML));
+			final Response response = target.request().post(Entity.entity(slaInfo, MediaType.APPLICATION_XML));
+			if (response.getStatus() != Status.ACCEPTED.getStatusCode()) {
+				throw new WebApplicationException("docker return error", response.getStatus());
+			}
 		}
 
 		try {

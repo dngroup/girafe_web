@@ -317,7 +317,7 @@ function sendTopo() {
             + "," + cpu);
             break;
         case "Geant":
-            cpu = $("#cpu").data("ionRangeSlider").result.from_value;
+            cpu = $("#cpu").data("ionRangeSlider").result.from;
             topoName = ("file,Geant2012.graphml," + cpu);
             break;
         case "erdos_renyi":

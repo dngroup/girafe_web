@@ -77,7 +77,7 @@ public class DockerCTLEndpoints {
 			dockerService.createSvgFromSla(slaInfo);
 			return Response.accepted().build();
 		} catch (NoZeroStatusCode e) {
-			throw new WebApplicationException("Docker return error", e, Response.noContent().build());
+			throw new WebApplicationException("Docker return error", e, Response.status(Status.NOT_FOUND).build());
 		}
 	}
 
@@ -89,7 +89,7 @@ public class DockerCTLEndpoints {
 		try {
 			dockerService.findBestSLA(slaInfo);
 		} catch (NoZeroStatusCode e) {
-			throw new WebApplicationException("Docker return error", e, Response.noContent().build());
+			throw new WebApplicationException("Docker return error", e, Response.status(Status.NOT_FOUND).build());
 		}
 		return Response.accepted().build();
 	}
