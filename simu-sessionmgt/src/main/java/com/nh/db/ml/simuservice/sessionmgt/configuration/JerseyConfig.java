@@ -4,10 +4,7 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 
-
-
-
-
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 //
 //import org.glassfish.jersey.jettison.JettisonFeature;
 //import org.glassfish.jersey.media.multipart.MultiPartFeature;
@@ -37,12 +34,14 @@ public class JerseyConfig extends ResourceConfig {
 		
 		register(RequestContextFilter.class);
 		register(AccessDeniedMapper.class);
+		register(MultiPartFeature.class);
 	}
 	
 	@Bean
 	public Client client() {
 		
 		Client client = ClientBuilder.newClient();
+		client.register(MultiPartFeature.class);
 		return client;
 		
 	}

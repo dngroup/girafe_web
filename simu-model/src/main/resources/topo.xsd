@@ -2,13 +2,12 @@
 <!-- TODO: Have to change this name and rm x y -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	targetNamespace="urn:com:nh:db:ml:simuservice:model">
-	<xs:element name="Grid">
+	<xs:element name="Topo">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="x" type="xs:int" />
-				<xs:element name="y" type="xs:int" />
 				<xs:element name="topo" type="xs:string" />
 				<xs:element name="sessionId" type="xs:string" />
+				<xs:any></xs:any>
 			</xs:sequence>
 
 		</xs:complexType>

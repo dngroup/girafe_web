@@ -1,11 +1,10 @@
 package com.nh.db.ml.simuservice.sessionmgt.service.imp;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.CharBuffer;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.UUID;
@@ -19,16 +18,20 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.glassfish.jersey.media.multipart.ContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nh.db.ml.simuservice.model.Grid;
 import com.nh.db.ml.simuservice.model.NbUsers;
 import com.nh.db.ml.simuservice.model.SessionAndSvg;
 import com.nh.db.ml.simuservice.model.SlaInfo;
+import com.nh.db.ml.simuservice.model.Topo;
 import com.nh.db.ml.simuservice.sessionmgt.cli.CliConfSingleton;
 import com.nh.db.ml.simuservice.sessionmgt.model.SessionSimu;
 import com.nh.db.ml.simuservice.sessionmgt.repository.SessionSimuRepository;
@@ -66,12 +69,18 @@ public class SimuServiceImp implements SimuService {
 	// }
 
 	@Override
-	public SessionAndSvg createTopo(Grid grid) {
-		SessionSimu session = new SessionSimu(UUID.randomUUID().toString());
+	public SessionAndSvg createTopo(Topo grid) {
+
+		SessionSimu session;
+		if (grid.getSessionId().isEmpty()) {
+			session = new SessionSimu(UUID.randomUUID().toString());
+			grid.setSessionId(session.getSessionId());
+		} else {
+			session = new SessionSimu(grid.getSessionId());
+		}
 		SessionAndSvg sessionAndSvg = new SessionAndSvg();
 		sessionAndSvg.setSessionId(session.getSessionId());
 		sessionAndSvg.setLinkSvg("");
-		grid.setSessionId(session.getSessionId());
 		try {
 			session.setJsonGrid(new ObjectMapper().writeValueAsString(grid));
 		} catch (JsonProcessingException e) {
@@ -88,16 +97,14 @@ public class SimuServiceImp implements SimuService {
 		return sessionAndSvg;
 	}
 
-
-
 	@Override
 	public SlaInfo computeTopoFromSla(SlaInfo slaInfo) throws SimulationFailedException {
 		SessionSimu session = sessionSimuRepository.findOneBySessionId(slaInfo.getSessionId());
 		if (session != null) {
-			Grid grid = null;
+			Topo grid = null;
 			if (session.getJsonGrid() != null) {
 				try {
-					grid = new ObjectMapper().readValue(session.getJsonGrid(), Grid.class);
+					grid = new ObjectMapper().readValue(session.getJsonGrid(), Topo.class);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -140,10 +147,10 @@ public class SimuServiceImp implements SimuService {
 	public SlaInfo computeLowCostSla(final SlaInfo slaInfo) throws SimulationFailedException {
 		final SessionSimu session = sessionSimuRepository.findOneBySessionId(slaInfo.getSessionId());
 		if (session != null) {
-			Grid grid = null;
+			Topo grid = null;
 			if (session.getJsonGrid() != null) {
 				try {
-					grid = new ObjectMapper().readValue(session.getJsonGrid(), Grid.class);
+					grid = new ObjectMapper().readValue(session.getJsonGrid(), Topo.class);
 				} catch (final IOException e) {
 					e.printStackTrace();
 				}
@@ -201,6 +208,33 @@ public class SimuServiceImp implements SimuService {
 		byte[] b = test.getBytes(StandardCharsets.UTF_8);
 
 		return b;
+	}
+
+	@Override
+	public Topo sendTopoToDocker(InputStream uploadedInputStream, FormDataContentDisposition fileDetail,
+			MediaType mediaType) {
+		Topo topo = new Topo();
+		topo.setSessionId(UUID.randomUUID().toString());
+		topo.setTopo(fileDetail.getFileName());
+		
+		FormDataMultiPart multiPart = new FormDataMultiPart()
+//		        .field("file", uploadedInputStream, MediaType.MULTIPART_FORM_DATA_TYPE)
+		        .field("filename", fileDetail.getFileName())
+		        .field("sessionId", topo.getSessionId());
+		
+		FormDataBodyPart body = new FormDataBodyPart( "file", uploadedInputStream, mediaType);
+//		body.set(fileDetail.getFileName());
+		multiPart.bodyPart(body);
+		
+		
+		// add file here /opt/simuservice/offline/data on docker
+		final WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/topo");
+		final Response response = target.request().post(Entity.entity(multiPart, MediaType.MULTIPART_FORM_DATA));
+		if (response.getStatus() != Status.ACCEPTED.getStatusCode()) {
+			throw new WebApplicationException("docker return error", response.getStatus());
+		}
+
+		return topo;
 	}
 
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.github.dockerjava.api.model.Container;
 import com.nh.db.ml.simuservice.dockermgt.exception.NoZeroStatusCode;
-import com.nh.db.ml.simuservice.model.Grid;
+import com.nh.db.ml.simuservice.model.Topo;
 import com.nh.db.ml.simuservice.model.NbUsers;
 import com.nh.db.ml.simuservice.model.SlaInfo;
 
@@ -61,6 +61,6 @@ public interface DockerService {
 
 	public abstract void findBestSLA(SlaInfo slaInfo) throws InterruptedException, NoZeroStatusCode;
 
-	public abstract void createSvgFromTopo(Grid grid) throws NoZeroStatusCode, InterruptedException;
+	public abstract void createSvgFromTopo(Topo grid) throws NoZeroStatusCode, InterruptedException;
 
 }

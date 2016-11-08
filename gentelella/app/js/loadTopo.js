@@ -1,4 +1,7 @@
-var urlGetListTopo = "api/simu/list", urlSendSelectedTopo = "/api/simu/topo", sessionInfo = "";
+var urlGetListTopo = "api/simu/list",
+    urlSendSelectedTopo = "api/simu/topo",
+    urlUploadTopo = "api/simu/upload",
+    sessionInfo = "";
 
 // //////////////////////////////////////
 // Get the list of topo
@@ -27,27 +30,28 @@ function getList(url) {
     addTopo("Geant", "Geant", selectList);// file,Geant2012.graphml
     addTopo("erdos_renyi", "erdos_renyi", selectList); // erdos_renyi,30,0.1,3
     addTopo("powerlaw", "powerlaw", selectList);// powerlaw,100,1,0.5,1
+    addTopo("Upload your GraphML file", "upload", selectList);//
 
 }
 
 function configureTopo(topo) {
 
+
     switch (topo.value) {
         case "Grid":
             loadConfigGrid();
-            console.log("Grid,3,3");
             break;
         case "Geant":
             loadConfigGeant();
-            console.log("file,Geant2012.graphml");
             break;
         case "erdos_renyi":
             loadConfigErdosRenyi();
-            console.log("erdos_renyi,30,0.1,3");
             break;
         case "powerlaw":
             loadConfigPowerlaw();
-            console.log("powerlaw,100,1,0.5,1");
+            break;
+        case "upload":
+            loaduploadfrom();
             break;
         default:
             console.log("error")
@@ -281,6 +285,141 @@ function configureTopo(topo) {
         });
     }
 
+    function loaduploadfrom() {
+        $.ajax({
+            url: "./app/html/fileuploadform.html",
+            success: function (template) {
+                $("#ConfigureTopo").html(template);
+                $(".glyphicon-info-sign").tooltip();
+                sliderNbUser = $("#cpu").ionRangeSlider({
+                    min: 1,
+                    max: 2000,
+                    from: 200,
+                    keyboard: true
+                });
+                $('#collapseTwo').collapse("hide")
+
+                
+                // $(document).ready(function() {
+                //     $('#submitJquery').click(submitForm);
+                // });
+                //
+                // function submitForm() {
+                //     var file = $('input[name="uploadfile"]').get(0).files[0];
+                //
+                //     var formData = new FormData();
+                //     formData.append('uploadfile', file);
+                //
+                //     $.ajax({
+                //         url: urlUploadTopo,
+                //         type: 'POST',
+                //         xhr: function() {  // Custom XMLHttpRequest
+                //             var myXhr = $.ajaxSettings.xhr();
+                //             return myXhr;
+                //         },
+                //         // beforeSend: beforeSendHandler,
+                //         success: function(data) {
+                //             alert('successfully uploaded file with '+data+' lines');
+                //         },
+                //         // Form data
+                //         data: formData,
+                //         //Options to tell jQuery not to process data or worry about content-type.
+                //         cache: false,
+                //         contentType: false,
+                //         processData: false
+                //     });
+                // }
+
+
+                //
+                // $('#fileupload').fileupload({
+                //     url: urlUploadTopo,
+                //     dataType: 'json',
+                //     done: function (e, data) {
+                //         console.log("success")
+                //         // $.each(data.result.files, function (index, file) {
+                //         //     $('<p/>').text(file.name).appendTo('#files');
+                //         // });
+                //     },
+                //     progressall: function (e, data) {
+                //         var progress = parseInt(data.loaded / data.total * 100, 10);
+                //         console.log(
+                //             'width',
+                //             progress + '%'
+                //         );
+                //     }
+                // }).prop('disabled', !$.support.fileInput)
+                //     .parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+                $('#UploadTopo').click(function () {
+                    // $("#uploadfrom").submit();
+                    var oData = new FormData(document.forms.namedItem("uploadfrom"));
+                    var oReq = new XMLHttpRequest();
+                    oReq.open("POST", urlUploadTopo, true);
+                    oReq.onload = function (oEvent) {
+                        if (oReq.status == 200) {
+                            // oOutput.innerHTML = "Uploaded!";
+                        } else {
+                        }
+                    };
+                    oReq.send(oData);
+                });
+
+                var form = document.forms.namedItem("uploadfrom");
+                // form.addEventListener('submit', function(ev) {
+                //
+                //     var
+                //         // oOutput = document.getElementById("output"),
+                //         oData = new FormData(document.forms.namedItem("uploadfrom"));
+                //
+                //     oData.append("CustomField", "This is some extra data");
+                //
+                //     var oReq = new XMLHttpRequest();
+                //     oReq.open("POST", urlUploadTopo, true);
+                //     oReq.onload = function(oEvent) {
+                //         if (oReq.status == 200) {
+                //             // oOutput.innerHTML = "Uploaded!";
+                //         } else {
+                //             // oOutput.innerHTML = "Error " + oReq.status + " occurred uploading your file.<br \/>";
+                //         }
+                //     };
+                //
+                //     oReq.send(oData);
+                //     ev.preventDefault();
+                // }, false);
+
+
+                // $("#uploadfrom").attr('action', urlUploadTopo);
+                //
+                // var form = document.forms.namedItem("uploadfrom");
+                // $("#uploadfrom").submit(function (e) {
+                //     e.preventDefault();
+                //     lala =document.getElementById("#uploadfrom")
+                //     lala2 =document.getElementById("uploadfrom")
+                //     var fd = new FormData(lala);
+                //
+                //     $.ajax({
+                //         url: $(this).attr('action') || window.location.pathname,
+                //         type: $(this).attr('method'),
+                //         data: fd,
+                //         success: function (data) {
+                //             sessionInfo = JSON.parse(data.responseText);
+                //             console.log("success")
+                //         },
+                //         error: function (jXHR, textStatus, errorThrown) {
+                //             alert(errorThrown);
+                //         }
+                //     });
+                // });
+
+                // console.log("FINISH")
+
+            },
+            dataType: "text",
+            complete: function () {
+            }
+        });
+    }
 }
 
 getList(urlGetListTopo);
@@ -306,42 +445,48 @@ function sendTopo() {
 
     switch (document.getElementById("selectTopo").value) {
         case "Grid":
-            value1 = document.getElementById("value1").value;
-            value2 = document.getElementById("value2").value;
-            bwrow = $("#bw").data("ionRangeSlider").result.from_value;
-            bw = rowtobit(bwrow);
-            delay = $("#delay").data("ionRangeSlider").result.from;
-            cpu = $("#cpu").data("ionRangeSlider").result.from;
+            var value1 = document.getElementById("value1").value;
+            var value2 = document.getElementById("value2").value;
+            var bwrow = $("#bw").data("ionRangeSlider").result.from_value;
+            var bw = rowtobit(bwrow);
+            var delay = $("#delay").data("ionRangeSlider").result.from;
+            var cpu = $("#cpu").data("ionRangeSlider").result.from;
 
             topoName = ("grid," + value1 + "," + value2 + "," + bw + "," + delay
             + "," + cpu);
             break;
         case "Geant":
-            cpu = $("#cpu").data("ionRangeSlider").result.from;
-            topoName = ("file,Geant2012.graphml," + cpu);
+            var cpu = $("#cpu").data("ionRangeSlider").result.from;
+            var topoName = ("file,Geant2012.graphml," + cpu);
             break;
         case "erdos_renyi":
-            value1 = document.getElementById("value1").value;
-            value2 = document.getElementById("value2").value;
-            value3 = document.getElementById("value3").value;
-            bwrow = $("#bw").data("ionRangeSlider").result.from_value;
-            bw = rowtobit(bwrow);
-            delay = $("#delay").data("ionRangeSlider").result.from;
-            cpu = $("#cpu").data("ionRangeSlider").result.from;
-            topoName = ("erdos_renyi," + value1 + "," + value2 + "," + value3 + ","
+            var value1 = document.getElementById("value1").value;
+            var value2 = document.getElementById("value2").value;
+            var value3 = document.getElementById("value3").value;
+            var bwrow = $("#bw").data("ionRangeSlider").result.from_value;
+            var bw = rowtobit(bwrow);
+            var delay = $("#delay").data("ionRangeSlider").result.from;
+            var cpu = $("#cpu").data("ionRangeSlider").result.from;
+            var topoName = ("erdos_renyi," + value1 + "," + value2 + "," + value3 + ","
             + bw + "," + delay + "," + cpu);
             break;
         case "powerlaw":
-            value1 = document.getElementById("value1").value;
-            value2 = document.getElementById("value2").value;
-            value3 = document.getElementById("value3").value;
-            value4 = document.getElementById("value4").value;
-            bwrow = $("#bw").data("ionRangeSlider").result.from_value;
-            bw = rowtobit(bwrow);
-            delay = $("#delay").data("ionRangeSlider").result.from;
-            cpu = $("#cpu").data("ionRangeSlider").result.from;
-            topoName = ("powerlaw," + value1 + "," + value2 + "," + value3 + ","
+            var value1 = document.getElementById("value1").value;
+            var value2 = document.getElementById("value2").value;
+            var value3 = document.getElementById("value3").value;
+            var value4 = document.getElementById("value4").value;
+            var bwrow = $("#bw").data("ionRangeSlider").result.from_value;
+            var bw = rowtobit(bwrow);
+            var delay = $("#delay").data("ionRangeSlider").result.from;
+            var cpu = $("#cpu").data("ionRangeSlider").result.from;
+            var topoName = ("powerlaw," + value1 + "," + value2 + "," + value3 + ","
             + value4 + "," + bw + "," + delay + "," + cpu);
+            break;
+        case "upload":
+            var upload = document.getElementById("uploadinput");
+            var cpu =  $("#cpu").data("ionRangeSlider").result.from;
+            var topoName = ("file" + upload.value +"," + cpu);
+
             break;
         default:
             console.log("error")

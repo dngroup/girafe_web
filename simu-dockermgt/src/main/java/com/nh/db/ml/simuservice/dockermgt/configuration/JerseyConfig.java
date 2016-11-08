@@ -2,8 +2,7 @@ package com.nh.db.ml.simuservice.dockermgt.configuration;
 
 import javax.ws.rs.ApplicationPath;
 
-
-
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 //
 //import org.glassfish.jersey.jettison.JettisonFeature;
 //import org.glassfish.jersey.media.multipart.MultiPartFeature;
@@ -31,7 +30,7 @@ public class JerseyConfig extends ResourceConfig {
 		register(DockerCTLEndpoints.class);
 		
 		register(RequestContextFilter.class);
-//		register(MultiPartFeature.class);
+		register(MultiPartFeature.class);
 //		register(JettisonFeature.class);
 		register(AccessDeniedMapper.class);
 		register(WadlResource.class);
