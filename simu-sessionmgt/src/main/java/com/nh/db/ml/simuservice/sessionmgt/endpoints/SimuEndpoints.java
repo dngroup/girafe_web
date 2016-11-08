@@ -117,6 +117,7 @@ public class SimuEndpoints {
 	@POST
 	@Path("upload")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response uploadFile(@FormDataParam("file") InputStream uploadedInputStream,
 			@FormDataParam("file") FormDataContentDisposition fileDetail,
 			@FormDataParam("file") FormDataBodyPart body) {
@@ -125,7 +126,7 @@ public class SimuEndpoints {
 
 		Topo topo = simuService.sendTopoToDocker(uploadedInputStream, fileDetail,mediaType);
 
-		return Response.status(200).build();
+		return Response.status(200).entity(topo).build();
 
 	}
 

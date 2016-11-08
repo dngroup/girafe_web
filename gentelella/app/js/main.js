@@ -268,7 +268,7 @@ function nextVCDN() {
             });
             sliderNbUsersSla = $("#nbUsersSla").ionRangeSlider({
                 type: "single",
-                min: 0,
+                min: 100,
                 max: 6000,
                 from: nbUsersSla,
                 step: 100,

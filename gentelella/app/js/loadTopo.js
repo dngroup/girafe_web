@@ -297,123 +297,22 @@ function configureTopo(topo) {
                     from: 200,
                     keyboard: true
                 });
-                $('#collapseTwo').collapse("hide")
-
-                
-                // $(document).ready(function() {
-                //     $('#submitJquery').click(submitForm);
-                // });
-                //
-                // function submitForm() {
-                //     var file = $('input[name="uploadfile"]').get(0).files[0];
-                //
-                //     var formData = new FormData();
-                //     formData.append('uploadfile', file);
-                //
-                //     $.ajax({
-                //         url: urlUploadTopo,
-                //         type: 'POST',
-                //         xhr: function() {  // Custom XMLHttpRequest
-                //             var myXhr = $.ajaxSettings.xhr();
-                //             return myXhr;
-                //         },
-                //         // beforeSend: beforeSendHandler,
-                //         success: function(data) {
-                //             alert('successfully uploaded file with '+data+' lines');
-                //         },
-                //         // Form data
-                //         data: formData,
-                //         //Options to tell jQuery not to process data or worry about content-type.
-                //         cache: false,
-                //         contentType: false,
-                //         processData: false
-                //     });
-                // }
-
-
-                //
-                // $('#fileupload').fileupload({
-                //     url: urlUploadTopo,
-                //     dataType: 'json',
-                //     done: function (e, data) {
-                //         console.log("success")
-                //         // $.each(data.result.files, function (index, file) {
-                //         //     $('<p/>').text(file.name).appendTo('#files');
-                //         // });
-                //     },
-                //     progressall: function (e, data) {
-                //         var progress = parseInt(data.loaded / data.total * 100, 10);
-                //         console.log(
-                //             'width',
-                //             progress + '%'
-                //         );
-                //     }
-                // }).prop('disabled', !$.support.fileInput)
-                //     .parent().addClass($.support.fileInput ? undefined : 'disabled');
-
+                $('#collapseTwo').collapse("hide");
                 $('#UploadTopo').click(function () {
                     // $("#uploadfrom").submit();
                     var oData = new FormData(document.forms.namedItem("uploadfrom"));
-                    var oReq = new XMLHttpRequest();
-                    oReq.open("POST", urlUploadTopo, true);
-                    oReq.onload = function (oEvent) {
-                        if (oReq.status == 200) {
-                            // oOutput.innerHTML = "Uploaded!";
+                    var req = new XMLHttpRequest();
+                    req.open("POST", urlUploadTopo, true);
+                    req.onload = function (oEvent) {
+                        if (req.status == 200) {
+                            sessionInfo = JSON.parse(req.responseText);
+                            sendTopo();
                         } else {
                         }
                     };
-                    oReq.send(oData);
+                    req.send(oData);
                 });
-
                 var form = document.forms.namedItem("uploadfrom");
-                // form.addEventListener('submit', function(ev) {
-                //
-                //     var
-                //         // oOutput = document.getElementById("output"),
-                //         oData = new FormData(document.forms.namedItem("uploadfrom"));
-                //
-                //     oData.append("CustomField", "This is some extra data");
-                //
-                //     var oReq = new XMLHttpRequest();
-                //     oReq.open("POST", urlUploadTopo, true);
-                //     oReq.onload = function(oEvent) {
-                //         if (oReq.status == 200) {
-                //             // oOutput.innerHTML = "Uploaded!";
-                //         } else {
-                //             // oOutput.innerHTML = "Error " + oReq.status + " occurred uploading your file.<br \/>";
-                //         }
-                //     };
-                //
-                //     oReq.send(oData);
-                //     ev.preventDefault();
-                // }, false);
-
-
-                // $("#uploadfrom").attr('action', urlUploadTopo);
-                //
-                // var form = document.forms.namedItem("uploadfrom");
-                // $("#uploadfrom").submit(function (e) {
-                //     e.preventDefault();
-                //     lala =document.getElementById("#uploadfrom")
-                //     lala2 =document.getElementById("uploadfrom")
-                //     var fd = new FormData(lala);
-                //
-                //     $.ajax({
-                //         url: $(this).attr('action') || window.location.pathname,
-                //         type: $(this).attr('method'),
-                //         data: fd,
-                //         success: function (data) {
-                //             sessionInfo = JSON.parse(data.responseText);
-                //             console.log("success")
-                //         },
-                //         error: function (jXHR, textStatus, errorThrown) {
-                //             alert(errorThrown);
-                //         }
-                //     });
-                // });
-
-                // console.log("FINISH")
-
             },
             dataType: "text",
             complete: function () {
@@ -484,8 +383,9 @@ function sendTopo() {
             break;
         case "upload":
             var upload = document.getElementById("uploadinput");
-            var cpu =  $("#cpu").data("ionRangeSlider").result.from;
-            var topoName = ("file" + upload.value +"," + cpu);
+            var cpu = $("#cpu").data("ionRangeSlider").result.from;
+
+            var topoName = ("file," + upload.value.split('\\')[2] + "," + cpu);
 
             break;
         default:
@@ -493,9 +393,9 @@ function sendTopo() {
     }
 
     var topo = {};
-    // TODO: not needed, need to remove this after updating java server
-    topo.x = -1;
-    topo.y = -1;
+    if (sessionInfo != "") {
+        topo.sessionId = sessionInfo.sessionId
+    }
     topo.topo = topoName;
     var req = new XMLHttpRequest();
 

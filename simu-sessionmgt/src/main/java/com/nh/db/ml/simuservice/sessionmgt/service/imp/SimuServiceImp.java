@@ -18,7 +18,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.glassfish.jersey.media.multipart.ContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
@@ -28,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 import com.nh.db.ml.simuservice.model.NbUsers;
 import com.nh.db.ml.simuservice.model.SessionAndSvg;
 import com.nh.db.ml.simuservice.model.SlaInfo;
@@ -72,14 +72,17 @@ public class SimuServiceImp implements SimuService {
 	public SessionAndSvg createTopo(Topo grid) {
 
 		SessionSimu session;
-		if (grid.getSessionId().isEmpty()) {
+		if (Strings.isNullOrEmpty(grid.getSessionId())) {
 			session = new SessionSimu(UUID.randomUUID().toString());
 			grid.setSessionId(session.getSessionId());
 		} else {
-			session = new SessionSimu(grid.getSessionId());
+			session = sessionSimuRepository.findOneBySessionId(grid.getSessionId());
+			if ((sessionSimuRepository.findOneBySessionId(grid.getSessionId()))==null){
+				session = new SessionSimu(grid.getSessionId());
+			}
 		}
 		SessionAndSvg sessionAndSvg = new SessionAndSvg();
-		sessionAndSvg.setSessionId(session.getSessionId());
+		sessionAndSvg.setSessionId(grid.getSessionId());
 		sessionAndSvg.setLinkSvg("");
 		try {
 			session.setJsonGrid(new ObjectMapper().writeValueAsString(grid));
@@ -87,7 +90,12 @@ public class SimuServiceImp implements SimuService {
 			e.printStackTrace();
 		}
 
+		SessionSimu sessionToDelet;
+		if ((sessionToDelet=sessionSimuRepository.findOneBySessionId(grid.getSessionId()))!=null){
+			sessionSimuRepository.delete(sessionToDelet);
+		}
 		sessionSimuRepository.save(session);
+		
 		WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/docker/topo");
 		LOGGER.debug(target.getUri().toString());
 		Response response = target.request().post(Entity.entity(grid, MediaType.APPLICATION_XML));

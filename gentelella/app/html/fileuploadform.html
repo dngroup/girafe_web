@@ -1,0 +1,72 @@
+<div>
+    <form id="uploadfrom" name="uploadfrom" method="post" enctype="multipart/form-data" action="api/simu/upload">
+
+
+        <label class="control-label col-md-3 col-sm-3 col-xs-12 ">Select a file:
+        <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top"
+              data-original-title="Upload a GraphML file with your home topology"></span>
+        </label>
+
+        <div class="col-md-9 col-sm-9 col-xs-9 ">
+            <label class="btn btn-default btn-file">
+                Browse <input id="uploadinput" type="file" class="file" name="file" size="45" style="display: none;">
+            </label>
+
+
+            <!--<span class="btn btn-success fileinput-button">-->
+            <!--<i class="glyphicon glyphicon-plus"></i>-->
+            <!--<span>Select files...</span>-->
+            <!--&lt;!&ndash; The file input field used as target for the file upload widget &ndash;&gt;-->
+            <!--<input id="fileupload" type="file" name="files[]" multiple="">-->
+            <!--</span>-->
+
+            <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+            <!--&lt;!&ndash;<label for="uploadfile"><b>File</b></label>&ndash;&gt;-->
+            <!--<input type="file" name="uploadfile">-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<p>&ndash;&gt;-->
+            <!--<input type="submit">-->
+            <!--&lt;!&ndash;<p>&ndash;&gt;-->
+
+
+        </div>
+
+        <!--<input type="submit" value="Stash the file!" />-->
+    </form>
+    <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+
+        <div class="panel">
+            <a class="panel-heading" role="tab" id="headingTwo" data-toggle="collapse"
+               data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                <h4 class="panel-title text-center">Advanced</h4>
+            </a>
+            <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo"
+                 aria-expanded="false">
+                <div class="panel-body">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12 ">Cpu:
+                    <span class="glyphicon glyphicon-info-sign"
+                          data-toggle="tooltip" data-placement="top"
+                          data-original-title="Cpu on each node"></span>
+                    </label>
+                    <div class="input-group col-md-9 col-sm-9 col-xs-9 ">
+                        <input type="text" id="cpu" name="cpu" value=""/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<a id="submitJquery" href="#">Submit via JQuery</a>-->
+</div>
+<div class="clearfix"></div>
+<div class="">
+    <div class="pull-right">
+        <!--<input type="submit" value="Upload It" />-->
+
+        <button id="UploadTopo" class="btn btn-primary" value="Load">Load</button>
+    </div>
+    <div class="pull-right">
+        <button id="CancelGrid" type="button" class="btn btn-default" onClick="cancelBtn(2)">
+            Cancel
+        </button>
+    </div>
+</div>

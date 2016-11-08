@@ -225,9 +225,9 @@ public class DockerServiceImp implements DockerService {
 				.withCmd(list.toArray(new String[list.size()]));
 		if (topo.startsWith("file,") && !topo.contains("Geant2012.graphml")) {
 			String[] topos = topo.split(",");
-			Volume volume = new Volume("/opt/simuservice/offline/data/" + topos[1]);
+			Volume volume2 = new Volume("/opt/simuservice/offline/data/" + topos[1]);
 			java.nio.file.Path path = Paths.get(CliConfSingleton.folder, sessionId, topos[1]);
-			containerinfo.withBinds(new Bind(path.toString(), volume));
+			containerinfo.withBinds(new Bind(CliConfSingleton.folder + sessionId, volume),new Bind(path.toString(), volume2));
 		}
 		CreateContainerResponse container = containerinfo.exec();
 
