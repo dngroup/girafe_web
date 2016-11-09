@@ -1,0 +1,48 @@
+{
+  "name": "girafe",
+  "version": "1.0.0",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dngroup/girafe_web.git"
+  },
+  "author": "dbourasseau@viotech.net",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dngroup/girafe_web/issues"
+  },
+  "homepage": "https://github.com/dngroup/girafe_web#readme",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "chart.js": "^2.3.0",
+    "dashjs": "^2.3.0",
+    "datatables.net": "^1.10.12",
+    "datatables.net-bs": "^1.10.12",
+    "datatables.net-buttons": "^1.2.2",
+    "datatables.net-buttons-bs": "^1.2.2",
+    "datatables.net-fixedheader": "^3.1.2",
+    "datatables.net-fixedheader-bs": "^3.1.2",
+    "datatables.net-keytable": "^2.1.3",
+    "datatables.net-responsive": "^2.1.0",
+    "datatables.net-responsive-bs": "^2.1.0",
+    "fastclick": "^1.0.6",
+    "font-awesome": "^4.7.0",
+    "ion-rangeslider": "^2.1.4",
+    "jquery": "^2.2.3",
+    "jquery-ui": "^1.12.1",
+    "jquery-ui-dist": "^1.12.1",
+    "malihu-custom-scrollbar-plugin": "^3.1.5",
+    "moment": "^2.15.2",
+    "normalize-css": "^2.3.1",
+    "nprogress": "^0.2.0",
+    "papaparse": "^4.1.2",
+    "rangeslider": "^1.0.0",
+    "snap.svg.zpd": "0.0.11",
+    "snapsvg": "^0.4.0"
+  },
+  "devDependencies": {},
+  "description": ""
+}

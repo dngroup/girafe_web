@@ -1,4 +1,6 @@
 #!/bin/bash 
+cd gentelella
+npm install
 cd ..
 mvn clean package
 cd docker/dockermgt
