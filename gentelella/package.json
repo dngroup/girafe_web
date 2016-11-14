@@ -41,7 +41,8 @@
     "papaparse": "^4.1.2",
     "rangeslider": "^1.0.0",
     "snap.svg.zpd": "0.0.11",
-    "snapsvg": "^0.4.0"
+    "snapsvg": "^0.4.0",
+    "vis": "^4.17.0"
   },
   "devDependencies": {},
   "description": ""

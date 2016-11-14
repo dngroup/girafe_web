@@ -1,0 +1,57 @@
+graph{rankdir=LR;overlap = voronoi;
+
+
+
+ subgraph{
+
+
+0101 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+0103 [shape=box,style=filled,fillcolor=white,color=green1,width=0.529412,fontsize=15];
+0102 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+0202 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+0203 [shape=box,style=filled,fillcolor=white,color=black,width=0.000000,fontsize=15];
+0201 [shape=box,style=filled,fillcolor=white,color=red1,width=1.000000,fontsize=15];
+0303 [shape=box,style=filled,fillcolor=white,color=green1,width=0.529412,fontsize=15];
+0302 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+0301 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+0101--0102 [penwidth="3",fontsize=15,len=2,label=" "];
+ 0101--0201 [penwidth="3",fontsize=15,len=2,label=" "];
+ 0101--0202 [penwidth="3",fontsize=15,len=2,label=" "];
+ 0102--0103 [penwidth="3",fontsize=15,len=2,label=" "];
+ 0102--0202 [penwidth="3",fontsize=15,len=2,label=" "];
+ 0102--0203 [penwidth="3",fontsize=15,len=2,label=" "];
+ 0103--0203 [penwidth="3",fontsize=15,len=2,label=" "];
+ 0201--0202 [penwidth="3",fontsize=15,len=2,label=" "];
+ 0201--0301 [penwidth="3",fontsize=15,len=2,label=" "];
+ 0201--0302 [penwidth="3",fontsize=15,len=2,label=" "];
+ 0202--0203 [penwidth="3",fontsize=15,len=2,label=" "];
+ 0202--0302 [penwidth="3",fontsize=15,len=2,label=" "];
+ 0202--0303 [penwidth="3",fontsize=15,len=2,label=" "];
+ 0203--0303 [penwidth="3",fontsize=15,len=2,label=" "];
+ 0301--0302 [penwidth="3",fontsize=15,len=2,label=" "];
+ 0302--0303 [penwidth="3",fontsize=15,len=2,label=" "];
+ 0103--S2[color=blue,len=1.5,label=" "];
+S2[shape=doublecircle,fillcolor=green,style=filled,fontsize=12];
+0103--VHG2[color=blue,len=1.5,label=" "];
+VHG2[shape=circle,fillcolor=azure1,style=filled,fontsize=12];
+0201--CDN1[color=blue,len=1.5,label=" "];
+CDN1[shape=doublecircle,fillcolor=red,style=filled,fontsize=12];
+0203--vCDN1[color=blue,len=1.5,label=" "];
+vCDN1[shape=circle,fillcolor=azure3,style=filled,fontsize=12];
+0303--S1[color=blue,len=1.5,label=" "];
+S1[shape=doublecircle,fillcolor=green,style=filled,fontsize=12];
+0303--VHG1[color=blue,len=1.5,label=" "];
+VHG1[shape=circle,fillcolor=azure1,style=filled,fontsize=12];
+}
+subgraph{
+ edge[color=chartreuse,weight=0];
+0103--0203 [ style=dashed,label="VHG2&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];
+ 0103--0203 [ style=dashed,label="VHG2&#8594;vCDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];
+ 0202--0201 [ style=dashed,label="VHG2&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];
+ 0203--0202 [ style=dashed,label="VHG2&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];
+ 0302--0201 [ style=dashed,label="VHG1&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];
+ 0303--0203 [ style=dashed,label="VHG1&#8594;vCDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];
+ 0303--0302 [ style=dashed,label="VHG1&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];
+ }
+
+}

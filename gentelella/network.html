@@ -1,0 +1,264 @@
+<html>
+<head>
+    <title>Network | DOT Language</title>
+
+    <script src="./node_modules/vis/dist/vis.js"></script>
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <link href="./node_modules/vis/dist/vis-network.min.css" rel="stylesheet" type="text/css"/>
+    <style type="text/css">
+        body, select {
+            font: 10pt sans;
+        }
+
+        #mynetwork {
+            height: 600px;
+            border: 1px solid lightgray;
+        }
+
+        table.legend_table {
+            font-size: 11px;
+            border-width: 1px;
+            border-color: #d3d3d3;
+            border-style: solid;
+        }
+
+        table.legend_table, td {
+            border-width: 1px;
+            border-color: #d3d3d3;
+            border-style: solid;
+            padding: 2px;
+        }
+
+        div.table_content {
+            width: 80px;
+            text-align: center;
+        }
+
+        div.table_description {
+            width: 100px;
+        }
+
+        #operation {
+            font-size: 28px;
+        }
+
+        #network-popUp {
+            display: none;
+            position: absolute;
+            top: 350px;
+            left: 170px;
+            z-index: 299;
+            width: 250px;
+            height: 120px;
+            background-color: #f9f9f9;
+            border-style: solid;
+            border-width: 3px;
+            border-color: #5394ed;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<p>
+    Network supports the DOT language.
+</p>
+
+<div id="network-popUp">
+    <span id="operation">node</span> <br>
+    <table style="margin:auto;">
+        <tr>
+            <td>id</td>
+            <td><input id="node-id" value="new value"/></td>
+        </tr>
+        <tr>
+            <td>label</td>
+            <td><input id="node-label" value="new value"/></td>
+        </tr>
+    </table>
+    <input type="button" value="save" id="saveButton"/>
+    <input type="button" value="cancel" id="cancelButton"/>
+</div>
+<br/>
+<div id="mynetwork"></div>
+<button id="change" type="button" class="btn btn-primary" onclick="save()"> change</button>
+
+<div id="mynetworktxt"></div>
+
+
+<table class="view">
+    <colgroup>
+        <col width="50%">
+        <col width="50%">
+    </colgroup>
+    <tr>
+        <td>
+            <h2>Nodes</h2>
+            <pre id="nodes"></pre>
+        </td>
+
+        <td>
+            <h2>Edges</h2>
+            <pre id="edges"></pre>
+        </td>
+
+
+    </tr>
+</table>
+
+<script type="text/javascript">
+
+    //    String.prototype.replaceAll = function(search, replacement) {
+    //        var target = this;
+    //        return target.split(search).join(replacement);
+    //    };
+
+    var nodes, edges, network;
+    nodes = new vis.DataSet();
+    nodes.on('*', function () {
+        document.getElementById('nodes').innerHTML = JSON.stringify(nodes.get(), null, 4);
+    });
+    edges = new vis.DataSet();
+    edges.on('*', function () {
+        document.getElementById('edges').innerHTML = JSON.stringify(edges.get(), null, 4);
+    });
+
+    $.ajax({
+        url: "./substrate.dot",
+        async: false,
+        success: function (value) {
+            value = value.replace(/color=black,/g, "")
+            value = value.replace(/color=green1,/g, "color=green,")
+            value = value.replace(/color=red1,/g, "color=red,")
+            value = value.replace(/color=azure1,/g, "color=azure,")
+            value = value.replace(/color=azure3,/g, "color=azure,")
+            value = value.replace(/&#8594;/g, "-->")
+            value = value.replace(/style=dashed/g, "dashes=true")
+
+            dot = value.split(/{|}/);
+            console.log(dot)
+        },
+        dataType: "text",
+        complete: function () {
+        }
+    });
+
+    var container = document.getElementById('mynetwork');
+    //    var dot1 = 'subgraph{   0101 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0103 [shape=box,style=filled,fillcolor=white,color=green1,width=0.529412,fontsize=15]; 0102 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0202 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0203 [shape=box,style=filled,fillcolor=white,color=black,width=0.000000,fontsize=15]; 0201 [shape=box,style=filled,fillcolor=white,color=red1,width=1.000000,fontsize=15]; 0303 [shape=box,style=filled,fillcolor=white,color=green1,width=0.529412,fontsize=15]; 0302 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0301 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0101--0102 [penwidth="3",fontsize=15,len=2,label=" "];  0101--0201 [penwidth="3",fontsize=15,len=2,label=" "];  0101--0202 [penwidth="3",fontsize=15,len=2,label=" "];  0102--0103 [penwidth="3",fontsize=15,len=2,label=" "];  0102--0202 [penwidth="3",fontsize=15,len=2,label=" "];  0102--0203 [penwidth="3",fontsize=15,len=2,label=" "];  0103--0203 [penwidth="3",fontsize=15,len=2,label=" "];  0201--0202 [penwidth="3",fontsize=15,len=2,label=" "];  0201--0301 [penwidth="3",fontsize=15,len=2,label=" "];  0201--0302 [penwidth="3",fontsize=15,len=2,label=" "];  0202--0203 [penwidth="3",fontsize=15,len=2,label=" "];  0202--0302 [penwidth="3",fontsize=15,len=2,label=" "];  0202--0303 [penwidth="3",fontsize=15,len=2,label=" "];  0203--0303 [penwidth="3",fontsize=15,len=2,label=" "];  0301--0302 [penwidth="3",fontsize=15,len=2,label=" "];  0302--0303 [penwidth="3",fontsize=15,len=2,label=" "];  0103--S2[color=blue,len=1.5,label=" "]; S2[shape=doublecircle,fillcolor=green,style=filled,fontsize=12]; 0103--VHG2[color=blue,len=1.5,label=" "]; VHG2[shape=circle,fillcolor=azure1,style=filled,fontsize=12]; 0201--CDN1[color=blue,len=1.5,label=" "]; CDN1[shape=doublecircle,fillcolor=red,style=filled,fontsize=12]; 0203--vCDN1[color=blue,len=1.5,label=" "]; vCDN1[shape=circle,fillcolor=azure3,style=filled,fontsize=12]; 0303--S1[color=blue,len=1.5,label=" "]; S1[shape=doublecircle,fillcolor=green,style=filled,fontsize=12]; 0303--VHG1[color=blue,len=1.5,label=" "]; VHG1[shape=circle,fillcolor=azure1,style=filled,fontsize=12]; }';
+    //    var dot2 = 'subgraph{  edge[color=chartreuse,weight=0]; 0103--0203 [ style=dashed,label="VHG2&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0103--0203 [ style=dashed,label="VHG2&#8594;vCDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0202--0201 [ style=dashed,label="VHG2&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0203--0202 [ style=dashed,label="VHG2&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0302--0201 [ style=dashed,label="VHG1&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0303--0203 [ style=dashed,label="VHG1&#8594;vCDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0303--0302 [ style=dashed,label="VHG1&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  }'
+    var dot1 = "subgraph{" + dot[2] + "}";
+    var dot2 = "subgraph{" + dot[4] + "}";
+
+    //    var dot3 = '  subgraph{   0101 [shape=box,style=filled,fillcolor=white,width=1.000000,fontsize=15]; 0103 [shape=box,style=filled,fillcolor=white,color=green,width=0.529412,fontsize=15]; 0102 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0202 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0203 [shape=box,style=filled,fillcolor=white,color=black,width=0.000000,fontsize=15]; 0201 [shape=box,style=filled,fillcolor=white,color=red1,width=1.000000,fontsize=15]; 0303 [shape=box,style=filled,fillcolor=white,color=green1,width=0.529412,fontsize=15]; 0302 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0301 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0101--0102 [penwidth="3",fontsize=15,len=2,label=" "];  0101--0201 [penwidth="3",fontsize=15,len=2,label=" "];  0101--0202 [penwidth="3",fontsize=15,len=2,label=" "];  0102--0103 [penwidth="3",fontsize=15,len=2,label=" "];  0102--0202 [penwidth="3",fontsize=15,len=2,label=" "];  0102--0203 [penwidth="3",fontsize=15,len=2,label=" "];  0103--0203 [penwidth="3",fontsize=15,len=2,label=" "];  0201--0202 [penwidth="3",fontsize=15,len=2,label=" "];  0201--0301 [penwidth="3",fontsize=15,len=2,label=" "];  0201--0302 [penwidth="3",fontsize=15,len=2,label=" "];  0202--0203 [penwidth="3",fontsize=15,len=2,label=" "];  0202--0302 [penwidth="3",fontsize=15,len=2,label=" "];  0202--0303 [penwidth="3",fontsize=15,len=2,label=" "];  0203--0303 [penwidth="3",fontsize=15,len=2,label=" "];  0301--0302 [penwidth="3",fontsize=15,len=2,label=" "];  0302--0303 [penwidth="3",fontsize=15,len=2,label=" "];  0103--S2[color=blue,len=1.5,label=" "]; S2[shape=doublecircle,fillcolor=green,style=filled,fontsize=12]; 0103--VHG2[color=blue,len=1.5,label=" "]; VHG2[shape=circle,fillcolor=azure1,style=filled,fontsize=12]; 0201--CDN1[color=blue,len=1.5,label=" "]; CDN1[shape=doublecircle,fillcolor=red,style=filled,fontsize=12]; 0203--vCDN1[color=blue,len=1.5,label=" "]; vCDN1[shape=circle,fillcolor=azure3,style=filled,fontsize=12]; 0303--S1[color=blue,len=1.5,label=" "]; S1[shape=doublecircle,fillcolor=green,style=filled,fontsize=12]; 0303--VHG1[color=blue,len=1.5,label=" "]; VHG1[shape=circle,fillcolor=azure1,style=filled,fontsize=12];   edge[color=chartreuse,weight=0]; 0103--0203 [ style=dashed,label="VHG2&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0103--0203 [ style=dashed,label="VHG2&#8594;vCDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0202--0201 [ style=dashed,label="VHG2&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0203--0202 [ style=dashed,label="VHG2&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0302--0201 [ style=dashed,label="VHG1&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0303--0203 [ style=dashed,label="VHG1&#8594;vCDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0303--0302 [ style=dashed,label="VHG1&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  } '
+    //    var data3 = vis.network.convertDot(dot3);
+    var data1 = vis.network.convertDot(dot1);
+    var data2 = vis.network.convertDot(dot2);
+
+    nodes.update(data1.nodes)
+    edges.update(data1.edges)
+    nodes.update(data2.nodes)
+    edges.update(data2.edges)
+    var data = {
+        nodes: nodes,
+        edges: edges
+    }
+
+
+    var options = {
+        nodes: {
+            shape: 'dot',
+            size: 16
+        },
+        layout: {
+            randomSeed: 34
+        },
+//        physics: {
+//            forceAtlas2Based: {
+//                gravitationalConstant: -26,
+//                centralGravity: 0.005,
+//                springLength: 230,
+//                springConstant: 0.18
+//            },
+//            maxVelocity: 146,
+//            solver: 'forceAtlas2Based',
+//            timestep: 0.35,
+//            stabilization: {
+//                enabled:true,
+//                iterations:2000,
+//                updateInterval:25
+//            }
+//        },
+        manipulation: {
+            addNode: function (data, callback) {
+                // filling in the popup DOM elements
+                document.getElementById('operation').innerHTML = "Add Node";
+                document.getElementById('node-id').value = data.id;
+                document.getElementById('node-label').value = data.label;
+                document.getElementById('saveButton').onclick = saveData.bind(this, data, callback);
+                document.getElementById('cancelButton').onclick = clearPopUp.bind();
+                document.getElementById('network-popUp').style.display = 'block';
+            },
+            editNode: function (data, callback) {
+                // filling in the popup DOM elements
+                document.getElementById('operation').innerHTML = "Edit Node";
+                document.getElementById('node-id').value = data.id;
+                document.getElementById('node-label').value = data.label;
+                document.getElementById('saveButton').onclick = saveData.bind(this, data, callback);
+                document.getElementById('cancelButton').onclick = cancelEdit.bind(this, callback);
+                document.getElementById('network-popUp').style.display = 'block';
+            },
+            addEdge: function (data, callback) {
+                if (data.from == data.to) {
+                    var r = confirm("Do you want to connect the node to itself?");
+                    if (r == true) {
+                        callback(data);
+                    }
+                }
+                else {
+                    callback(data);
+                }
+            }
+        }
+    };
+    //    var options = {};
+
+    function clearPopUp() {
+        document.getElementById('saveButton').onclick = null;
+        document.getElementById('cancelButton').onclick = null;
+        document.getElementById('network-popUp').style.display = 'none';
+    }
+
+    function cancelEdit(callback) {
+        clearPopUp();
+        callback(null);
+    }
+
+    function saveData(data, callback) {
+        data.id = document.getElementById('node-id').value;
+        data.label = document.getElementById('node-label').value;
+        clearPopUp();
+        callback(data);
+    }
+
+    function init() {
+        setDefaultLocale();
+        draw();
+    }
+
+    function destroy() {
+        if (network !== null) {
+            network.destroy();
+            network = null;
+        }
+    }
+    var network = new vis.Network(container, data, options);
+    var lala = 2;
+
+    function save() {
+        nodes.update({id: 203, label: "lalalalalalalalalala", bw: 1000000, cpu: 200});
+
+    }
+    //network.setData(data2.nodes,data2.edges)
+</script>
+</body>
+</html>
