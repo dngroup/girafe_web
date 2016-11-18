@@ -1,0 +1,38 @@
+graph{rankdir=LR;overlap = voronoi;
+
+
+
+ subgraph{
+
+
+"0101" [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+"0103" [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+"0102" [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+"0202" [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+"0203" [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+"0201" [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+"0303" [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+"0302" [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+"0301" [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+"0101"--"0102" [id="01010102", penwidth="3",fontsize=15,len=2,label=" "];
+ "0101"--"0201" [penwidth="3",fontsize=15,len=2,label=" "];
+ "0101"--"0202" [penwidth="3",fontsize=15,len=2,label=" "];
+ "0102"--"0103" [penwidth="3",fontsize=15,len=2,label=" "];
+ "0102"--"0202" [penwidth="3",fontsize=15,len=2,label=" "];
+ "0102"--"0203" [penwidth="3",fontsize=15,len=2,label=" "];
+ "0103"--"0203" [penwidth="3",fontsize=15,len=2,label=" "];
+ "0201"--"0202" [penwidth="3",fontsize=15,len=2,label=" "];
+ "0201"--"0301" [penwidth="3",fontsize=15,len=2,label=" "];
+ "0201"--"0302" [penwidth="3",fontsize=15,len=2,label=" "];
+ "0202"--"0203" [penwidth="3",fontsize=15,len=2,label=" "];
+ "0202"--"0302" [penwidth="3",fontsize=15,len=2,label=" "];
+ "0202"--"0303" [penwidth="3",fontsize=15,len=2,label=" "];
+ "0203"--"0303" [penwidth="3",fontsize=15,len=2,label=" "];
+ "0301"--"0302" [penwidth="3",fontsize=15,len=2,label=" "];
+ "0302"--"0303" [penwidth="3",fontsize=15,len=2,label=" "];
+ }
+subgraph{
+ edge[color=chartreuse,weight=0];
+}
+
+}

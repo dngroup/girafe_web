@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.glassfish.jersey.internal.util.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -220,6 +221,9 @@ public class DockerServiceImp implements DockerService {
 	 */
 	private Integer startStop(String sessionId, String topo, List<String> list, LogContainerCallback logCall)
 			throws InterruptedException {
+//		String lala = "{\"links\":[{\"bw\":8000000000,\"delay\":2.6,\"source\":\"01\",\"target\":\"02\"}],\"nodes\":[{\"cpu\":200,\"id\":\"01\"},{\"cpu\":200,\"id\":\"02\"}]}";
+//		String lala64 = Base64.encodeAsString(lala.getBytes());
+//		list.add(lala64);
 		CreateContainerCmd containerinfo = dockerClient.createContainerCmd("nherbaut/simuservice")
 				.withBinds(new Bind(CliConfSingleton.folder + sessionId, volume))
 				.withCmd(list.toArray(new String[list.size()]));
@@ -246,6 +250,7 @@ public class DockerServiceImp implements DockerService {
 	}
 
 	private void initTopo(String topo, List<String> list) {
+		list.add("--plot");
 		list.add("--topo");
 		list.add(topo);
 	}

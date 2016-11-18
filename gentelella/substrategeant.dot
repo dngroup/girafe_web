@@ -1,0 +1,92 @@
+graph{rankdir=LR;overlap = voronoi;
+
+
+
+ subgraph{
+
+
+24 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+25 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+26 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+27 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+20 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+21 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+22 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+23 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+28 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+29 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+1 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+3 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+2 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+5 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+4 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+7 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+6 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+9 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+8 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+11 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+10 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+13 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+12 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+15 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+14 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+17 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+16 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+19 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+18 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+30 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15];
+10--23 [penwidth="3",fontsize=15,len=2,label=" "];
+ 10--24 [penwidth="3",fontsize=15,len=2,label=" "];
+ 1--10 [penwidth="3",fontsize=15,len=2,label=" "];
+ 1--11 [penwidth="3",fontsize=15,len=2,label=" "];
+ 11--15 [penwidth="3",fontsize=15,len=2,label=" "];
+ 11--24 [penwidth="3",fontsize=15,len=2,label=" "];
+ 11--26 [penwidth="3",fontsize=15,len=2,label=" "];
+ 11--29 [penwidth="3",fontsize=15,len=2,label=" "];
+ 1--15 [penwidth="3",fontsize=15,len=2,label=" "];
+ 1--21 [penwidth="3",fontsize=15,len=2,label=" "];
+ 1--22 [penwidth="3",fontsize=15,len=2,label=" "];
+ 12--29 [penwidth="3",fontsize=15,len=2,label=" "];
+ 12--30 [penwidth="3",fontsize=15,len=2,label=" "];
+ 1--28 [penwidth="3",fontsize=15,len=2,label=" "];
+ 13--19 [penwidth="3",fontsize=15,len=2,label=" "];
+ 14--18 [penwidth="3",fontsize=15,len=2,label=" "];
+ 15--22 [penwidth="3",fontsize=15,len=2,label=" "];
+ 15--24 [penwidth="3",fontsize=15,len=2,label=" "];
+ 15--26 [penwidth="3",fontsize=15,len=2,label=" "];
+ 15--27 [penwidth="3",fontsize=15,len=2,label=" "];
+ 16--22 [penwidth="3",fontsize=15,len=2,label=" "];
+ 17--23 [penwidth="3",fontsize=15,len=2,label=" "];
+ 18--25 [penwidth="3",fontsize=15,len=2,label=" "];
+ 19--24 [penwidth="3",fontsize=15,len=2,label=" "];
+ 19--28 [penwidth="3",fontsize=15,len=2,label=" "];
+ 20--28 [penwidth="3",fontsize=15,len=2,label=" "];
+ 22--28 [penwidth="3",fontsize=15,len=2,label=" "];
+ 22--29 [penwidth="3",fontsize=15,len=2,label=" "];
+ 2--30 [penwidth="3",fontsize=15,len=2,label=" "];
+ 26--29 [penwidth="3",fontsize=15,len=2,label=" "];
+ 2--9 [penwidth="3",fontsize=15,len=2,label=" "];
+ 29--30 [penwidth="3",fontsize=15,len=2,label=" "];
+ 3--18 [penwidth="3",fontsize=15,len=2,label=" "];
+ 3--19 [penwidth="3",fontsize=15,len=2,label=" "];
+ 4--12 [penwidth="3",fontsize=15,len=2,label=" "];
+ 4--21 [penwidth="3",fontsize=15,len=2,label=" "];
+ 5--19 [penwidth="3",fontsize=15,len=2,label=" "];
+ 5--20 [penwidth="3",fontsize=15,len=2,label=" "];
+ 5--21 [penwidth="3",fontsize=15,len=2,label=" "];
+ 5--27 [penwidth="3",fontsize=15,len=2,label=" "];
+ 5--8 [penwidth="3",fontsize=15,len=2,label=" "];
+ 6--12 [penwidth="3",fontsize=15,len=2,label=" "];
+ 6--22 [penwidth="3",fontsize=15,len=2,label=" "];
+ 6--23 [penwidth="3",fontsize=15,len=2,label=" "];
+ 7--17 [penwidth="3",fontsize=15,len=2,label=" "];
+ 7--28 [penwidth="3",fontsize=15,len=2,label=" "];
+ 7--30 [penwidth="3",fontsize=15,len=2,label=" "];
+ 8--30 [penwidth="3",fontsize=15,len=2,label=" "];
+ 9--26 [penwidth="3",fontsize=15,len=2,label=" "];
+ }
+subgraph{
+ edge[color=chartreuse,weight=0];
+}
+
+}

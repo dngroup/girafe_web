@@ -94,6 +94,18 @@ public class SimuEndpoints {
 			return Response.ok(file, MediaType.APPLICATION_SVG_XML).build();
 		}
 	}
+	
+	@GET
+	@Path("dot/{sessionid}")
+	public Response getdot(@PathParam("sessionid") String sessionId) {
+		File file = new File(CliConfSingleton.folder + sessionId + "/substrate.dot");
+		try {
+			FileInputStream fin = new FileInputStream(file);
+			return Response.ok(file ).build();
+		} catch (IOException e) {
+			return Response.ok(file).build();
+		}
+	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)

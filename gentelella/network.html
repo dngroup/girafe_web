@@ -81,6 +81,7 @@
 </div>
 <br/>
 <div id="mynetwork"></div>
+
 <button id="change" type="button" class="btn btn-primary" onclick="save()"> change</button>
 
 <div id="mynetworktxt"></div>
@@ -144,20 +145,29 @@
     });
 
     var container = document.getElementById('mynetwork');
-    //    var dot1 = 'subgraph{   0101 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0103 [shape=box,style=filled,fillcolor=white,color=green1,width=0.529412,fontsize=15]; 0102 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0202 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0203 [shape=box,style=filled,fillcolor=white,color=black,width=0.000000,fontsize=15]; 0201 [shape=box,style=filled,fillcolor=white,color=red1,width=1.000000,fontsize=15]; 0303 [shape=box,style=filled,fillcolor=white,color=green1,width=0.529412,fontsize=15]; 0302 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0301 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0101--0102 [penwidth="3",fontsize=15,len=2,label=" "];  0101--0201 [penwidth="3",fontsize=15,len=2,label=" "];  0101--0202 [penwidth="3",fontsize=15,len=2,label=" "];  0102--0103 [penwidth="3",fontsize=15,len=2,label=" "];  0102--0202 [penwidth="3",fontsize=15,len=2,label=" "];  0102--0203 [penwidth="3",fontsize=15,len=2,label=" "];  0103--0203 [penwidth="3",fontsize=15,len=2,label=" "];  0201--0202 [penwidth="3",fontsize=15,len=2,label=" "];  0201--0301 [penwidth="3",fontsize=15,len=2,label=" "];  0201--0302 [penwidth="3",fontsize=15,len=2,label=" "];  0202--0203 [penwidth="3",fontsize=15,len=2,label=" "];  0202--0302 [penwidth="3",fontsize=15,len=2,label=" "];  0202--0303 [penwidth="3",fontsize=15,len=2,label=" "];  0203--0303 [penwidth="3",fontsize=15,len=2,label=" "];  0301--0302 [penwidth="3",fontsize=15,len=2,label=" "];  0302--0303 [penwidth="3",fontsize=15,len=2,label=" "];  0103--S2[color=blue,len=1.5,label=" "]; S2[shape=doublecircle,fillcolor=green,style=filled,fontsize=12]; 0103--VHG2[color=blue,len=1.5,label=" "]; VHG2[shape=circle,fillcolor=azure1,style=filled,fontsize=12]; 0201--CDN1[color=blue,len=1.5,label=" "]; CDN1[shape=doublecircle,fillcolor=red,style=filled,fontsize=12]; 0203--vCDN1[color=blue,len=1.5,label=" "]; vCDN1[shape=circle,fillcolor=azure3,style=filled,fontsize=12]; 0303--S1[color=blue,len=1.5,label=" "]; S1[shape=doublecircle,fillcolor=green,style=filled,fontsize=12]; 0303--VHG1[color=blue,len=1.5,label=" "]; VHG1[shape=circle,fillcolor=azure1,style=filled,fontsize=12]; }';
+    var dot0 = 'subgraph{   0101 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0103 [shape=box,style=filled,fillcolor=white,color=green1,width=0.529412,fontsize=15]; 0102 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0202 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0203 [shape=box,style=filled,fillcolor=white,color=black,width=0.000000,fontsize=15]; 0201 [shape=box,style=filled,fillcolor=white,color=red1,width=1.000000,fontsize=15]; 0303 [shape=box,style=filled,fillcolor=white,color=green1,width=0.529412,fontsize=15]; 0302 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0301 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0101--0102 [penwidth="3",fontsize=15,len=2,label=" "];  0101--0201 [penwidth="3",fontsize=15,len=2,label=" "];  0101--0202 [penwidth="3",fontsize=15,len=2,label=" "];  0102--0103 [penwidth="3",fontsize=15,len=2,label=" "];  0102--0202 [penwidth="3",fontsize=15,len=2,label=" "];  0102--0203 [penwidth="3",fontsize=15,len=2,label=" "];  0103--0203 [penwidth="3",fontsize=15,len=2,label=" "];  0201--0202 [penwidth="3",fontsize=15,len=2,label=" "];  0201--0301 [penwidth="3",fontsize=15,len=2,label=" "];  0201--0302 [penwidth="3",fontsize=15,len=2,label=" "];  0202--0203 [penwidth="3",fontsize=15,len=2,label=" "];  0202--0302 [penwidth="3",fontsize=15,len=2,label=" "];  0202--0303 [penwidth="3",fontsize=15,len=2,label=" "];  0203--0303 [penwidth="3",fontsize=15,len=2,label=" "];  0301--0302 [penwidth="3",fontsize=15,len=2,label=" "];  0302--0303 [penwidth="3",fontsize=15,len=2,label=" "];   }';
+    dot0 = dot0.replace(/color=black,/g, "")
+    dot0 = dot0.replace(/color=green1,/g, "color=green,")
+    dot0 = dot0.replace(/color=red1,/g, "color=red,")
+    dot0 = dot0.replace(/color=azure1,/g, "color=azure,")
+    dot0 = dot0.replace(/color=azure3,/g, "color=azure,")
+    dot0 = dot0.replace(/&#8594;/g, "-->")
+    dot0 = dot0.replace(/style=dashed/g, "dashes=true")
+
     //    var dot2 = 'subgraph{  edge[color=chartreuse,weight=0]; 0103--0203 [ style=dashed,label="VHG2&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0103--0203 [ style=dashed,label="VHG2&#8594;vCDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0202--0201 [ style=dashed,label="VHG2&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0203--0202 [ style=dashed,label="VHG2&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0302--0201 [ style=dashed,label="VHG1&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0303--0203 [ style=dashed,label="VHG1&#8594;vCDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0303--0302 [ style=dashed,label="VHG1&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  }'
     var dot1 = "subgraph{" + dot[2] + "}";
     var dot2 = "subgraph{" + dot[4] + "}";
 
     //    var dot3 = '  subgraph{   0101 [shape=box,style=filled,fillcolor=white,width=1.000000,fontsize=15]; 0103 [shape=box,style=filled,fillcolor=white,color=green,width=0.529412,fontsize=15]; 0102 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0202 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0203 [shape=box,style=filled,fillcolor=white,color=black,width=0.000000,fontsize=15]; 0201 [shape=box,style=filled,fillcolor=white,color=red1,width=1.000000,fontsize=15]; 0303 [shape=box,style=filled,fillcolor=white,color=green1,width=0.529412,fontsize=15]; 0302 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0301 [shape=box,style=filled,fillcolor=white,color=black,width=1.000000,fontsize=15]; 0101--0102 [penwidth="3",fontsize=15,len=2,label=" "];  0101--0201 [penwidth="3",fontsize=15,len=2,label=" "];  0101--0202 [penwidth="3",fontsize=15,len=2,label=" "];  0102--0103 [penwidth="3",fontsize=15,len=2,label=" "];  0102--0202 [penwidth="3",fontsize=15,len=2,label=" "];  0102--0203 [penwidth="3",fontsize=15,len=2,label=" "];  0103--0203 [penwidth="3",fontsize=15,len=2,label=" "];  0201--0202 [penwidth="3",fontsize=15,len=2,label=" "];  0201--0301 [penwidth="3",fontsize=15,len=2,label=" "];  0201--0302 [penwidth="3",fontsize=15,len=2,label=" "];  0202--0203 [penwidth="3",fontsize=15,len=2,label=" "];  0202--0302 [penwidth="3",fontsize=15,len=2,label=" "];  0202--0303 [penwidth="3",fontsize=15,len=2,label=" "];  0203--0303 [penwidth="3",fontsize=15,len=2,label=" "];  0301--0302 [penwidth="3",fontsize=15,len=2,label=" "];  0302--0303 [penwidth="3",fontsize=15,len=2,label=" "];  0103--S2[color=blue,len=1.5,label=" "]; S2[shape=doublecircle,fillcolor=green,style=filled,fontsize=12]; 0103--VHG2[color=blue,len=1.5,label=" "]; VHG2[shape=circle,fillcolor=azure1,style=filled,fontsize=12]; 0201--CDN1[color=blue,len=1.5,label=" "]; CDN1[shape=doublecircle,fillcolor=red,style=filled,fontsize=12]; 0203--vCDN1[color=blue,len=1.5,label=" "]; vCDN1[shape=circle,fillcolor=azure3,style=filled,fontsize=12]; 0303--S1[color=blue,len=1.5,label=" "]; S1[shape=doublecircle,fillcolor=green,style=filled,fontsize=12]; 0303--VHG1[color=blue,len=1.5,label=" "]; VHG1[shape=circle,fillcolor=azure1,style=filled,fontsize=12];   edge[color=chartreuse,weight=0]; 0103--0203 [ style=dashed,label="VHG2&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0103--0203 [ style=dashed,label="VHG2&#8594;vCDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0202--0201 [ style=dashed,label="VHG2&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0203--0202 [ style=dashed,label="VHG2&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0302--0201 [ style=dashed,label="VHG1&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0303--0203 [ style=dashed,label="VHG1&#8594;vCDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  0303--0302 [ style=dashed,label="VHG1&#8594;CDN1",fontcolor=blue3 ,fontsize=12,penwidth=5];  } '
     //    var data3 = vis.network.convertDot(dot3);
+    var data0 = vis.network.convertDot(dot0);
     var data1 = vis.network.convertDot(dot1);
     var data2 = vis.network.convertDot(dot2);
 
-    nodes.update(data1.nodes)
-    edges.update(data1.edges)
-    nodes.update(data2.nodes)
-    edges.update(data2.edges)
+
+    nodes.update(data0.nodes)
+    edges.update(data0.edges)
+
     var data = {
         nodes: nodes,
         edges: edges
@@ -172,22 +182,6 @@
         layout: {
             randomSeed: 34
         },
-//        physics: {
-//            forceAtlas2Based: {
-//                gravitationalConstant: -26,
-//                centralGravity: 0.005,
-//                springLength: 230,
-//                springConstant: 0.18
-//            },
-//            maxVelocity: 146,
-//            solver: 'forceAtlas2Based',
-//            timestep: 0.35,
-//            stabilization: {
-//                enabled:true,
-//                iterations:2000,
-//                updateInterval:25
-//            }
-//        },
         manipulation: {
             addNode: function (data, callback) {
                 // filling in the popup DOM elements
@@ -255,7 +249,39 @@
     var lala = 2;
 
     function save() {
-        nodes.update({id: 203, label: "lalalalalalalalalala", bw: 1000000, cpu: 200});
+        var edge1 = [];
+        for (edge in data1.edges) {
+            if (typeof data1.edges[edge].to  === 'string' || data1.edges[edge].to instanceof String) {
+
+                if (data1.edges[edge].to.indexOf("VHG")) {
+                    edge1.push(data1.edges[edge]);
+                }
+                else if (data1.edges[edge].to.indexOf("CDN")) {
+                    edge1.push(data1.edges[edge]);
+                }
+                else if (data1.edges[edge].to.indexOf("S")) {
+                    edge1.push(data1.edges[edge]);
+                }
+            }
+            if (typeof data1.edges[edge].from  === 'string' || data1.edges[edge].from instanceof String) {
+
+                if (data1.edges[edge].from.indexOf("VHG")) {
+                    edge1.push(data1.edges[edge]);
+                }
+                else if (data1.edges[edge].from.indexOf("CDN")) {
+                    edge1.push(data1.edges[edge]);
+                }
+                else if (data1.edges[edge].from.indexOf("S")) {
+                    edge1.push(data1.edges[edge]);
+                }
+            }
+        
+        }
+        nodes.update(data1.nodes)
+        edges.update(edge1)
+        nodes.update(data2.nodes)
+        edges.update(data2.edges)
+        //        nodes.update({id: 203, label: "lalalalalalalalalala", bw: 1000000, cpu: 200});
 
     }
     //network.setData(data2.nodes,data2.edges)

@@ -31,7 +31,7 @@ function getList(url) {
     addTopo("erdos_renyi", "erdos_renyi", selectList); // erdos_renyi,30,0.1,3
     addTopo("powerlaw", "powerlaw", selectList);// powerlaw,100,1,0.5,1
     addTopo("Upload your GraphML file", "upload", selectList);//
-
+    addTopo("Create your Topology", "create", selectList);//
 }
 
 function configureTopo(topo) {
@@ -53,6 +53,9 @@ function configureTopo(topo) {
         case "upload":
             loaduploadfrom();
             break;
+        case "create":
+            networkload();
+            break;
         default:
             console.log("error")
     }
@@ -60,7 +63,7 @@ function configureTopo(topo) {
     function loadConfigGrid() {
         $.ajax({
             url: "./app/html/grid.html",
-            async: false,
+
             success: function (template) {
                 $("#ConfigureTopo").html(template);
                 sliderNbUser = $("#value1").ionRangeSlider({
@@ -76,28 +79,27 @@ function configureTopo(topo) {
                     keyboard: true
                 });
 
-                sliderNbUser = $("#bw").ionRangeSlider(
-                    {
-                        from: 36,
-                        values: ["1 Mbps", "2 Mbps", "3 Mbps", "4 Mbps",
-                            "5 Mbps", "6 Mbps", "7 Mbps", "8 Mbps",
-                            "9 Mbps", "10 Mbps", "20 Mbps", "30 Mbps",
-                            "40 Mbps", "50 Mbps", "60 Mbps", "70 Mbps",
-                            "80 Mbps", "90 Mbps", "100 Mbps",
-                            "200 Mbps", "300 Mbps", "400 Mbps",
-                            "500 Mbps", "600 Mbps", "700 Mbps",
-                            "800 Mbps", "900 Mbps", "1 Gbps", "2 Gbps",
-                            "3 Gbps", "4 Gbps", "5 Gbps", "6 Gbps",
-                            "7 Gbps", "8 Gbps", "9 Gbps", "10 Gbps",
-                            "20 Gbps", "30 Gbps", "40 Gbps", "50 Gbps",
-                            "60 Gbps", "70 Gbps", "80 Gbps", "90 Gbps",
-                            "100 Gbps", "200 Gbps", "300 Gbps",
-                            "400 Gbps", "500 Gbps", "600 Gbps",
-                            "700 Gbps", "800 Gbps", "900 Gbps",
-                            "1000 Gbps"],
+                sliderNbUser = $("#bw").ionRangeSlider({
+                    from: 36,
+                    values: ["1 Mbps", "2 Mbps", "3 Mbps", "4 Mbps",
+                        "5 Mbps", "6 Mbps", "7 Mbps", "8 Mbps",
+                        "9 Mbps", "10 Mbps", "20 Mbps", "30 Mbps",
+                        "40 Mbps", "50 Mbps", "60 Mbps", "70 Mbps",
+                        "80 Mbps", "90 Mbps", "100 Mbps",
+                        "200 Mbps", "300 Mbps", "400 Mbps",
+                        "500 Mbps", "600 Mbps", "700 Mbps",
+                        "800 Mbps", "900 Mbps", "1 Gbps", "2 Gbps",
+                        "3 Gbps", "4 Gbps", "5 Gbps", "6 Gbps",
+                        "7 Gbps", "8 Gbps", "9 Gbps", "10 Gbps",
+                        "20 Gbps", "30 Gbps", "40 Gbps", "50 Gbps",
+                        "60 Gbps", "70 Gbps", "80 Gbps", "90 Gbps",
+                        "100 Gbps", "200 Gbps", "300 Gbps",
+                        "400 Gbps", "500 Gbps", "600 Gbps",
+                        "700 Gbps", "800 Gbps", "900 Gbps",
+                        "1 Tbps"],
 
-                        keyboard: true
-                    });
+                    keyboard: true
+                });
                 sliderNbUser = $("#delay").ionRangeSlider({
                     min: 1,
                     max: 100,
@@ -123,7 +125,7 @@ function configureTopo(topo) {
     function loadConfigErdosRenyi() {
         $.ajax({
             url: "./app/html/erdos_renyi.html",
-            async: false,
+
             success: function (template) {
                 $("#ConfigureTopo").html(template);
                 sliderNbUser = $("#value1").ionRangeSlider({
@@ -164,14 +166,15 @@ function configureTopo(topo) {
                             "100 Gbps", "200 Gbps", "300 Gbps",
                             "400 Gbps", "500 Gbps", "600 Gbps",
                             "700 Gbps", "800 Gbps", "900 Gbps",
-                            "1000 Gbps"],
+                            "1 Tbps"],
 
                         keyboard: true
                     });
                 sliderNbUser = $("#delay").ionRangeSlider({
-                    min: 1,
-                    max: 100,
-                    from: 3,
+                    min: 0,
+                    max: 15,
+                    from: 1,
+                    step: 0.1,
                     keyboard: true
                 });
                 sliderNbUser = $("#cpu").ionRangeSlider({
@@ -193,7 +196,7 @@ function configureTopo(topo) {
     function loadConfigPowerlaw() {
         $.ajax({
             url: "./app/html/powerlaw.html",
-            async: false,
+
             success: function (template) {
                 $("#ConfigureTopo").html(template);
                 sliderNbUser = $("#value1").ionRangeSlider({
@@ -212,7 +215,7 @@ function configureTopo(topo) {
                     min: 0,
                     max: 1,
                     from: 0.1,
-                    step: 0.05,
+                    step: 0.02,
                     keyboard: true
                 });
                 sliderNbUser = $("#value4").ionRangeSlider({
@@ -239,14 +242,15 @@ function configureTopo(topo) {
                             "100 Gbps", "200 Gbps", "300 Gbps",
                             "400 Gbps", "500 Gbps", "600 Gbps",
                             "700 Gbps", "800 Gbps", "900 Gbps",
-                            "1000 Gbps"],
+                            "1 Tbps"],
 
                         keyboard: true
                     });
                 sliderNbUser = $("#delay").ionRangeSlider({
-                    min: 1,
-                    max: 100,
-                    from: 3,
+                    min: 0,
+                    max: 15,
+                    from: 1,
+                    step: 0.1,
                     keyboard: true
                 });
                 sliderNbUser = $("#cpu").ionRangeSlider({
@@ -267,7 +271,7 @@ function configureTopo(topo) {
     function loadConfigGeant() {
         $.ajax({
             url: "./app/html/geant.html",
-            async: false,
+
             success: function (template) {
                 $("#ConfigureTopo").html(template);
                 sliderNbUser = $("#cpu").ionRangeSlider({
@@ -319,25 +323,99 @@ function configureTopo(topo) {
             }
         });
     }
+
+
+    function loadCreate() {
+        $.ajax({
+            url: "./app/html/create.html",
+            success: function (template) {
+                $("#ConfigureTopo").html(template);
+                sliderNbUser = $("#value1").ionRangeSlider({
+                    min: 1,
+                    max: 10,
+                    from: 3,
+                    keyboard: true
+                });
+                sliderNbUser = $("#value2").ionRangeSlider({
+                    min: 1,
+                    max: 10,
+                    from: 3,
+                    keyboard: true
+                });
+
+                sliderNbUser = $("#bw").ionRangeSlider({
+                    from: 36,
+                    values: ["1 Mbps", "2 Mbps", "3 Mbps", "4 Mbps",
+                        "5 Mbps", "6 Mbps", "7 Mbps", "8 Mbps",
+                        "9 Mbps", "10 Mbps", "20 Mbps", "30 Mbps",
+                        "40 Mbps", "50 Mbps", "60 Mbps", "70 Mbps",
+                        "80 Mbps", "90 Mbps", "100 Mbps",
+                        "200 Mbps", "300 Mbps", "400 Mbps",
+                        "500 Mbps", "600 Mbps", "700 Mbps",
+                        "800 Mbps", "900 Mbps", "1 Gbps", "2 Gbps",
+                        "3 Gbps", "4 Gbps", "5 Gbps", "6 Gbps",
+                        "7 Gbps", "8 Gbps", "9 Gbps", "10 Gbps",
+                        "20 Gbps", "30 Gbps", "40 Gbps", "50 Gbps",
+                        "60 Gbps", "70 Gbps", "80 Gbps", "90 Gbps",
+                        "100 Gbps", "200 Gbps", "300 Gbps",
+                        "400 Gbps", "500 Gbps", "600 Gbps",
+                        "700 Gbps", "800 Gbps", "900 Gbps",
+                        "1 Tbps"],
+
+                    keyboard: true
+                });
+                sliderNbUser = $("#delay").ionRangeSlider({
+                    min: 1,
+                    max: 100,
+                    from: 3,
+                    keyboard: true
+                });
+                sliderNbUser = $("#cpu").ionRangeSlider({
+                    min: 1,
+                    max: 2000,
+                    from: 200,
+                    keyboard: true
+                });
+
+                $(".glyphicon-info-sign").tooltip();
+                $('#collapseTwo').collapse("hide")
+            },
+            dataType: "text",
+            complete: function () {
+            }
+        });
+    }
+
 }
 
+
 getList(urlGetListTopo);
+
+
+function loadEditTopo() {
+    // document.getElementById("selectTopo").
+    sendTopo("edit")
+
+    $('#selectTopo option[value="create"]').prop('selected', true);
+}
+
+// function rowtobit(bwrow) {
+//     values = bwrow.split(" ")
+//     if (values[1] == "Gbps") {
+//         return values[0] * 1000 * 1000 * 1000
+//     } else if (values[1] == "Mbps") {
+//         return value * 1000 * 1000
+//     }
+//
+// }
 
 // //////////////////////////////////////
 // send selected topo
 // //////////////////////////////////////
-function sendTopo() {
+function sendTopo(type) {
 
-    function rowtobit(bwrow) {
-        values = bwrow.split(" ")
-        if (values[1] == "Gbps") {
-            return values[0] * 1000 * 1000 * 1000
-        } else if (unit == "Mbps") {
-            return value * 1000 * 1000
-        }
 
-    }
-
+    var topo = {};
     a = $('#LoadTopo').text();
     $('#LoadTopo').html(a + ' <i class="fa fa-spin fa-refresh"></i>');
     var topoName = "";
@@ -347,7 +425,7 @@ function sendTopo() {
             var value1 = document.getElementById("value1").value;
             var value2 = document.getElementById("value2").value;
             var bwrow = $("#bw").data("ionRangeSlider").result.from_value;
-            var bw = rowtobit(bwrow);
+            var bw = humanFormat.parse(bwrow, {unit: 'bps'});
             var delay = $("#delay").data("ionRangeSlider").result.from;
             var cpu = $("#cpu").data("ionRangeSlider").result.from;
 
@@ -363,7 +441,7 @@ function sendTopo() {
             var value2 = document.getElementById("value2").value;
             var value3 = document.getElementById("value3").value;
             var bwrow = $("#bw").data("ionRangeSlider").result.from_value;
-            var bw = rowtobit(bwrow);
+            var bw = humanFormat.parse(bwrow, {unit: 'bps'});
             var delay = $("#delay").data("ionRangeSlider").result.from;
             var cpu = $("#cpu").data("ionRangeSlider").result.from;
             var topoName = ("erdos_renyi," + value1 + "," + value2 + "," + value3 + ","
@@ -375,7 +453,7 @@ function sendTopo() {
             var value3 = document.getElementById("value3").value;
             var value4 = document.getElementById("value4").value;
             var bwrow = $("#bw").data("ionRangeSlider").result.from_value;
-            var bw = rowtobit(bwrow);
+            var bw = humanFormat.parse(bwrow, {unit: 'bps'});
             var delay = $("#delay").data("ionRangeSlider").result.from;
             var cpu = $("#cpu").data("ionRangeSlider").result.from;
             var topoName = ("powerlaw," + value1 + "," + value2 + "," + value3 + ","
@@ -388,15 +466,24 @@ function sendTopo() {
             var topoName = ("file," + upload.value.split('\\')[2] + "," + cpu);
 
             break;
+
+        case "create":
+            var topo = {};
+            var topoName = ("jsonfile" );
+            var json = networktojson(edges, nodes);
+            topo.json = json;
+            break;
         default:
             console.log("error")
     }
 
-    var topo = {};
+
     if (sessionInfo != "") {
         topo.sessionId = sessionInfo.sessionId
     }
     topo.topo = topoName;
+
+
     var req = new XMLHttpRequest();
 
     function onProgress(e) {
@@ -410,7 +497,7 @@ function sendTopo() {
         if (req.status == 202) {
             $('#LoadTopo').text(a)
             sessionInfo = JSON.parse(req.responseText);
-            ctrlTopo();
+            ctrlTopo(type);
 
             if ($("#value1").length != 0) {
                 $("#value1").data("ionRangeSlider").update({

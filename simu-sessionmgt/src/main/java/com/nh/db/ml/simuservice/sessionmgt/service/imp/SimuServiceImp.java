@@ -32,6 +32,7 @@ import com.nh.db.ml.simuservice.model.NbUsers;
 import com.nh.db.ml.simuservice.model.SessionAndSvg;
 import com.nh.db.ml.simuservice.model.SlaInfo;
 import com.nh.db.ml.simuservice.model.Topo;
+import com.nh.db.ml.simuservice.model.Topo.Json;
 import com.nh.db.ml.simuservice.sessionmgt.cli.CliConfSingleton;
 import com.nh.db.ml.simuservice.sessionmgt.model.SessionSimu;
 import com.nh.db.ml.simuservice.sessionmgt.repository.SessionSimuRepository;
@@ -81,6 +82,26 @@ public class SimuServiceImp implements SimuService {
 				session = new SessionSimu(grid.getSessionId());
 			}
 		}
+		File subdir = new File(CliConfSingleton.folder+grid.getSessionId());
+		subdir.mkdir();
+
+		if (grid.getTopo().equals("jsonfile")){
+			Json json = grid.getJson();
+			
+			File file = new File(CliConfSingleton.folder + grid.getSessionId() + "/topo.json");
+			ObjectMapper mapper = new ObjectMapper();
+			//Object to JSON in file
+			try {
+				mapper.writeValue(file, json);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			grid.setJson(new Json());
+			grid.setTopo("jsonfile,topo.json");
+		}
+		
+		
 		SessionAndSvg sessionAndSvg = new SessionAndSvg();
 		sessionAndSvg.setSessionId(grid.getSessionId());
 		sessionAndSvg.setLinkSvg("");
@@ -95,6 +116,7 @@ public class SimuServiceImp implements SimuService {
 			sessionSimuRepository.delete(sessionToDelet);
 		}
 		sessionSimuRepository.save(session);
+
 		
 		WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/docker/topo");
 		LOGGER.debug(target.getUri().toString());
