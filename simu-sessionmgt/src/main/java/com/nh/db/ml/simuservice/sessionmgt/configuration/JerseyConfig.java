@@ -5,9 +5,6 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
-//
-//import org.glassfish.jersey.jettison.JettisonFeature;
-//import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 import org.glassfish.jersey.server.wadl.internal.WadlResource;

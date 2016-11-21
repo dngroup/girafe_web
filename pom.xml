@@ -21,7 +21,7 @@
 	<modules>
 		<module>simu-sessionmgt</module>
 		<module>simu-model</module>
-		<module>simu-dockermgt</module>
+		
 	</modules>
 	<dependencyManagement>
 		<dependencies>

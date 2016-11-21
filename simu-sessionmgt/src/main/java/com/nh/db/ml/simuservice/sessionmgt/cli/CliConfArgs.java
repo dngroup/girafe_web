@@ -1,7 +1,6 @@
 package com.nh.db.ml.simuservice.sessionmgt.cli;
 
 import com.lexicalscope.jewel.cli.CliFactory;
-import com.nh.db.ml.simuservice.sessionmgt.cli.CliConfSingleton;
 
 public class CliConfArgs {
 
@@ -14,6 +13,12 @@ public class CliConfArgs {
 			CliConfSingleton.mpdHDPremium = cliconf.mpdHDPremium();
 			CliConfSingleton.mpdHD = cliconf.getMpdHD();
 			CliConfSingleton.mpdSD = cliconf.getMpdSD();
+			
+
+			CliConfSingleton.docker_daemon = cliconf.getDockerDaemonAddr();
+			CliConfSingleton.folder = cliconf.getFolder();
+			CliConfSingleton.videoFolder = cliconf.getVideoFolder();
+
 			CliConfSingleton.defaultValue();
 	}
 	

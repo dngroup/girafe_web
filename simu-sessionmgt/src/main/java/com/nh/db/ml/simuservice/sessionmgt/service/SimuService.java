@@ -57,7 +57,7 @@ public interface SimuService {
 	 */
 	public abstract byte[] getCsv(String sessionId);
 
-	public abstract SessionAndSvg createTopo(Topo topo);
+	public abstract SessionAndSvg createTopo(Topo topo) throws SimulationFailedException;
 
 	/**
 	 * send simu service to the folder

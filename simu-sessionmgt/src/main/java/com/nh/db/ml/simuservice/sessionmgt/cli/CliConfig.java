@@ -18,5 +18,11 @@ public interface CliConfig {
 
 	@Option(longName = "SD", defaultToNull = true)
 	String getMpdSD();
+	
+	@Option(shortName="d", longName = "docker-daemon", defaultToNull=true)
+	String getDockerDaemonAddr();
+	
 
+	@Option(shortName="v", longName = "videofolder", defaultToNull=true)
+	String getVideoFolder();
 }

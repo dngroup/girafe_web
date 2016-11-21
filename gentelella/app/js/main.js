@@ -548,14 +548,45 @@ function ctrlSLA() {
             var data1 = vis.network.convertDot(dot1);
             var data2 = vis.network.convertDot(dot2);
 
+            for (edge in data1.edges) {
+
+                if (data1.edges[edge].delay > valmax) {
+                    valmax = data1.edges[edge].delay;
+                }
+                else if (data1.edges[edge].delay < valmin) {
+                    valmin = data1.edges[edge].delay;
+                }
+            }
+            if (valmax == valmin) {
+                valmin = 0;
+                valmax = valmax * 3
+            }
+
 
             for (edge in data1.edges) {
-                if (data1.edges[edge].color == null) {
-                    data1.edges[edge].color = {}
-                    data1.edges[edge].color.color = defaultEdgeColor
-                }
+                data1.edges[edge].font = {"align": 'middle'};
 
-                data1.edges[edge].font.align = 'middle';
+                data1.edges[edge].length = data1.edges[edge].delay;
+                if (data1.edges[edge].bw != null) {
+                    data1.edges[edge].title = '' +
+                        'id:"' + data1.edges[edge].id + '" ' +
+                        'bw:' + humanFormat(parseInt(data1.edges[edge].bw), {unit: 'bps'}) + ' ' +
+                        'delay: ' + data1.edges[edge].delay;
+                    data1.edges[edge].value = Math.log(data1.edges[edge].bw);
+                    data1.edges[edge].color = {"color": getcolor(data1.edges[edge].delay)};
+                }
+            }
+            for (edge in data2.edges) {
+                data2.edges[edge].font = {"align": 'middle'};
+                if (data2.edges[edge].bw != null) {
+                    data2.edges[edge].length = data2.edges[edge].delay;
+                    data2.edges[edge].title = '' +
+                        'id:"' + data2.edges[edge].id + '" ' +
+                        'bw:' + humanFormat(parseInt(data2.edges[edge].bw), {unit: 'bps'}) + ' ' +
+                        'delay: ' + data2.edges[edge].delay;
+                    data2.edges[edge].value = Math.log(data2.edges[edge].bw);
+                    data2.edges[edge].color = {"color": getcolor(data2.edges[edge].delay)};
+                }
             }
 
             nodetodelete = nodes.get({

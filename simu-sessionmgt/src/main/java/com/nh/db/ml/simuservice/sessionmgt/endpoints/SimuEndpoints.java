@@ -41,9 +41,14 @@ public class SimuEndpoints {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("topo")
 	public Response postFromFile(Topo grid) {
-		SessionAndSvg sessionAndSvg = simuService.createTopo(grid);
-		// SessionAndSvg sessionAndSvg = simuService.createTopoDefault();
-		return Response.accepted(sessionAndSvg).build();
+		SessionAndSvg sessionAndSvg;
+		try {
+			sessionAndSvg = simuService.createTopo(grid);
+			// SessionAndSvg sessionAndSvg = simuService.createTopoDefault();
+			return Response.accepted(sessionAndSvg).build();
+		} catch (SimulationFailedException e) {
+			throw new WebServiceException("simulation failed to complete");
+		}
 	}
 
 	@POST
@@ -94,14 +99,14 @@ public class SimuEndpoints {
 			return Response.ok(file, MediaType.APPLICATION_SVG_XML).build();
 		}
 	}
-	
+
 	@GET
 	@Path("dot/{sessionid}")
 	public Response getdot(@PathParam("sessionid") String sessionId) {
 		File file = new File(CliConfSingleton.folder + sessionId + "/substrate.dot");
 		try {
 			FileInputStream fin = new FileInputStream(file);
-			return Response.ok(file ).build();
+			return Response.ok(file).build();
 		} catch (IOException e) {
 			return Response.ok(file).build();
 		}
@@ -134,9 +139,9 @@ public class SimuEndpoints {
 			@FormDataParam("file") FormDataContentDisposition fileDetail,
 			@FormDataParam("file") FormDataBodyPart body) {
 		// ){
-		 MediaType mediaType =body.getMediaType();
+		MediaType mediaType = body.getMediaType();
 
-		Topo topo = simuService.sendTopoToDocker(uploadedInputStream, fileDetail,mediaType);
+		Topo topo = simuService.sendTopoToDocker(uploadedInputStream, fileDetail, mediaType);
 
 		return Response.status(200).entity(topo).build();
 

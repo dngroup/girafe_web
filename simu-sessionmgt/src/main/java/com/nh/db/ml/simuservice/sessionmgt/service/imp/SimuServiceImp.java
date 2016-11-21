@@ -2,25 +2,21 @@ package com.nh.db.ml.simuservice.sessionmgt.service.imp;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -34,8 +30,10 @@ import com.nh.db.ml.simuservice.model.SlaInfo;
 import com.nh.db.ml.simuservice.model.Topo;
 import com.nh.db.ml.simuservice.model.Topo.Json;
 import com.nh.db.ml.simuservice.sessionmgt.cli.CliConfSingleton;
+import com.nh.db.ml.simuservice.sessionmgt.exception.NoZeroStatusCode;
 import com.nh.db.ml.simuservice.sessionmgt.model.SessionSimu;
 import com.nh.db.ml.simuservice.sessionmgt.repository.SessionSimuRepository;
+import com.nh.db.ml.simuservice.sessionmgt.service.DockerService;
 import com.nh.db.ml.simuservice.sessionmgt.service.SimuService;
 
 @Service
@@ -44,8 +42,11 @@ public class SimuServiceImp implements SimuService {
 	@Inject
 	SessionSimuRepository sessionSimuRepository;
 
+	// @Inject
+	// Client client;
+
 	@Inject
-	Client client;
+	DockerService dockerService;
 
 	// @Override
 	// public SessionAndSvg createTopoFromGrid(Grid grid) {
@@ -70,7 +71,7 @@ public class SimuServiceImp implements SimuService {
 	// }
 
 	@Override
-	public SessionAndSvg createTopo(Topo grid) {
+	public SessionAndSvg createTopo(Topo grid) throws SimulationFailedException {
 
 		SessionSimu session;
 		if (Strings.isNullOrEmpty(grid.getSessionId())) {
@@ -78,19 +79,19 @@ public class SimuServiceImp implements SimuService {
 			grid.setSessionId(session.getSessionId());
 		} else {
 			session = sessionSimuRepository.findOneBySessionId(grid.getSessionId());
-			if ((sessionSimuRepository.findOneBySessionId(grid.getSessionId()))==null){
+			if ((sessionSimuRepository.findOneBySessionId(grid.getSessionId())) == null) {
 				session = new SessionSimu(grid.getSessionId());
 			}
 		}
-		File subdir = new File(CliConfSingleton.folder+grid.getSessionId());
+		File subdir = new File(CliConfSingleton.folder + grid.getSessionId());
 		subdir.mkdir();
 
-		if (grid.getTopo().equals("jsonfile")){
+		if (grid.getTopo().equals("jsonfile")) {
 			Json json = grid.getJson();
-			
+
 			File file = new File(CliConfSingleton.folder + grid.getSessionId() + "/topo.json");
 			ObjectMapper mapper = new ObjectMapper();
-			//Object to JSON in file
+			// Object to JSON in file
 			try {
 				mapper.writeValue(file, json);
 			} catch (IOException e) {
@@ -100,8 +101,7 @@ public class SimuServiceImp implements SimuService {
 			grid.setJson(new Json());
 			grid.setTopo("jsonfile,topo.json");
 		}
-		
-		
+
 		SessionAndSvg sessionAndSvg = new SessionAndSvg();
 		sessionAndSvg.setSessionId(grid.getSessionId());
 		sessionAndSvg.setLinkSvg("");
@@ -112,18 +112,27 @@ public class SimuServiceImp implements SimuService {
 		}
 
 		SessionSimu sessionToDelet;
-		if ((sessionToDelet=sessionSimuRepository.findOneBySessionId(grid.getSessionId()))!=null){
+		if ((sessionToDelet = sessionSimuRepository.findOneBySessionId(grid.getSessionId())) != null) {
 			sessionSimuRepository.delete(sessionToDelet);
 		}
 		sessionSimuRepository.save(session);
 
-		
-		WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/docker/topo");
-		LOGGER.debug(target.getUri().toString());
-		Response response = target.request().post(Entity.entity(grid, MediaType.APPLICATION_XML));
-		if (response.getStatus() != Status.ACCEPTED.getStatusCode()) {
-			throw new WebApplicationException("docker return error", response.getStatus());
+		// WebTarget target = client.target("http://" +
+		// CliConfSingleton.simudocker + "/api/docker/topo");
+		// LOGGER.debug(target.getUri().toString());
+		// Response response = target.request().post(Entity.entity(grid,
+		// MediaType.APPLICATION_XML));
+		try {
+			dockerService.createSvgFromTopo(grid);
+		} catch (NoZeroStatusCode e) {
+			throw new SimulationFailedException();
+		} catch (InterruptedException e) {
+			throw new WebApplicationException(e);
 		}
+		// if (response.getStatus() != Status.ACCEPTED.getStatusCode()) {
+		// throw new WebApplicationException("docker return error",
+		// response.getStatus());
+		// }
 		return sessionAndSvg;
 	}
 
@@ -141,11 +150,23 @@ public class SimuServiceImp implements SimuService {
 
 				slaInfo.setTopo(grid.getTopo());
 			}
-			WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/docker/sla");
-			Response response = target.request().post(Entity.entity(slaInfo, MediaType.APPLICATION_XML));
-			if (response.getStatus() != Status.ACCEPTED.getStatusCode()) {
-				throw new WebApplicationException("docker return error", response.getStatus());
+
+			try {
+				dockerService.createSvgFromSla(slaInfo);
+			} catch (NoZeroStatusCode e) {
+				throw new SimulationFailedException();
+			} catch (InterruptedException e) {
+				throw new WebApplicationException(e);
 			}
+
+			// WebTarget target = client.target("http://" +
+			// CliConfSingleton.simudocker + "/api/docker/sla");
+			// Response response = target.request().post(Entity.entity(slaInfo,
+			// MediaType.APPLICATION_XML));
+			// if (response.getStatus() != Status.ACCEPTED.getStatusCode()) {
+			// throw new WebApplicationException("docker return error",
+			// response.getStatus());
+			// }
 		}
 
 		try {
@@ -187,11 +208,23 @@ public class SimuServiceImp implements SimuService {
 
 				slaInfo.setTopo(grid.getTopo());
 			}
-			final WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/docker/LCsla");
-			final Response response = target.request().post(Entity.entity(slaInfo, MediaType.APPLICATION_XML));
-			if (response.getStatus() != Status.ACCEPTED.getStatusCode()) {
-				throw new WebApplicationException("docker return error", response.getStatus());
+			try {
+				dockerService.findBestSLA(slaInfo);
+			} catch (NoZeroStatusCode e) {
+				throw new SimulationFailedException();
+			} catch (InterruptedException e) {
+				throw new WebApplicationException(e);
 			}
+
+			// final WebTarget target = client.target("http://" +
+			// CliConfSingleton.simudocker + "/api/docker/LCsla");
+			// final Response response =
+			// target.request().post(Entity.entity(slaInfo,
+			// MediaType.APPLICATION_XML));
+			// if (response.getStatus() != Status.ACCEPTED.getStatusCode()) {
+			// throw new WebApplicationException("docker return error",
+			// response.getStatus());
+			// }
 		}
 
 		try {
@@ -219,8 +252,11 @@ public class SimuServiceImp implements SimuService {
 	public void addUserForSession(NbUsers nbUsers) {
 		SessionSimu session = sessionSimuRepository.findOneBySessionId(nbUsers.getSessionId());
 		if (session != null) {
-			WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/docker/users");
-			Response response = target.request().post(Entity.entity(nbUsers, MediaType.APPLICATION_XML));
+			dockerService.setBitrate(nbUsers);
+			// WebTarget target = client.target("http://" +
+			// CliConfSingleton.simudocker + "/api/docker/users");
+			// Response response = target.request().post(Entity.entity(nbUsers,
+			// MediaType.APPLICATION_XML));
 		}
 	}
 
@@ -246,23 +282,49 @@ public class SimuServiceImp implements SimuService {
 		Topo topo = new Topo();
 		topo.setSessionId(UUID.randomUUID().toString());
 		topo.setTopo(fileDetail.getFileName());
-		
-		FormDataMultiPart multiPart = new FormDataMultiPart()
-//		        .field("file", uploadedInputStream, MediaType.MULTIPART_FORM_DATA_TYPE)
-		        .field("filename", fileDetail.getFileName())
-		        .field("sessionId", topo.getSessionId());
-		
-		FormDataBodyPart body = new FormDataBodyPart( "file", uploadedInputStream, mediaType);
-//		body.set(fileDetail.getFileName());
-		multiPart.bodyPart(body);
-		
-		
+
+		// FormDataMultiPart multiPart = new FormDataMultiPart()
+		// // .field("file", uploadedInputStream,
+		// // MediaType.MULTIPART_FORM_DATA_TYPE)
+		// .field("filename", fileDetail.getFileName()).field("sessionId",
+		// topo.getSessionId());
+		//
+		// FormDataBodyPart body = new FormDataBodyPart("file",
+		// uploadedInputStream, mediaType);
+		// // body.set(fileDetail.getFileName());
+		// multiPart.bodyPart(body);
+
 		// add file here /opt/simuservice/offline/data on docker
-		final WebTarget target = client.target("http://" + CliConfSingleton.simudocker + "/api/topo");
-		final Response response = target.request().post(Entity.entity(multiPart, MediaType.MULTIPART_FORM_DATA));
-		if (response.getStatus() != Status.ACCEPTED.getStatusCode()) {
-			throw new WebApplicationException("docker return error", response.getStatus());
+
+		try {
+			java.nio.file.Path path = Paths.get(CliConfSingleton.folder, topo.getSessionId(), fileDetail.getFileName());
+			Paths.get(CliConfSingleton.folder, topo.getSessionId()).toFile().mkdirs();
+			OutputStream out = new FileOutputStream(path.toFile());
+			int read = 0;
+			byte[] bytes = new byte[1024];
+
+			while ((read = uploadedInputStream.read(bytes)) != -1) {
+				out.write(bytes, 0, read);
+			}
+			out.flush();
+			out.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
+		// final WebTarget target = client.target("http://" +
+		// CliConfSingleton.simudocker + "/api/topo");
+		// final Response response =
+		// target.request().post(Entity.entity(multiPart,
+		// MediaType.MULTIPART_FORM_DATA));
+		// if (response.getStatus() != Status.ACCEPTED.getStatusCode()) {
+		// throw new WebApplicationException("docker return error",
+		// response.getStatus());
+		// }
 
 		return topo;
 	}
