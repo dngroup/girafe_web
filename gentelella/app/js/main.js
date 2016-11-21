@@ -187,21 +187,37 @@ function ctrlTopo(type) {
 
             var data1 = vis.network.convertDot(dot1);
             var data2 = vis.network.convertDot(dot2);
+            valmin = 100;
+            valmax = 0;
+            for (edge in data1.edges) {
 
+                if (data1.edges[edge].delay > valmax) {
+                    valmax = data1.edges[edge].delay;
+                }
+                else if (data1.edges[edge].delay < valmin) {
+                    valmin = data1.edges[edge].delay;
+                }
+            }
+            if (valmax == valmin) {
+                valmin = 0;
+                valmax = valmax * 3
+            }
 
             for (edge in data1.edges) {
-                if (data1.edges[edge].color == null) {
-                    data1.edges[edge].color = {}
-                    data1.edges[edge].color.color = defaultEdgeColor
-                }
+                // if (data1.edges[edge].color == null) {
+                //     data1.edges[edge].color = {}
+                //     data1.edges[edge].color.color = defaultedgecolor
+                // }
+                data1.edges[edge].length = data1.edges[edge].delay;
                 data1.edges[edge].title = '' +
                     'id:"' + data1.edges[edge].id + '" ' +
                     'bw:' + humanFormat(parseInt(data1.edges[edge].bw), {unit: 'bps'}) + ' ' +
-                    'delay: ' + data1.edges[edge].delay
-                data1.edges[edge].value = Math.log(data1.edges[edge].bw)
+                    'delay: ' + data1.edges[edge].delay;
+                data1.edges[edge].value = Math.log(data1.edges[edge].bw);
+                data1.edges[edge].color = {"color": getcolor(data1.edges[edge].delay)};
             }
             for (node in data1.nodes) {
-                data1.nodes[node].value = data1.nodes[node].cpu
+                data1.nodes[node].value = data1.nodes[node].cpu;
             }
             nodes.clear();
             edges.clear();
@@ -538,6 +554,8 @@ function ctrlSLA() {
                     data1.edges[edge].color = {}
                     data1.edges[edge].color.color = defaultEdgeColor
                 }
+
+                data1.edges[edge].font.align = 'middle';
             }
 
             nodetodelete = nodes.get({

@@ -65,3 +65,18 @@ path[stroke="chartreuse"] {
 .modal-footer .btn+.btn {
     margin-bottom: 5px;
 }
+
+div.gradient {
+    padding: 2px 2px 2px ;
+    background: Gainsboro;
+    text-align: center;
+
+    display: inline-block;
+}
+
+div.gradient div {
+    display: inline-block;
+    height: 20px;
+    color: rgba(0,0,0,0);
+    margin: 0px -2px 0px -2px
+}
