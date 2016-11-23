@@ -130,7 +130,7 @@ public class DockerServiceImp implements DockerService {
 	}
 
 	@Override
-	public void createSvgFromTopo(Topo topo) throws NoZeroStatusCode, InterruptedException {
+	public String createSvgFromTopo(Topo topo) throws NoZeroStatusCode, InterruptedException {
 
 		List<String> list = new ArrayList<String>();
 		// Topo Part
@@ -142,17 +142,20 @@ public class DockerServiceImp implements DockerService {
 
 		list.add("--cdn");
 		list.add("0");
-		LogContainerCallback logCall = new LogContainerCallback();
-		Integer statusCode = startStop(topo.getSessionId(), topo.getTopo(), list, logCall);
+
+		LogContainerCallback logStdOut = new LogContainerCallback();
+		LogContainerCallback logStdErr = new LogContainerCallback();
+		Integer statusCode = startStop(topo.getTopo(), list, logStdOut, logStdErr);
 		if (statusCode != 0) {
-			LOGGER.error(logCall.toString());
+			LOGGER.error(logStdErr.toString());
 			throw new NoZeroStatusCode();
 
 		}
+		return logStdOut.toString();
 	}
 
 	@Override
-	public void createSvgFromSla(SlaInfo slaInfo) throws NoZeroStatusCode, InterruptedException {
+	public String createSvgFromSla(SlaInfo slaInfo) throws NoZeroStatusCode, InterruptedException {
 		// Default Part
 		List<String> list = new ArrayList<String>();
 		// Topo Part
@@ -173,18 +176,19 @@ public class DockerServiceImp implements DockerService {
 		list.add("--vcdn");
 		list.add(slaInfo.getVcdn());
 		Integer statusCode;
-		LogContainerCallback logCall = new LogContainerCallback();
-		statusCode = startStop(slaInfo.getSessionId(), slaInfo.getTopo(), list, logCall);
+		LogContainerCallback logStdOut = new LogContainerCallback();
+		LogContainerCallback logStdErr = new LogContainerCallback();
+		statusCode = startStop(slaInfo.getTopo(), list, logStdOut, logStdErr);
 		if (statusCode != 0) {
-			LOGGER.error(logCall.toString());
+			LOGGER.error(logStdErr.toString());
 			throw new NoZeroStatusCode();
-
 		}
+		return logStdOut.toString();
 
 	}
 
 	@Override
-	public void findBestSLA(SlaInfo slaInfo) throws InterruptedException, NoZeroStatusCode {
+	public String findBestSLA(SlaInfo slaInfo) throws InterruptedException, NoZeroStatusCode {
 		List<String> list = new ArrayList<String>();
 		// Topo Part
 		initTopo(slaInfo.getTopo(), list);
@@ -202,13 +206,17 @@ public class DockerServiceImp implements DockerService {
 		list.addAll(slaInfo.getCdns());
 
 		list.add("--auto");
-		LogContainerCallback logCall = new LogContainerCallback();
-		Integer statusCode = startStop(slaInfo.getSessionId(), slaInfo.getTopo(), list, logCall);
+		LogContainerCallback logStdOut = new LogContainerCallback();
+		LogContainerCallback logStdErr = new LogContainerCallback();
+
+		Integer statusCode = startStop(slaInfo.getTopo(), list, logStdOut, logStdErr);
 		if (statusCode != 0) {
-			LOGGER.error(logCall.toString());
+			LOGGER.error(logStdErr.toString());
 			throw new NoZeroStatusCode();
 
 		}
+
+		return logStdOut.toString();
 	}
 
 	/**
@@ -218,20 +226,27 @@ public class DockerServiceImp implements DockerService {
 	 * @param list
 	 * @throws InterruptedException
 	 */
-	private Integer startStop(String sessionId, String topo, List<String> list, LogContainerCallback logCall)
-			throws InterruptedException {
-//		String lala = "{\"links\":[{\"bw\":8000000000,\"delay\":2.6,\"source\":\"01\",\"target\":\"02\"}],\"nodes\":[{\"cpu\":200,\"id\":\"01\"},{\"cpu\":200,\"id\":\"02\"}]}";
-//		String lala64 = Base64.encodeAsString(lala.getBytes());
-//		list.add(lala64);
+	private Integer startStop(String topo, List<String> list, LogContainerCallback logStdOut,
+			LogContainerCallback logStdErr) throws InterruptedException {
+		// String lala =
+		// "{\"links\":[{\"bw\":8000000000,\"delay\":2.6,\"source\":\"01\",\"target\":\"02\"}],\"nodes\":[{\"cpu\":200,\"id\":\"01\"},{\"cpu\":200,\"id\":\"02\"}]}";
+		// String lala64 = Base64.encodeAsString(lala.getBytes());
+		// list.add(lala64);
 		CreateContainerCmd containerinfo = dockerClient.createContainerCmd("nherbaut/simuservice")
-				.withBinds(new Bind(CliConfSingleton.folder + sessionId, volume))
+				// .withBinds(new Bind(CliConfSingleton.folder + sessionId,
+				// volume))
 				.withCmd(list.toArray(new String[list.size()]));
-		if (topo.startsWith("file,") && !topo.contains("Geant2012.graphml")) {
-			String[] topos = topo.split(",");
-			Volume volume2 = new Volume("/opt/simuservice/offline/data/" + topos[1]);
-			java.nio.file.Path path = Paths.get(CliConfSingleton.folder, sessionId, topos[1]);
-			containerinfo.withBinds(new Bind(CliConfSingleton.folder + sessionId, volume),new Bind(path.toString(), volume2));
-		}
+		// if (topo.startsWith("file,") && !topo.contains("Geant2012.graphml"))
+		// {
+		// String[] topos = topo.split(",");
+		// Volume volume2 = new Volume("/opt/simuservice/offline/data/" +
+		// topos[1]);
+		// java.nio.file.Path path = Paths.get(CliConfSingleton.folder,
+		// sessionId, topos[1]);
+		// containerinfo.withBinds(new Bind(CliConfSingleton.folder + sessionId,
+		// volume),
+		// new Bind(path.toString(), volume2));
+		// }
 		CreateContainerResponse container = containerinfo.exec();
 
 		dockerClient.startContainerCmd(container.getId()).exec();
@@ -241,8 +256,10 @@ public class DockerServiceImp implements DockerService {
 
 		/** get log of docker **/
 
-		dockerClient.logContainerCmd(container.getId()).withStdErr(true).withStdOut(true).exec(logCall);
-		logCall.awaitCompletion();
+		dockerClient.logContainerCmd(container.getId()).withStdOut(true).exec(logStdOut);
+		dockerClient.logContainerCmd(container.getId()).withStdErr(true).exec(logStdErr);
+		logStdOut.awaitCompletion();
+		logStdErr.awaitCompletion();
 		// TODO: if the next line is comment uncomment it
 		dockerClient.removeContainerCmd(container.getId()).exec();
 		return statusCode;

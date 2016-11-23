@@ -23,7 +23,6 @@ import org.springframework.stereotype.Component;
 
 import com.nh.db.ml.simuservice.model.ListString;
 import com.nh.db.ml.simuservice.model.NbUsers;
-import com.nh.db.ml.simuservice.model.SessionAndSvg;
 import com.nh.db.ml.simuservice.model.SlaInfo;
 import com.nh.db.ml.simuservice.model.Topo;
 import com.nh.db.ml.simuservice.sessionmgt.cli.CliConfSingleton;
@@ -41,7 +40,7 @@ public class SimuEndpoints {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("topo")
 	public Response postFromFile(Topo grid) {
-		SessionAndSvg sessionAndSvg;
+		Topo sessionAndSvg;
 		try {
 			sessionAndSvg = simuService.createTopo(grid);
 			// SessionAndSvg sessionAndSvg = simuService.createTopoDefault();
@@ -131,20 +130,20 @@ public class SimuEndpoints {
 		return l;
 	}
 
-	@POST
-	@Path("upload")
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response uploadFile(@FormDataParam("file") InputStream uploadedInputStream,
-			@FormDataParam("file") FormDataContentDisposition fileDetail,
-			@FormDataParam("file") FormDataBodyPart body) {
-		// ){
-		MediaType mediaType = body.getMediaType();
-
-		Topo topo = simuService.sendTopoToDocker(uploadedInputStream, fileDetail, mediaType);
-
-		return Response.status(200).entity(topo).build();
-
-	}
+//	@POST
+//	@Path("upload")
+//	@Consumes(MediaType.MULTIPART_FORM_DATA)
+//	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+//	public Response uploadFile(@FormDataParam("file") InputStream uploadedInputStream,
+//			@FormDataParam("file") FormDataContentDisposition fileDetail,
+//			@FormDataParam("file") FormDataBodyPart body) {
+//		// ){
+//		MediaType mediaType = body.getMediaType();
+//
+//		Topo topo = simuService.sendTopoToDocker(uploadedInputStream, fileDetail, mediaType);
+//
+//		return Response.status(200).entity(topo).build();
+//
+//	}
 
 }

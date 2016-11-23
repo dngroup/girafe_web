@@ -1,13 +1,14 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="urn:com:nh:db:ml:simuservice:model">
+	targetNamespace="urn:com:nh:db:ml:simuservice:model"
+	xmlns:Q1="urn:com:nh:db:ml:simuservice:model">
 	<xs:element name="SlaInfo">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="clients" type="xs:string" maxOccurs="unbounded"
-					minOccurs="0" />
-				<xs:element name="cdns" type="xs:string" maxOccurs="unbounded"
-					minOccurs="0" />
+				<xs:element name="clients" type="xs:string"
+					maxOccurs="unbounded" minOccurs="0" />
+				<xs:element name="cdns" type="xs:string"
+					maxOccurs="unbounded" minOccurs="0" />
 				<xs:element name="sladelay" type="xs:int" />
 				<xs:element name="vcdnratio" type="xs:double" />
 				<xs:element name="bandwidth" type="xs:long" />
@@ -20,4 +21,7 @@
 
 		</xs:complexType>
 	</xs:element>
+
+
+
 </xs:schema>

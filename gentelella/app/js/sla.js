@@ -139,10 +139,14 @@ function submitSLA() {
     data.clients = clients;
     data.sladelay = slaDelay;
     data.vcdnratio = vcdnRatio
-    data.bandwidth = bandwidthPerUser * nbUsersSla * 1000 ;
+    data.bandwidth = bandwidthPerUser * nbUsersSla * 1000;
     data.sessionId = sessionInfo.sessionId
     data.vcdn = document.getElementById("vcdn").value;
     data.vmg = document.getElementById("vmg").value;
+
+    var json64 = networktojson(edges, nodes);
+    var topoName = ("jsonfile," + json64);
+    topo.topo = topoName;
     function onProgress(e) {
 
     }
@@ -199,7 +203,7 @@ function optimalSLA() {
     data.clients = clients;
     data.sladelay = slaDelay;
     data.vcdnratio = vcdnRatio;
-    data.bandwidth = bandwidthPerUser * nbUsersSla * 1000 ;
+    data.bandwidth = bandwidthPerUser * nbUsersSla * 1000;
     data.sessionId = sessionInfo.sessionId;
     function onProgress(e) {
 

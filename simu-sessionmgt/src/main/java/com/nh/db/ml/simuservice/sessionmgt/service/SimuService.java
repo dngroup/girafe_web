@@ -8,7 +8,7 @@ import javax.ws.rs.core.MediaType;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 import com.nh.db.ml.simuservice.model.NbUsers;
-import com.nh.db.ml.simuservice.model.SessionAndSvg;
+//import com.nh.db.ml.simuservice.model.SessionAndSvg;
 import com.nh.db.ml.simuservice.model.SlaInfo;
 import com.nh.db.ml.simuservice.model.Topo;
 import com.nh.db.ml.simuservice.sessionmgt.service.imp.SimulationFailedException;
@@ -47,7 +47,7 @@ public interface SimuService {
 	 */
 	public abstract void addUserForSession(NbUsers nbUsers);
 
-	public abstract File getSvg(SessionAndSvg svgInfo);
+//	public abstract File getSvg(SessionAndSvg svgInfo);
 
 	/**
 	 * get datas for the graph 
@@ -57,17 +57,17 @@ public interface SimuService {
 	 */
 	public abstract byte[] getCsv(String sessionId);
 
-	public abstract SessionAndSvg createTopo(Topo topo) throws SimulationFailedException;
+	public abstract Topo createTopo(Topo topo) throws SimulationFailedException;
 
-	/**
-	 * send simu service to the folder
-	 * @param uploadedInputStream
-	 * @param fileDetail
-	 * @param mediaType 
-	 * @return 
-	 */
-	public abstract Topo sendTopoToDocker(InputStream uploadedInputStream, FormDataContentDisposition fileDetail, MediaType mediaType);
-
+//	/**
+//	 * send simu service to the folder
+//	 * @param uploadedInputStream
+//	 * @param fileDetail
+//	 * @param mediaType 
+//	 * @return 
+//	 */
+//	public abstract Topo sendTopoToDocker(InputStream uploadedInputStream, FormDataContentDisposition fileDetail, MediaType mediaType);
+//
 //	public abstract SlaInfo getCostFonction(SlaInfo slaInfo) throws SimulationFailedException;
 
 

@@ -469,9 +469,9 @@ function sendTopo(type) {
 
         case "create":
             var topo = {};
-            var topoName = ("jsonfile" );
-            var json = networktojson(edges, nodes);
-            topo.json = json;
+
+            var json64 = networktojson(edges, nodes);
+            var topoName = ("jsonfile," + json64 );
             break;
         default:
             console.log("error")

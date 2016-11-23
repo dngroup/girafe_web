@@ -40,7 +40,7 @@ public interface DockerService {
 	 */
 	public abstract List<Container> getstatus();
 
-	public abstract void createSvgFromSla(SlaInfo slaInfo) throws NoZeroStatusCode, InterruptedException;
+	public abstract String createSvgFromSla(SlaInfo slaInfo) throws NoZeroStatusCode, InterruptedException;
 
 
 	/**
@@ -59,8 +59,8 @@ public interface DockerService {
 
 	public abstract void setBitrate(NbUsers nbUsers);
 
-	public abstract void findBestSLA(SlaInfo slaInfo) throws InterruptedException, NoZeroStatusCode;
+	public abstract String findBestSLA(SlaInfo slaInfo) throws InterruptedException, NoZeroStatusCode;
 
-	public abstract void createSvgFromTopo(Topo grid) throws NoZeroStatusCode, InterruptedException;
+	public abstract String createSvgFromTopo(Topo grid) throws NoZeroStatusCode, InterruptedException;
 
 }

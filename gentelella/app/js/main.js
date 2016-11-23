@@ -511,16 +511,55 @@ function cancelBtn(value) {
 }
 
 function networktojson(edges, nodes) {
-    var jsonedge = []
-    edges.forEach(function (edge) {
-        jsonedge.push({"source": edge.from, "target": edge.to, "bw": edge.bw, "delay": edge.delay})
-    });
-    var jsonnode = []
+
+    if (!Array.prototype.indexOfid)
+    {
+        Array.prototype.indexOfid = function(elt /*, from*/)
+        {
+            var len = this.length;
+
+            var from = Number(arguments[1]) || 0;
+            from = (from < 0)
+                ? Math.ceil(from)
+                : Math.floor(from);
+
+            if (from < 0)
+                from += len;
+
+            for (; from < len; from++)
+            {
+                if (from in this &&
+                    this[from].id === elt)
+                    return from;
+            }
+            return -1;
+        };
+    }
+
+    var jsonnode = [];
+    var jsonedge = [];
     nodes.forEach(function (node) {
         jsonnode.push({"id": node.id, "cpu": node.cpu})
     });
-    var json = {"nodes": jsonnode, "links": jsonedge}
-    return json
+    edges.forEach(function (edge) {
+        jsonedge.push({
+            "source": jsonnode.indexOfid(edge.from),
+            "target": jsonnode.indexOfid(edge.to),
+            "bw": edge.bw,
+            "delay": edge.delay
+        })
+    });
+    var json = {
+        "directed": false,
+        "graph": {
+            "name": "Personal Graph"
+        },
+        "nodes": jsonnode,
+        "links": jsonedge,
+        "multigraph": false
+    };
+    var json64 = window.btoa(JSON.stringify(json));
+    return json64;
 }
 ///////////////////////////////////////////////
 // Svg and action when the SLA is sent
