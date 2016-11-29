@@ -17,6 +17,7 @@
 				<xs:element name="vmg" type="xs:string"></xs:element>
 				<xs:element name="vcdn" type="xs:string"></xs:element>
 				<xs:element name="costs" type="xs:double"></xs:element>
+				<xs:element name="solution" type="xs:string"></xs:element>
 			</xs:sequence>
 
 		</xs:complexType>

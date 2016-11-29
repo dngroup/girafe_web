@@ -1,8 +1,8 @@
 var urlSLA = "/api/simu/sla",
     urlLCSLA = "/api/simu/LCsla",
     urlUsers = "/api/simu/users",
-    slaDelay = 50,
-    vcdnRatio = 0.70,
+    slaDelay = delaydefault * 10,
+    vcdnRatio = 1,
     nbUsersSla = 5000,
     bandwidthPerUser = 1.5,
     nbUser = 50,
@@ -11,6 +11,9 @@ var urlSLA = "/api/simu/sla",
     table,
     dataSet = [],
     listToModify = "clients";
+
+nodessla = new vis.DataSet();
+edgessla = new vis.DataSet();
 
 function setListToModify(value) {
     listToModify = value;
@@ -22,7 +25,7 @@ function getListToModify() {
 
 
 function loadsla(clients) {
-    sliderNbUser = $("#nbUser").ionRangeSlider({
+    $("#nbUser").ionRangeSlider({
         type: "single",
         min: 0,
         max: clients * 2,
@@ -48,7 +51,8 @@ function updateClient() {
     for (i = 0; i < clients.length; i++) {
         output += '<span class="badge bg-green">' + clients[i] + "</span> ";
     }
-    document.getElementById('react-content-client').innerHTML = output;
+    if (document.getElementById('react-content-client') != null) document.getElementById('react-content-client').innerHTML = output;
+
 }
 
 function updateCDN() {
@@ -56,7 +60,8 @@ function updateCDN() {
     for (i = 0; i < cdns.length; i++) {
         output += '<span class="badge bg-red">' + cdns[i] + "</span> ";
     }
-    document.getElementById('react-content-cdn').innerHTML = output;
+    if (document.getElementById('react-content-cdn') != null) document.getElementById('react-content-cdn').innerHTML = output;
+
 }
 
 function addClient(number) {
@@ -104,7 +109,7 @@ function addValueOnTable(vmg, vcdn, cost, best) {
 
 
     if (!set.has(JSON.stringify([vmg, vcdn, cost, best]))) {
-        set.add(JSON.stringify([vmg, vcdn, cost, best]))
+        set.add(JSON.stringify([vmg, vcdn, cost, best]));
         rowNode = table.row.add([id, vmg, vcdn, cost]).draw(false).node();
         if (best) {
             $(rowNode)
@@ -119,7 +124,7 @@ function addValueOnTable(vmg, vcdn, cost, best) {
 function resetTable() {
 
     id = 0;
-    set = new Set()
+    set = new Set();
     table.rows().remove().draw();
 }
 
@@ -127,45 +132,51 @@ function resetTable() {
 // Submit
 ///////////////////////////////////////////////////
 
+
 function submitSLA() {
     var req = new XMLHttpRequest(),
         data = {};
 
     // $('#slainfo').html(" ")
 
-    a = $('#sumbitsla').text()
-    $('#sumbitsla').html('Embedding <i class="fa fa-spin fa-refresh"></i>')
+    a = $('#sumbitsla').text();
+    $('#sumbitsla').html('Embedding <i class="fa fa-spin fa-refresh"></i>');
     data.cdns = cdns;
     data.clients = clients;
     data.sladelay = slaDelay;
-    data.vcdnratio = vcdnRatio
-    data.bandwidth = bandwidthPerUser * nbUsersSla * 1000;
-    data.sessionId = sessionInfo.sessionId
+    data.vcdnratio = vcdnRatio;
+    data.bandwidth = bandwidthPerUser * nbUsersSla * 1000 * 1000;
+    data.sessionId = sessionInfo.sessionId;
     data.vcdn = document.getElementById("vcdn").value;
     data.vmg = document.getElementById("vmg").value;
 
     var json64 = networktojson(edges, nodes);
-    var topoName = ("jsonfile," + json64);
-    topo.topo = topoName;
+    var topoName = ("jsonfile," + json64 );
+    data.topo = topoName;
+
     function onProgress(e) {
 
     }
 
     function onloadstart(e) {
-    };
+    }
 
     function onError(e) {
 
     }
 
     function onLoad(e) {
-        $('#sumbitsla').text(a)
+        $('#sumbitsla').text(a);
         if (req.status >= 200 && req.status <= 299) {
-            $('#slainfo').hide()
+            $('#slainfo').hide();
             //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
             console.log(req.response);
             res = JSON.parse(req.response);
-            addValueOnTable(res.vmg, res.vcdn, res.costs);
+
+            var toposolution = JSON.parse(window.atob(res.solution));
+            resetTopo();
+            jsonobjectToNetworkSla(toposolution.mapping);
+            addValueOnTable(toposolution.price.vhg_count, toposolution.price.vcdn_count, toposolution.price.total_price);
             ctrlSLA();
             loadsla(nbUsersSla);
             submitUsers();
@@ -175,7 +186,7 @@ function submitSLA() {
         else if (req.status >= 400 && req.status <= 599) {
             //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
             console.log(req.response);
-            $('#sumbitsla').html(a + ' <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>')
+            $('#sumbitsla').html(a + ' <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>');
             $('#slainfo').show()
 
         }
@@ -194,8 +205,8 @@ function submitSLA() {
 function optimalSLA() {
     // $('#slaoinfo').html(" ")
 
-    a = $('#sumbitosla').text()
-    $('#sumbitosla').html('Optimal Embedding <i class="fa fa-spin fa-refresh"></i>')
+    a = $('#sumbitosla').text();
+    $('#sumbitosla').html('Optimal Embedding <i class="fa fa-spin fa-refresh"></i>');
     var req = new XMLHttpRequest(),
         data = {};
 
@@ -203,8 +214,11 @@ function optimalSLA() {
     data.clients = clients;
     data.sladelay = slaDelay;
     data.vcdnratio = vcdnRatio;
-    data.bandwidth = bandwidthPerUser * nbUsersSla * 1000;
+    data.bandwidth = bandwidthPerUser * nbUsersSla * 1000 * 1000;
     data.sessionId = sessionInfo.sessionId;
+    var json64 = networktojson(edges, nodes);
+    var topoName = ("jsonfile," + json64 );
+    data.topo = topoName;
     function onProgress(e) {
 
     }
@@ -214,20 +228,24 @@ function optimalSLA() {
     }
 
     function onLoad(e) {
-        $('#sumbitosla').text(a)
+        $('#sumbitosla').text(a);
         if (req.status >= 200 && req.status <= 299) {
 
-            $('#slaoinfo').hide()
-            console.log(req.response)
+            $('#slaoinfo').hide();
+            console.log(req.response);
             res = JSON.parse(req.response);
-            addValueOnTable(res.vmg, res.vcdn, res.costs, true);
+            var toposolution = JSON.parse(window.atob(res.solution));
+            resetTopo();
+            jsonobjectToNetworkSla(toposolution.mapping);
+            addValueOnTable(toposolution.price.vhg_count, toposolution.price.vcdn_count, toposolution.price.total_price, true);
             ctrlSLA();
             loadsla(nbUsersSla);
+            submitUsers();
         }
         else if (req.status >= 400 && req.status <= 599) {
             //alert("Cost of the service for the ISP : " + (req.response / 1000) + " KEUR ");
             console.log(req.response);
-            $('#sumbitosla').html(a + '<i class="fa fa-close"></i>')
+            $('#sumbitosla').html(a + '<i class="fa fa-close"></i>');
             $('#slaoinfo').show()
         }
     }

@@ -3,7 +3,6 @@ package com.nh.db.ml.simuservice.sessionmgt.endpoints;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -16,9 +15,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.ws.WebServiceException;
 
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.stereotype.Component;
 
 import com.nh.db.ml.simuservice.model.ListString;
@@ -71,7 +67,7 @@ public class SimuEndpoints {
 
 		try {
 			SlaInfo slaInfo2 = simuService.computeLowCostSla(slaInfo);
-			return postSla(slaInfo2);
+			return slaInfo2;
 		} catch (SimulationFailedException e) {
 			throw new WebServiceException("simulation failed to complete");
 		}

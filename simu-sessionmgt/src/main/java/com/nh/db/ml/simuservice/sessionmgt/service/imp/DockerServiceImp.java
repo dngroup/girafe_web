@@ -137,11 +137,11 @@ public class DockerServiceImp implements DockerService {
 		initTopo(topo.getTopo(), list);
 		// SLA Part
 		list.add("--disable-embedding");
-		list.add("--start");
-		list.add("0");
-
-		list.add("--cdn");
-		list.add("0");
+//		list.add("--start");
+//		list.add("0");
+//
+//		list.add("--cdn");
+//		list.add("0");
 
 		LogContainerCallback logStdOut = new LogContainerCallback();
 		LogContainerCallback logStdErr = new LogContainerCallback();
@@ -266,7 +266,7 @@ public class DockerServiceImp implements DockerService {
 	}
 
 	private void initTopo(String topo, List<String> list) {
-		list.add("--plot");
+//		list.add("--plot");
 		list.add("--topo");
 		list.add(topo);
 	}

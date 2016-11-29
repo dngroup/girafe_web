@@ -1,34 +1,45 @@
 var timeFormat = 'MM/DD/YYYY HH:mm';
 // var s = Snap("#svg");
 var defaultEdgeColor = "#77aaaa";
-var clientColorborder = "#88ff88";
-var clientColor = "#bbffbb";
-var clientColorObject = {background: clientColor, border: clientColorborder, highlight: {background: clientColor}};
-var cdnColorborder = "#ff8888";
-var cdnColor = "#ffbbbb";
-var cdnColorObject = {background: cdnColor, border: cdnColorborder, highlight: {background: cdnColor}};
-var bothColorborder = "#8888ff";
-var bothColor = "#bbbbff";
-var bothColorObject = {background: bothColor, border: bothColorborder, highlight: {background: bothColor}};
-var neutralColorborder = "#000000";
-var neutralColor = "white";
-var neutralColorObject = {background: neutralColor, border: neutralColorborder, highlight: {background: neutralColor}};
+
+var neutralImage = './app/img/node/switch.svg';
+var clientImage = './app/img/node/switchclient.svg';
+var cdnImage = './app/img/node/switchcdn.svg';
+var bothImage = './app/img/node/switchboth.svg';
+
 var urlDOT = "/api/simu/dot/";
 var urlVideo = "http://localhost:9002/cdn.mpd";
 var urlVideoSD = "http://localhost:9003/cdnld.mpd";
 var urlVideoHD = "http://localhost:9003/cdnhd.mpd";
 var urlMPD = "/api/simu/mpd/";
-var sourceNode = {"shape": "doublecircle", "color": {"background": "green"}, "style": "filled", "font": {"size": 12}};
-var cdnNode = {"shape": "doublecircle", "color": {"background": "red"}, "style": "filled", "font": {"size": 12}};
-var edgeExternal = {"color": {"color": "blue"}, "len": 1.5, "label": ""}
+
+var sourceNode = {"shape": "image", "color": {"background": "green"}, "style": "filled", "font": {"size": 12}};
+sourceNode.image = './app/img/node/CG.svg';
+var cdnNode = {"shape": "image", "color": {"background": "red"}, "style": "filled", "font": {"size": 12}};
+cdnNode.image = './app/img/node/cdn.svg';
+var vcdnNode = {"shape": "image", "color": {"background": "green"}, "style": "filled", "font": {"size": 12}};
+vcdnNode.image = './app/img/node/vcdn.svg';
+var VHGNode = {"shape": "image", "color": {"background": "green"}, "style": "filled", "font": {"size": 12}};
+VHGNode.image = './app/img/node/vhg.svg';
 var neutralNode = {
-    "shape": "box",
+    "typenode":"neutral",
+    "shape": "image",
     "style": "filled",
     "color": {"background": "white"},
     "width": 1,
-    "font": {"size": 15}
+    "font": {"size": 15}, "scaling": {"min": 8, "max": 15}
 };
-var neutralEdge = {"penwidth": "3", "font": {"size": 15}, "len": 2, "color": {"color": defaultEdgeColor}}
+neutralNode.image = neutralImage;
+
+var edgeExternal = {"color": {"color": "blue"}, "len": 1.5, "scaling": {"min": 5, "max": 10}};
+var neutralEdge = {
+    "typeedge":"neutral",
+    "penwidth": "3",
+    "font": {"size": 15, "align": 'middle'},
+    "len": 2,
+    "color": {"color": defaultEdgeColor}
+};
+var edgesla = {"font": {"align": 'middle'}, "dashes": [2, 10, 2, 10], "scaling": {"min": 5, "max": 10}};
 var sourceNodes = [];
 // nodes.on('*', function () {
 //
@@ -120,39 +131,39 @@ function cdnSourcemgnt(objectselect) {
         // var text = node.select("text");
         // var pol = node.select("polygon");
         if (getListToModify() === "clients") {
-            if (node.color !== clientColorObject && node.color !== bothColorObject) {
-                if (node.color !== cdnColorObject) {
-                    node.color = clientColorObject;
+            if (node.image !== clientImage && node.image !== bothImage) {
+                if (node.image !== cdnImage) {
+                    node.image = clientImage;
                 } else {
-                    node.color = bothColorObject;
+                    node.image = bothImage;
                 }
                 // addSourceTopo(nodeid);
                 addClient(nodeid);
             } else {
-                if (node.color === bothColorObject) {
-                    node.color = cdnColorObject;
+                if (node.image === bothImage) {
+                    node.image = cdnImage;
                 } else {
-                    node.color = neutralColorObject;
+                    node.image = neutralImage;
                 }
                 // delSourceTopo(nodeid);
                 delClient(nodeid);
             }
         }
         if (getListToModify() === "cdns") {
-            if (node.color !== cdnColorObject && node.color !== bothColorObject) {
-                if (node.color !== clientColorObject) {
-                    node.color = cdnColorObject;
+            if (node.image !== cdnImage && node.image !== bothImage) {
+                if (node.image !== clientImage) {
+                    node.image = cdnImage;
 
                 } else {
-                    node.color = bothColorObject;
+                    node.image = bothImage;
 
                 }
                 addCDN(nodeid);
             } else {
-                if (node.color === bothColorObject) {
-                    node.color = clientColorObject;
+                if (node.image === bothImage) {
+                    node.image = clientImage;
                 } else {
-                    node.color = neutralColorObject;
+                    node.image = neutralImage;
                 }
                 delCDN(nodeid);
             }
@@ -162,122 +173,106 @@ function cdnSourcemgnt(objectselect) {
 }
 
 
-/**
- * Svg loaded when a grid is submitted
- * @param type
- */
-function ctrlTopo(type) {
-    $.ajax({
-        url: urlDOT + sessionInfo.sessionId,
-        async: false,
-        success: function (value) {
-            value = value.replace(/color=black,/g, "")
-            value = value.replace(/color=green1,/g, "color=green,")
-            value = value.replace(/color=red1,/g, "color=red,")
-            value = value.replace(/color=azure1,/g, "color=azure,")
-            value = value.replace(/color=azure3,/g, "color=azure,")
-            value = value.replace(/&#8594;/g, "→")
-            value = value.replace(/style=dashed/g, "dashes=true")
-            // value = value.replace(/,label=/g, ",title=\"lala\" ,label=")
-            dot = value.split(/subgraph{|}/);
-            console.log(dot);
-
-            var dot1 = "subgraph{" + dot[1] + "}";
-            var dot2 = "subgraph{" + dot[3] + "}";
-
-            var data1 = vis.network.convertDot(dot1);
-            var data2 = vis.network.convertDot(dot2);
-            valmin = 100;
-            valmax = 0;
-            for (edge in data1.edges) {
-
-                if (data1.edges[edge].delay > valmax) {
-                    valmax = data1.edges[edge].delay;
-                }
-                else if (data1.edges[edge].delay < valmin) {
-                    valmin = data1.edges[edge].delay;
-                }
-            }
-            if (valmax == valmin) {
-                valmin = 0;
-                valmax = valmax * 3
-            }
-
-            for (edge in data1.edges) {
-                // if (data1.edges[edge].color == null) {
-                //     data1.edges[edge].color = {}
-                //     data1.edges[edge].color.color = defaultedgecolor
-                // }
-                data1.edges[edge].length = data1.edges[edge].delay;
-                data1.edges[edge].title = '' +
-                    'id:"' + data1.edges[edge].id + '" ' +
-                    'bw:' + humanFormat(parseInt(data1.edges[edge].bw), {unit: 'bps'}) + ' ' +
-                    'delay: ' + data1.edges[edge].delay;
-                data1.edges[edge].value = Math.log(data1.edges[edge].bw);
-                data1.edges[edge].color = {"color": getcolor(data1.edges[edge].delay)};
-            }
-            for (node in data1.nodes) {
-                data1.nodes[node].value = data1.nodes[node].cpu;
-            }
-            nodes.clear();
-            edges.clear();
-            nodes.update(data1.nodes);
-            edges.update(data1.edges);
-            networkload();
-            network.on("click", cdnSourcemgnt);
-        },
-        dataType: "text",
-        complete: function () {
-        }
-    });
-
-
-    if (type != "edit") {
-        $.ajax({
-            url: "./app/html/userpool.html",
-            async: false,
-            success: function (template) {
-                $("#UserPools").html(template);
-                $(".glyphicon-info-sign").tooltip();
-            },
-            dataType: "text",
-            complete: function () {
-            }
-        });
-
-        if (typeof table != 'undefined') {
-            table.clear().draw();
-        }
-        delAllClient();
-    }
-
-    // s.zpd('destroy')
-    // s.clear();
-    //
-    // var da = Snap.load(urlSVG + sessionInfo.sessionId, function (f) {
-    //     var childNode = f.selectAll("g");
-    //
-    //     for (var i = 0; i < childNode.length; i++) {
-    //         var c = childNode[i];
-    //         console.log(c.id);
-    //
-    //         if (c.node.className.baseVal == "node") {
-    //             // console.log(c.node.id);
-    //             // childNode[i].mouseover("this.style.cursor='pointer'")
-    //             childNode[i].click(function () {
-    //                 hello(this);
-    //             });
-    //         }
-    //     }
-    //
-    //
-    //     g = f.select("g");
-    //     s.append(g);
-    //     s.zpd({zoom: true, drag: false});
-    // });
-
-
-}
+// /**
+//  * Svg loaded when a grid is submitted
+//  * @param type
+//  */
+// function ctrlTopo(type, topo) {
+//
+//     // $.ajax({
+//     //     url: urlDOT + sessionInfo.sessionId,
+//     //     async: false,
+//     //     success: function (value) {
+//     //         value = value.replace(/color=black,/g, "")
+//     //         value = value.replace(/color=green1,/g, "color=green,")
+//     //         value = value.replace(/color=red1,/g, "color=red,")
+//     //         value = value.replace(/color=azure1,/g, "color=azure,")
+//     //         value = value.replace(/color=azure3,/g, "color=azure,")
+//     //         value = value.replace(/&#8594;/g, "→")
+//     //         value = value.replace(/style=dashed/g, "dashes=true")
+//     //         // value = value.replace(/,label=/g, ",title=\"lala\" ,label=")
+//     //         dot = value.split(/subgraph{|}/);
+//     //         console.log(dot);
+//     //
+//     //         var dot1 = "subgraph{" + dot[1] + "}";
+//     //         var dot2 = "subgraph{" + dot[3] + "}";
+//     //
+//     // var data1 = vis.network.convertDot(dot1);
+//     // var data2 = vis.network.convertDot(dot2);
+//
+//     // valmin = 100;
+//     // valmax = 0;
+//     // for (edge in data1.edges) {
+//     //
+//     //     if (data1.edges[edge].delay > valmax) {
+//     //         valmax = data1.edges[edge].delay;
+//     //     }
+//     //     else if (data1.edges[edge].delay < valmin) {
+//     //         valmin = data1.edges[edge].delay;
+//     //     }
+//     // }
+//     // if (valmax == valmin) {
+//     //     valmin = 0;
+//     //     valmax = valmax * 3
+//     // }
+//     //
+//     // for (edge in data1.edges) {
+//     //     // if (data1.edges[edge].color == null) {
+//     //     //     data1.edges[edge].color = {}
+//     //     //     data1.edges[edge].color.color = defaultedgecolor
+//     //     // }
+//     //     data1.edges[edge].length = data1.edges[edge].delay;
+//     //     data1.edges[edge].title = '' +
+//     //         'id:"' + data1.edges[edge].id + '" ' +
+//     //         'bw:' + humanFormat(parseInt(data1.edges[edge].bw), {unit: 'bps'}) + ' ' +
+//     //         'delay: ' + data1.edges[edge].delay;
+//     //     data1.edges[edge].value = Math.log(data1.edges[edge].bw);
+//     //     data1.edges[edge].color = {"color": getcolor(data1.edges[edge].delay)};
+//     // }
+//     // for (node in data1.nodes) {
+//     //     data1.nodes[node].value = data1.nodes[node].cpu;
+//     // }
+//
+//     // nodes.update(data1.nodes);
+//     // edges.update(data1.edges);
+//     // networkload();
+//
+//     //     },
+//     //     dataType: "text",
+//     //     complete: function () {
+//     //     }
+//     // });
+//
+//
+//
+//
+//     // s.zpd('destroy')
+//     // s.clear();
+//     //
+//     // var da = Snap.load(urlSVG + sessionInfo.sessionId, function (f) {
+//     //     var childNode = f.selectAll("g");
+//     //
+//     //     for (var i = 0; i < childNode.length; i++) {
+//     //         var c = childNode[i];
+//     //         console.log(c.id);
+//     //
+//     //         if (c.node.className.baseVal == "node") {
+//     //             // console.log(c.node.id);
+//     //             // childNode[i].mouseover("this.style.cursor='pointer'")
+//     //             childNode[i].click(function () {
+//     //                 hello(this);
+//     //             });
+//     //         }
+//     //     }
+//     //
+//     //
+//     //     g = f.select("g");
+//     //     s.append(g);
+//     //     s.zpd({zoom: true, drag: false});
+//     // });
+//
+//
+// }
 
 //load cdn peering point
 function nextCDN() {
@@ -309,8 +304,8 @@ function nextVCDN() {
             $(".glyphicon-info-sign").tooltip();
             sliderSla_delay = $("#sla_delay").ionRangeSlider({
                 type: "single",
-                min: 0,
-                max: 200,
+                min: delaymin,
+                max: delaymax,
                 from: slaDelay,
                 keyboard: true,
                 onFinish: function (data) {
@@ -476,27 +471,7 @@ function cancelBtn(value) {
             if ($("#result").length != 0) {
                 $("#result").hide()
             }
-            nodetodelete = nodes.get({
-                filter: function (item) {
-                    if (item.id.includes("S") || item.id.includes("CDN") || item.id.includes("VHG")) {
-                        return true;
-                    }
-                    return false;
-                }
-            });
-
-            edgetodelete = edges.get({
-                filter: function (item) {
-                    if (item.from.includes("S") || item.from.includes("CDN") || item.from.includes("VHG")
-                        || item.to.includes("S") || item.to.includes("CDN") || item.to.includes("VHG")
-                        || item.label.includes("S") || item.label.includes("CDN") || item.label.includes("VHG")) {
-                        return true;
-                    }
-                    return false;
-                }
-            });
-            nodes.remove(nodetodelete);
-            edges.remove(edgetodelete);
+            clearTopo();
             network.on("click", cdnSourcemgnt);
 
             $("#videoWindow").hide();
@@ -510,161 +485,110 @@ function cancelBtn(value) {
     }
 }
 
-function networktojson(edges, nodes) {
 
-    if (!Array.prototype.indexOfid)
-    {
-        Array.prototype.indexOfid = function(elt /*, from*/)
-        {
-            var len = this.length;
-
-            var from = Number(arguments[1]) || 0;
-            from = (from < 0)
-                ? Math.ceil(from)
-                : Math.floor(from);
-
-            if (from < 0)
-                from += len;
-
-            for (; from < len; from++)
-            {
-                if (from in this &&
-                    this[from].id === elt)
-                    return from;
-            }
-            return -1;
-        };
-    }
-
-    var jsonnode = [];
-    var jsonedge = [];
-    nodes.forEach(function (node) {
-        jsonnode.push({"id": node.id, "cpu": node.cpu})
-    });
-    edges.forEach(function (edge) {
-        jsonedge.push({
-            "source": jsonnode.indexOfid(edge.from),
-            "target": jsonnode.indexOfid(edge.to),
-            "bw": edge.bw,
-            "delay": edge.delay
-        })
-    });
-    var json = {
-        "directed": false,
-        "graph": {
-            "name": "Personal Graph"
-        },
-        "nodes": jsonnode,
-        "links": jsonedge,
-        "multigraph": false
-    };
-    var json64 = window.btoa(JSON.stringify(json));
-    return json64;
-}
 ///////////////////////////////////////////////
 // Svg and action when the SLA is sent
 ///////////////////////////////////////////////
 function ctrlSLA() {
 
-    $.ajax({
-        url: urlDOT + sessionInfo.sessionId,
-        async: false,
-        success: function (value) {
-            value = value.replace(/color=black,/g, "")
-            value = value.replace(/color=green1,/g, "color=green,")
-            value = value.replace(/color=red1,/g, "color=red,")
-            value = value.replace(/color=azure1,/g, "color=azure,")
-            value = value.replace(/color=azure3,/g, "color=azure,")
-            value = value.replace(/&#8594;/g, "-->")
-            value = value.replace(/style=dashed/g, "dashes=true")
-            // value = value.replace(/,label=/g, ",title=\"lala\" ,label=")
-            dot = value.split(/subgraph{|}/);
-            console.log(dot)
-
-            var dot1 = "subgraph{" + dot[1] + "}";
-            var dot2 = "subgraph{" + dot[3] + "}";
-
-            var data1 = vis.network.convertDot(dot1);
-            var data2 = vis.network.convertDot(dot2);
-
-            for (edge in data1.edges) {
-
-                if (data1.edges[edge].delay > valmax) {
-                    valmax = data1.edges[edge].delay;
-                }
-                else if (data1.edges[edge].delay < valmin) {
-                    valmin = data1.edges[edge].delay;
-                }
-            }
-            if (valmax == valmin) {
-                valmin = 0;
-                valmax = valmax * 3
-            }
-
-
-            for (edge in data1.edges) {
-                data1.edges[edge].font = {"align": 'middle'};
-
-                data1.edges[edge].length = data1.edges[edge].delay;
-                if (data1.edges[edge].bw != null) {
-                    data1.edges[edge].title = '' +
-                        'id:"' + data1.edges[edge].id + '" ' +
-                        'bw:' + humanFormat(parseInt(data1.edges[edge].bw), {unit: 'bps'}) + ' ' +
-                        'delay: ' + data1.edges[edge].delay;
-                    data1.edges[edge].value = Math.log(data1.edges[edge].bw);
-                    data1.edges[edge].color = {"color": getcolor(data1.edges[edge].delay)};
-                }
-            }
-            for (edge in data2.edges) {
-                data2.edges[edge].font = {"align": 'middle'};
-                if (data2.edges[edge].bw != null) {
-                    data2.edges[edge].length = data2.edges[edge].delay;
-                    data2.edges[edge].title = '' +
-                        'id:"' + data2.edges[edge].id + '" ' +
-                        'bw:' + humanFormat(parseInt(data2.edges[edge].bw), {unit: 'bps'}) + ' ' +
-                        'delay: ' + data2.edges[edge].delay;
-                    data2.edges[edge].value = Math.log(data2.edges[edge].bw);
-                    data2.edges[edge].color = {"color": getcolor(data2.edges[edge].delay)};
-                }
-            }
-
-            nodetodelete = nodes.get({
-                filter: function (item) {
-                    if (item.id.includes("S") || item.id.includes("CDN") || item.id.includes("VHG")) {
-                        return true;
-                    }
-                    return false;
-                }
-            });
-
-            edgetodelete = edges.get({
-                filter: function (item) {
-                    if (item.from.includes("S") || item.from.includes("CDN") || item.from.includes("VHG")
-                        || item.to.includes("S") || item.to.includes("CDN") || item.to.includes("VHG")
-                        || item.label.includes("S") || item.label.includes("CDN") || item.label.includes("VHG")) {
-                        return true;
-                    }
-                    return false;
-                }
-            });
-            nodes.remove(nodetodelete);
-            edges.remove(edgetodelete);
-
-            nodes.update(data1.nodes);
-            edges.update(data1.edges);
-
-            nodes.update(data2.nodes);
-            edges.update(data2.edges);
-
-            network.off("click", cdnSourcemgnt);
-            $(".vis-edit-mode").hide();
-            $(".vis-manipulation").hide();
-        },
-        dataType: "text",
-        complete: function () {
-        }
-    });
-
+    // $.ajax({
+    //     url: urlDOT + sessionInfo.sessionId,
+    //     async: false,
+    //     success: function (value) {
+    //         value = value.replace(/color=black,/g, "")
+    //         value = value.replace(/color=green1,/g, "color=green,")
+    //         value = value.replace(/color=red1,/g, "color=red,")
+    //         value = value.replace(/color=azure1,/g, "color=azure,")
+    //         value = value.replace(/color=azure3,/g, "color=azure,")
+    //         value = value.replace(/&#8594;/g, "-->")
+    //         value = value.replace(/style=dashed/g, "dashes=true")
+    //         // value = value.replace(/,label=/g, ",title=\"lala\" ,label=")
+    //         dot = value.split(/subgraph{|}/);
+    //         console.log(dot)
+    //
+    //         var dot1 = "subgraph{" + dot[1] + "}";
+    //         var dot2 = "subgraph{" + dot[3] + "}";
+    //
+    //         var data1 = vis.network.convertDot(dot1);
+    //         var data2 = vis.network.convertDot(dot2);
+    //
+    //         for (edge in data1.edges) {
+    //
+    //             if (data1.edges[edge].delay > valmax) {
+    //                 valmax = data1.edges[edge].delay;
+    //             }
+    //             else if (data1.edges[edge].delay < valmin) {
+    //                 valmin = data1.edges[edge].delay;
+    //             }
+    //         }
+    //         if (valmax == valmin) {
+    //             valmin = 0;
+    //             valmax = valmax * 3
+    //         }
+    //
+    //
+    //         for (edge in data1.edges) {
+    //             data1.edges[edge].font = {"align": 'middle'};
+    //
+    //             data1.edges[edge].length = data1.edges[edge].delay;
+    //             if (data1.edges[edge].bw != null) {
+    //                 data1.edges[edge].title = '' +
+    //                     'id:"' + data1.edges[edge].id + '" ' +
+    //                     'bw:' + humanFormat(parseInt(data1.edges[edge].bw), {unit: 'bps'}) + ' ' +
+    //                     'delay: ' + data1.edges[edge].delay;
+    //                 data1.edges[edge].value = Math.log(data1.edges[edge].bw);
+    //                 data1.edges[edge].color = {"color": getcolor(data1.edges[edge].delay)};
+    //             }
+    //         }
+    //         for (edge in data2.edges) {
+    //             data2.edges[edge].font = {"align": 'middle'};
+    //             if (data2.edges[edge].bw != null) {
+    //                 data2.edges[edge].length = data2.edges[edge].delay;
+    //                 data2.edges[edge].title = '' + 'id:"' + data2.edges[edge].id + '" ' +
+    //                     'bw:' + humanFormat(parseInt(data2.edges[edge].bw), {unit: 'bps'}) + ' ' +
+    //                     'delay: ' + data2.edges[edge].delay;
+    //                 data2.edges[edge].value = Math.log(data2.edges[edge].bw);
+    //                 data2.edges[edge].color = {"color": getcolor(data2.edges[edge].delay)};
+    //             }
+    //         }
+    //
+    //         nodetodelete = nodes.get({
+    //             filter: function (item) {
+    //                 if (item.id.includes("S") || item.id.includes("CDN") || item.id.includes("VHG")) {
+    //                     return true;
+    //                 }
+    //                 return false;
+    //             }
+    //         });
+    //
+    //         edgetodelete = edges.get({
+    //             filter: function (item) {
+    //                 if (item.from.includes("S") || item.from.includes("CDN") || item.from.includes("VHG")
+    //                     || item.to.includes("S") || item.to.includes("CDN") || item.to.includes("VHG")
+    //                     || item.label.includes("S") || item.label.includes("CDN") || item.label.includes("VHG")) {
+    //                     return true;
+    //                 }
+    //                 return false;
+    //             }
+    //         });
+    //         nodes.remove(nodetodelete);
+    //         edges.remove(edgetodelete);
+    //
+    //         nodes.update(data1.nodes);
+    //         edges.update(data1.edges);
+    //
+    //         nodes.update(data2.nodes);
+    //         edges.update(data2.edges);
+    //
+    //
+    //     },
+    //     dataType: "text",
+    //     complete: function () {
+    //     }
+    // });
+    network.off("click", cdnSourcemgnt);
+    $(".vis-edit-mode").hide();
+    $(".vis-manipulation").hide();
 
     $("#videoWindow").show();
     $("#videoHDWindow").show();

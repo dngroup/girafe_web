@@ -2,36 +2,23 @@ package com.nh.db.ml.simuservice.sessionmgt.service.imp;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 import java.util.Date;
-import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
 
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
 import com.nh.db.ml.simuservice.model.NbUsers;
 import com.nh.db.ml.simuservice.model.SlaInfo;
 import com.nh.db.ml.simuservice.model.Topo;
-//import com.nh.db.ml.simuservice.model.Topo.Json;
 import com.nh.db.ml.simuservice.sessionmgt.cli.CliConfSingleton;
 import com.nh.db.ml.simuservice.sessionmgt.exception.NoZeroStatusCode;
-import com.nh.db.ml.simuservice.sessionmgt.model.SessionSimu;
-import com.nh.db.ml.simuservice.sessionmgt.repository.SessionSimuRepository;
 import com.nh.db.ml.simuservice.sessionmgt.service.DockerService;
 import com.nh.db.ml.simuservice.sessionmgt.service.SimuService;
 
@@ -123,15 +110,13 @@ public class SimuServiceImp implements SimuService {
 		// MediaType.APPLICATION_XML));
 		
 		try {
-			dockerService.createSvgFromTopo(topo);
+			String topojsonraw = dockerService.createSvgFromTopo(topo);
+			topo.setTopo("jsonfile,"+topojsonraw);
 		} catch (NoZeroStatusCode e) {
 			throw new SimulationFailedException();
 		} catch (InterruptedException e) {
 			throw new WebApplicationException(e);
 		}
-		
-		
-		
 		
 		return topo;
 	}
@@ -153,13 +138,14 @@ public class SimuServiceImp implements SimuService {
 
 			try {
 				String serviceraw = dockerService.createSvgFromSla(slaInfo);
+				slaInfo.setSolution(serviceraw);
+				return slaInfo;
 			} catch (NoZeroStatusCode e) {
 				throw new SimulationFailedException();
 			} catch (InterruptedException e) {
 				throw new WebApplicationException(e);
 			}
-			return slaInfo;
-
+			
 			// WebTarget target = client.target("http://" +
 			// CliConfSingleton.simudocker + "/api/docker/sla");
 			// Response response = target.request().post(Entity.entity(slaInfo,
@@ -212,12 +198,14 @@ public class SimuServiceImp implements SimuService {
 //			}
 			try {
 				String serviceraw = dockerService.findBestSLA(slaInfo);
+				slaInfo.setSolution(serviceraw);
+				return slaInfo;
 			} catch (NoZeroStatusCode e) {
 				throw new SimulationFailedException();
 			} catch (InterruptedException e) {
 				throw new WebApplicationException(e);
 			}
-			return slaInfo;
+			
 
 			// final WebTarget target = client.target("http://" +
 			// CliConfSingleton.simudocker + "/api/docker/LCsla");

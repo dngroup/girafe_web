@@ -1,7 +1,13 @@
 var urlGetListTopo = "api/simu/list",
     urlSendSelectedTopo = "api/simu/topo",
     urlUploadTopo = "api/simu/upload",
-    sessionInfo = "";
+    sessionInfo = "",
+    cpumin = 0,
+    cpumax = 2000,
+    cpudeflaut = 1500,
+    delaymin = 0,
+    delaymax = 200,
+    delaydefault = 3;
 
 // //////////////////////////////////////
 // Get the list of topo
@@ -23,6 +29,7 @@ function getList(url) {
     selectList.setAttribute("onchange",
         "if (this.selectedIndex) configureTopo(this[this.selectedIndex]);");
     selectList.id = "selectTopo";
+    //noinspection JSAnnotator
     selectList.classList = "form-control";
     myDiv.appendChild(selectList);
     addTopo("Select one option", "null", selectList, "color: gray");
@@ -55,6 +62,7 @@ function configureTopo(topo) {
             break;
         case "create":
             networkload();
+            loadCreate();
             break;
         default:
             console.log("error")
@@ -66,20 +74,20 @@ function configureTopo(topo) {
 
             success: function (template) {
                 $("#ConfigureTopo").html(template);
-                sliderNbUser = $("#value1").ionRangeSlider({
+                $("#value1").ionRangeSlider({
                     min: 1,
                     max: 10,
                     from: 3,
                     keyboard: true
                 });
-                sliderNbUser = $("#value2").ionRangeSlider({
+                $("#value2").ionRangeSlider({
                     min: 1,
                     max: 10,
                     from: 3,
                     keyboard: true
                 });
 
-                sliderNbUser = $("#bw").ionRangeSlider({
+                $("#bw").ionRangeSlider({
                     from: 36,
                     values: ["1 Mbps", "2 Mbps", "3 Mbps", "4 Mbps",
                         "5 Mbps", "6 Mbps", "7 Mbps", "8 Mbps",
@@ -100,16 +108,16 @@ function configureTopo(topo) {
 
                     keyboard: true
                 });
-                sliderNbUser = $("#delay").ionRangeSlider({
-                    min: 1,
-                    max: 100,
+                $("#delay").ionRangeSlider({
+                    min: delaymin,
+                    max: delaymax,
                     from: 3,
                     keyboard: true
                 });
-                sliderNbUser = $("#cpu").ionRangeSlider({
-                    min: 1,
-                    max: 2000,
-                    from: 200,
+                $("#cpu").ionRangeSlider({
+                    min: cpumin,
+                    max: cpumax,
+                    from: cpudeflaut,
                     keyboard: true
                 });
 
@@ -128,27 +136,27 @@ function configureTopo(topo) {
 
             success: function (template) {
                 $("#ConfigureTopo").html(template);
-                sliderNbUser = $("#value1").ionRangeSlider({
+                $("#value1").ionRangeSlider({
                     min: 1,
                     max: 200,
                     from: 30,
                     keyboard: true
                 });
-                sliderNbUser = $("#value2").ionRangeSlider({
+                $("#value2").ionRangeSlider({
                     min: 0,
                     max: 1,
                     from: 0.1,
                     step: 0.05,
                     keyboard: true
                 });
-                sliderNbUser = $("#value3").ionRangeSlider({
+                $("#value3").ionRangeSlider({
                     min: 1,
                     max: 10,
                     from: 1,
                     keyboard: true
                 });
 
-                sliderNbUser = $("#bw").ionRangeSlider(
+                $("#bw").ionRangeSlider(
                     {
                         from: 36,
                         values: ["1 Mbps", "2 Mbps", "3 Mbps", "4 Mbps",
@@ -170,17 +178,17 @@ function configureTopo(topo) {
 
                         keyboard: true
                     });
-                sliderNbUser = $("#delay").ionRangeSlider({
+                $("#delay").ionRangeSlider({
                     min: 0,
                     max: 15,
                     from: 1,
                     step: 0.1,
                     keyboard: true
                 });
-                sliderNbUser = $("#cpu").ionRangeSlider({
-                    min: 1,
-                    max: 2000,
-                    from: 200,
+                $("#cpu").ionRangeSlider({
+                    min: cpumin,
+                    max: cpumax,
+                    from: cpudeflaut,
                     keyboard: true
                 });
                 $(".glyphicon-info-sign").tooltip();
@@ -199,32 +207,32 @@ function configureTopo(topo) {
 
             success: function (template) {
                 $("#ConfigureTopo").html(template);
-                sliderNbUser = $("#value1").ionRangeSlider({
+                $("#value1").ionRangeSlider({
                     min: 1,
                     max: 200,
                     from: 40,
                     keyboard: true
                 });
-                sliderNbUser = $("#value2").ionRangeSlider({
+                $("#value2").ionRangeSlider({
                     min: 1,
                     max: 10,
                     from: 1,
                     keyboard: true
                 });
-                sliderNbUser = $("#value3").ionRangeSlider({
+                $("#value3").ionRangeSlider({
                     min: 0,
                     max: 1,
                     from: 0.1,
                     step: 0.02,
                     keyboard: true
                 });
-                sliderNbUser = $("#value4").ionRangeSlider({
+                $("#value4").ionRangeSlider({
                     min: 1,
                     max: 10,
                     from: 1,
                     keyboard: true
                 });
-                sliderNbUser = $("#bw").ionRangeSlider(
+                $("#bw").ionRangeSlider(
                     {
                         from: 36,
                         values: ["1 Mbps", "2 Mbps", "3 Mbps", "4 Mbps",
@@ -246,17 +254,17 @@ function configureTopo(topo) {
 
                         keyboard: true
                     });
-                sliderNbUser = $("#delay").ionRangeSlider({
+                $("#delay").ionRangeSlider({
                     min: 0,
                     max: 15,
                     from: 1,
                     step: 0.1,
                     keyboard: true
                 });
-                sliderNbUser = $("#cpu").ionRangeSlider({
-                    min: 1,
-                    max: 2000,
-                    from: 200,
+                $("#cpu").ionRangeSlider({
+                    min: cpumin,
+                    max: cpumax,
+                    from: cpudeflaut,
                     keyboard: true
                 });
                 $(".glyphicon-info-sign").tooltip();
@@ -274,10 +282,10 @@ function configureTopo(topo) {
 
             success: function (template) {
                 $("#ConfigureTopo").html(template);
-                sliderNbUser = $("#cpu").ionRangeSlider({
-                    min: 1,
-                    max: 2000,
-                    from: 200,
+                $("#cpu").ionRangeSlider({
+                    min: cpumin,
+                    max: cpumax,
+                    from: cpudeflaut,
                     keyboard: true
                 });
                 $(".glyphicon-info-sign").tooltip();
@@ -295,10 +303,10 @@ function configureTopo(topo) {
             success: function (template) {
                 $("#ConfigureTopo").html(template);
                 $(".glyphicon-info-sign").tooltip();
-                sliderNbUser = $("#cpu").ionRangeSlider({
-                    min: 1,
-                    max: 2000,
-                    from: 200,
+                $("#cpu").ionRangeSlider({
+                    min: cpumin,
+                    max: cpumax,
+                    from: cpudeflaut,
                     keyboard: true
                 });
                 $('#collapseTwo').collapse("hide");
@@ -330,20 +338,20 @@ function configureTopo(topo) {
             url: "./app/html/create.html",
             success: function (template) {
                 $("#ConfigureTopo").html(template);
-                sliderNbUser = $("#value1").ionRangeSlider({
+                $("#value1").ionRangeSlider({
                     min: 1,
                     max: 10,
                     from: 3,
                     keyboard: true
                 });
-                sliderNbUser = $("#value2").ionRangeSlider({
+                $("#value2").ionRangeSlider({
                     min: 1,
                     max: 10,
                     from: 3,
                     keyboard: true
                 });
 
-                sliderNbUser = $("#bw").ionRangeSlider({
+                $("#bw").ionRangeSlider({
                     from: 36,
                     values: ["1 Mbps", "2 Mbps", "3 Mbps", "4 Mbps",
                         "5 Mbps", "6 Mbps", "7 Mbps", "8 Mbps",
@@ -364,16 +372,16 @@ function configureTopo(topo) {
 
                     keyboard: true
                 });
-                sliderNbUser = $("#delay").ionRangeSlider({
+                $("#delay").ionRangeSlider({
                     min: 1,
                     max: 100,
                     from: 3,
                     keyboard: true
                 });
-                sliderNbUser = $("#cpu").ionRangeSlider({
-                    min: 1,
-                    max: 2000,
-                    from: 200,
+                $("#cpu").ionRangeSlider({
+                    min: cpumin,
+                    max: cpumax,
+                    from: cpudeflaut,
                     keyboard: true
                 });
 
@@ -392,13 +400,12 @@ function configureTopo(topo) {
 getList(urlGetListTopo);
 
 
-function loadEditTopo() {
-    // document.getElementById("selectTopo").
-    sendTopo("edit")
-
-    $('#selectTopo option[value="create"]').prop('selected', true);
-}
-
+// function loadEditTopo() {
+//     // document.getElementById("selectTopo").
+//     sendTopo("edit")
+//
+// }
+//
 // function rowtobit(bwrow) {
 //     values = bwrow.split(" ")
 //     if (values[1] == "Gbps") {
@@ -495,9 +502,19 @@ function sendTopo(type) {
 
     function onLoad(e) {
         if (req.status == 202) {
+
+            $('#selectTopo option[value="create"]').prop('selected', true);
             $('#LoadTopo').text(a)
-            sessionInfo = JSON.parse(req.responseText);
-            ctrlTopo(type);
+            var toporaw = JSON.parse(req.responseText);
+            // toporaw.topo.split("jsonfile,");
+            var topob64 = toporaw.topo.split("jsonfile,")[1]
+            var topojson = window.atob(topob64);
+
+            nodes.clear();
+            edges.clear();
+            jsontonetwork(topojson);
+            networkload();
+            $("#Validate").show();
 
             if ($("#value1").length != 0) {
                 $("#value1").data("ionRangeSlider").update({
@@ -548,4 +565,25 @@ function sendTopo(type) {
     req.open('POST', urlSendSelectedTopo, true);
     req.setRequestHeader("Content-Type", "application/json");
     req.send(JSON.stringify(topo));
+}
+
+function validateTopo() {
+    $(".vis-edit-mode").hide();
+    $(".vis-manipulation").hide();
+    $.ajax({
+        url: "./app/html/userpool.html",
+        success: function (template) {
+            network.on("click", cdnSourcemgnt);
+            $("#UserPools").html(template);
+            $(".glyphicon-info-sign").tooltip();
+        },
+        dataType: "text",
+        complete: function () {
+        }
+    });
+
+    if (typeof table != 'undefined') {
+        table.clear().draw();
+    }
+    delAllClient();
 }

@@ -51,14 +51,14 @@ $("#edge-bw").ionRangeSlider({
     values: values,
     keyboard: true
 });
-sliderNbUser = $("#edge-delay").ionRangeSlider({
+$("#edge-delay").ionRangeSlider({
     min: 0,
     max: 15,
     from: 1,
     step: 0.1,
     keyboard: true
 });
-sliderNbUser = $("#node-cpu").ionRangeSlider({
+$("#node-cpu").ionRangeSlider({
     min: 1,
     max: 2000,
     from: 200,
@@ -92,22 +92,27 @@ function cancelEdit(callback) {
     clearPopUp();
     callback(null);
 }
+
+
 function saveNodeData(data, callback) {
+    data.typenode = "neutral"
+    data.shape= "image";
+    data.image = neutralImage;
     data.id = document.getElementById('node-id').value;
     data.label = data.id;
     data.cpu = document.getElementById('node-cpu').value;
     data.title = 'cpu:' + data.cpu;
-    data.value = data.cpu;
-    data.shape = neutralNode.shape;
+    // data.value = data.cpu;
     data.style = neutralNode.style;
     data.color = neutralNode.color;
-    data.width = neutralNode.width;
+    // data.width = neutralNode.width;
     data.font = neutralNode.font;
     data.shadow = {};
     clearPopUp();
     callback(data);
 }
 function saveEdgeData(data, callback) {
+    data.typeedge = "neutral";
     data.id = document.getElementById('edge-id').value;
     // data.label = data.id;
     var bwrow = $("#edge-bw").data("ionRangeSlider").result.from_value;
@@ -145,21 +150,20 @@ function networkload() {
     options = {
         nodes: {
             shape: 'dot',
-            size: 16,
-            scaling: {
-                label: {
-                    min: 8,
-                    max: 20
-                }
-            },
+            size: 16
         },
         layout: {
             randomSeed: 34
         },
         interaction: {
+            "keyboard": {
+                "enabled": true
+            },
+            "multiselect": true,
             hover: true
         },
         manipulation: {
+
             addNode: function (data, callback) {
                 $('#Operation').innerHTML = "Create Node";
                 document.getElementById('node-id').value = data.id;
@@ -219,4 +223,207 @@ function networkload() {
     };
     container = document.getElementById('mynetwork');
     network = new vis.Network(container, data, options);
+}
+
+function jsontonetwork(topojson) {
+    var topo = JSON.parse(topojson);
+    for (var node in topo.nodes) savenode(topo.nodes[node]);
+    for (var edge in topo.links) saveedge(topo.links[edge]);
+
+    function saveedge(data) {
+        if (typeof data !== "object") return;
+        edge = neutralEdge;
+        edge.from = topo.nodes[data.source].id;
+        edge.to = topo.nodes[data.target].id;
+        edge.id = edge.from + "--" + edge.to;
+        edge.bw = data.bandwidth;
+        edge.delay = data.delay;
+
+        edge.title = 'id:"' + edge.id + '" bw:' + humanFormat(parseInt(edge.bw), {unit: 'b'}) + '/s delay: ' + edge.delay;
+        edge.color = {"color": getcolor(edge.delay)};
+        edge.value = Math.log(edge.bw);
+
+        // edge.penwidth = neutralEdge.penwidth;
+        // edge.font = neutralEdge.font;
+        // edge.len = neutralEdge.len;
+        // edge.shadow = {};
+        edges.update(edge);
+    }
+
+    function savenode(data) {
+        if (typeof data !== "object") return;
+        node = neutralNode;
+        node.id = data.id;
+        node.label = node.id;
+        node.cpu = data.cpu == null ? $("#cpu").data("ionRangeSlider").result.from : data.cpu;
+        node.title = 'cpu:' + node.cpu;
+        // node.value = node.cpu;
+
+        // node.shape = neutralNode.shape;
+        // node.style = neutralNode.style;
+        // node.color = neutralNode.color;
+        // node.width = neutralNode.width;
+        // node.font = neutralNode.font;
+
+        node.shadow = {};
+        nodes.update(node);
+    }
+}
+
+function jsonobjectToNetworkSla(topo) {
+    for (var node in topo.nodes) savenode(topo.nodes[node]);
+    for (var edge in topo.links) saveedge(topo.links[edge]);
+
+    function saveedge(data) {
+        if (typeof data !== "object") return;
+        var edge = edgesla;
+        edge.bw = data.bandwith;
+        edge.delay = data.delay;
+        edge.fromsla = topo.nodes[data.source].id;
+        edge.tosla = topo.nodes[data.target].id;
+
+        edge.penwidth = neutralEdge.penwidth;
+        edge.font = neutralEdge.font;
+        edge.len = neutralEdge.len;
+        // edge.color = {"color": getcolor(edge.delay)};
+        edge.value = Math.log(edge.bw);
+        edge.shadow = {};
+        edge.label = edge.fromsla + "-->" + edge.tosla
+        for (var fromto in data.mapping) {
+
+            edge.from = data.mapping[fromto][0];
+
+            edge.to = typeof data.mapping[fromto][1] === "String" ? data.mapping[fromto][1].replace("S", "CG").replace("VHG", "VMG") : data.mapping[fromto][1];
+            edge.id = edge.label + "(" + edge.from + "--" + edge.to + ")";
+
+            edge.title = 'id:"' + edge.id + '" bw:' + humanFormat(parseInt(edge.bw), {unit: 'b'}) + '/s delay: ' + edge.delay;
+
+            edges.update(edge);
+        }
+
+
+    }
+
+    function savenode(data) {
+        if (typeof data !== "object") return;
+        if (data.id.startsWith("CDN")) {
+            node = cdnNode;
+        }
+        else if (data.id.startsWith("S")) {
+            node = sourceNode;
+            data.id= data.id.replace ("S","CG");
+        } else if (data.id.startsWith("VCDN")) {
+            node = vcdnNode;
+
+        } else if (data.id.startsWith("VHG")) {
+            node = VHGNode;
+            data.id= data.id.replace ("VHG","VMG");
+
+        }
+        else {
+            node = {};
+        }
+
+
+        node.id = data.id;
+        node.label = node.id;
+        node.cpu = data.cpu;
+        node.bw = data.bandwidth;
+        node.title = 'cpu:' + node.cpu;
+        // node.value = node.cpu;
+
+        node.shape = neutralNode.shape;
+        node.style = neutralNode.style;
+        node.color = neutralNode.color;
+        node.width = neutralNode.width;
+        node.font = neutralNode.font;
+
+        node.shadow = {};
+        nodes.update(node);
+        edge = edgeExternal;
+        edge.from = data.mapping
+        edge.to = node.id
+        edge.bw = data.bandwidth;
+        edge.id = edge.from + "--" + edge.to;
+        edge.title = 'id:"' + edge.id + '" bw:' + humanFormat(parseInt(edge.bw), {unit: 'b'}) + '/s';
+        edges.update(edge);
+    }
+}
+
+function networktojson(edges, nodes) {
+
+    if (!Array.prototype.indexOfid) {
+        Array.prototype.indexOfid = function (elt /*, from*/) {
+            var len = this.length;
+
+            var from = Number(arguments[1]) || 0;
+            from = (from < 0)
+                ? Math.ceil(from)
+                : Math.floor(from);
+
+            if (from < 0)
+                from += len;
+
+            for (; from < len; from++) {
+                if (from in this &&
+                    this[from].id === elt)
+                    return from;
+            }
+            return -1;
+        };
+    }
+
+    var jsonnode = [];
+    var jsonedge = [];
+    nodes.forEach(function (node) {
+        if (node.typenode == "neutral") jsonnode.push({"id": node.id, "cpu": node.cpu})
+    });
+    edges.forEach(function (edge) {
+        if (edge.typeedge == "neutral") {
+            jsonedge.push({
+                "source": jsonnode.indexOfid(edge.from),
+                "target": jsonnode.indexOfid(edge.to),
+                "bw": edge.bw,
+                "delay": edge.delay
+            })
+        }
+    });
+    var json = {
+        "directed": false,
+        "graph": {
+            "name": "Personal Graph"
+        },
+        "nodes": jsonnode,
+        "links": jsonedge,
+        "multigraph": false
+    };
+    var json64 = window.btoa(JSON.stringify(json));
+    return json64;
+}
+
+/**
+ * clear topo but not remove entry point cdn or user
+ */
+function clearTopo() {
+    resetTopo("clean")
+}
+/**
+ * clear topo and remove entry point cdn or user if type!="clean"
+ * @param type
+ */
+function resetTopo(type) {
+    nodes.forEach(function (node) {
+        if (node.typenode != "neutral") {
+            nodes.remove(node.id)
+        }
+        else if (type != "clean") {
+            node.image = neutralImage;
+            nodes.update(node)
+        }
+    });
+    edges.forEach(function (edge) {
+        if (edge.typeedge != "neutral") {
+            edges.remove(edge.id)
+        }
+    });
 }
