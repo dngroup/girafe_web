@@ -8,8 +8,8 @@ sessionmgt:
   image: dngroup/simu-sessionmgt
   ports:
    - "127.0.0.1:9000:9000"
-  links:
-   - dockermgt
+#  links:
+#   - dockermgt
   volumes:
    - /tmp/datatemu/:/tmp/datatemu/
   env_file:

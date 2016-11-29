@@ -280,11 +280,14 @@ function submitUsers() {
         }
     }
 
-    if (data.nbusers > 120) {
-        player.setQualityFor("video", 0);
-    }
-    if (data.nbusers < 120) {
-        player.setQualityFor("video", 1);
+    lala=player.isReady()
+    if (player.isReady()) {
+        if (data.nbusers > 120) {
+            player.setQualityFor("video", 0);
+        }
+        else if (data.nbusers < 120) {
+            player.setQualityFor("video", 1);
+        }
     }
 
     req.onprogress = onProgress;
