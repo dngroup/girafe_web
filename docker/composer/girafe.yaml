@@ -1,9 +1,9 @@
-dockermgt:
-  image: dngroup/simu-dockermgt
-  ports:
-   - "127.0.0.1:9001:9001"
-  volumes:
-   - /tmp/datatemu/:/tmp/datatemu/
+#dockermgt:
+#  image: dngroup/simu-dockermgt
+#  ports:
+#   - "127.0.0.1:9001:9001"
+#  volumes:
+#   - /tmp/datatemu/:/tmp/datatemu/
 sessionmgt:
   image: dngroup/simu-sessionmgt
   ports:
