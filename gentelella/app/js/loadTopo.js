@@ -1,4 +1,4 @@
-var basetopo = "http://demo-girafe.nextnet.top/",
+var basetopo = "",
     urlGetListTopo = basetopo + "api/simu/list",
     urlSendSelectedTopo = basetopo + "api/simu/topo",
     urlUploadTopo = basetopo + "api/simu/upload",

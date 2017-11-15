@@ -1,4 +1,4 @@
-var baseSLA = "http://demo-girafe.nextnet.top",
+var baseSLA = "",
     urlSLA = baseSLA + "/api/simu/sla",
     urlLCSLA = baseSLA + "/api/simu/LCsla",
     urlUsers = baseSLA + "/api/simu/users",
