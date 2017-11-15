@@ -386,7 +386,7 @@ function nextServiceTopo() {
                 columns: [
                     {title: "ID"},
                     {title: "Number of VMGs"},
-                    {title: "Number of VCDNs"},
+                    {title: "Number of VStr"},
                     {title: "Cost."}
                 ],
                 // "columnDefs": [

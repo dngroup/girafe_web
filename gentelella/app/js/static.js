@@ -293,7 +293,7 @@ function jsonobjectToNetworkSla(topo) {
 
             edge.from = data.mapping[fromto][0];
 
-            edge.to = typeof data.mapping[fromto][1] === "String" ? data.mapping[fromto][1].replace("S", "CG").replace("VHG", "VMG") : data.mapping[fromto][1];
+            edge.to = typeof data.mapping[fromto][1] === "String" ? data.mapping[fromto][1].replace("S", "CG").replace("VHG", "VMG").replace("VCDN", "VStr") : data.mapping[fromto][1];
             edge.id = edge.label + "(" + edge.from + "--" + edge.to + ")";
 
             edge.title = 'id:"' + edge.id + '" bw:' + humanFormat(parseInt(edge.bw), {unit: 'b'}) + '/s delay: ' + edge.delay;
@@ -314,6 +314,7 @@ function jsonobjectToNetworkSla(topo) {
             data.id= data.id.replace ("S","CG");
         } else if (data.id.startsWith("VCDN")) {
             node = vcdnNode;
+            data.id= data.id.replace ("VCDN","VStr");
 
         } else if (data.id.startsWith("VHG")) {
             node = VHGNode;
