@@ -624,9 +624,9 @@ function getMPD() {
     function onLoad(e) {
         if (req.status >= 200 && req.status <= 299) {
             res = JSON.parse(req.response);
-            urlVideo = res.str[1];
-            urlVideoHD = res.str[0];
-            urlVideoSD = res.str[2];
+            urlVideo = "/s1/cdn.mpd"||res.str[1];
+            urlVideoHD = "/s2/cdnhd.mpd"||res.str[0];
+            urlVideoSD = "/s2/cdnld.mpd"||res.str[2];
 
             player.attachSource(urlVideo);
             playerHD.attachSource(urlVideoHD);

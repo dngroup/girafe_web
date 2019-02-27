@@ -224,7 +224,7 @@ public class DockerServiceImp implements DockerService {
 //		String lala = "{\"links\":[{\"bw\":8000000000,\"delay\":2.6,\"source\":\"01\",\"target\":\"02\"}],\"nodes\":[{\"cpu\":200,\"id\":\"01\"},{\"cpu\":200,\"id\":\"02\"}]}";
 //		String lala64 = Base64.encodeAsString(lala.getBytes());
 //		list.add(lala64);
-		CreateContainerCmd containerinfo = dockerClient.createContainerCmd("nherbaut/simuservice")
+		CreateContainerCmd containerinfo = dockerClient.createContainerCmd("dngroup/simuservice:v2")
 				.withBinds(new Bind(CliConfSingleton.folder + sessionId, volume))
 				.withCmd(list.toArray(new String[list.size()]));
 		if (topo.startsWith("file,") && !topo.contains("Geant2012.graphml")) {
